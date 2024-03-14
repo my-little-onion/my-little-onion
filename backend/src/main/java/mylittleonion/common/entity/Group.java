@@ -1,4 +1,4 @@
-package org.example.mylittleonion.entity;
+package mylittleonion.common.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
