@@ -1,9 +1,10 @@
 import { Theme } from '@emotion/react';
 
 const color = {
+  white: '#fff',
   black: '#000',
   primary: '#a1c4fd',
-  gray500: '#555',
+  whitesmoke: '#f1f1f1',
 };
 
 const fontSize = {
