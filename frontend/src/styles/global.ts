@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
-import PFStardustBold from '/fonts/PFStardustS-Bold.woff';
-import PFStardust from '/fonts/PFStardustS.woff';
+import Galmuri from '/fonts/Galmuri9.woff2';
 
 import theme from '@/styles/theme';
 
@@ -11,7 +10,7 @@ export const globalStyles = css`
     margin: 0;
     padding: 0;
     line-height: 1;
-    font-family: 'PFStardust';
+    font-family: 'Galmuri';
   }
 
   body {
@@ -26,19 +25,10 @@ export const globalStyles = css`
   }
 
   @font-face {
-    font-family: 'PFStardust';
+    font-family: 'Galmuri';
     src:
-      local('PFStardust'),
-      url(${PFStardust}) format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'PFStardustBold';
-    src:
-      local('PFStardustBold'),
-      url(${PFStardustBold}) format('woff');
+      local('Galmuri'),
+      url(${Galmuri}) format('woff2');
     font-weight: normal;
     font-style: normal;
   }
