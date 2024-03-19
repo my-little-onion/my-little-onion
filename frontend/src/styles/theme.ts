@@ -17,14 +17,26 @@ const border = {
   primary: '#e5e7eb',
 };
 
+const zIndex = {
+  title: 101,
+  titleCharacter: 100,
+  5: 5,
+  4: 4,
+  3: 3,
+  2: 2,
+  1: 1,
+};
+
 export type ColorsTypes = typeof color;
 export type FontSizeTypes = typeof fontSize;
 export type BordersTypes = typeof border;
+export type ZIndexTypes = typeof zIndex;
 
 const theme: Theme = {
   color,
   fontSize,
   border,
+  zIndex,
 };
 
 export default theme;
