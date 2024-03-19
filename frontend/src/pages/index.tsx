@@ -41,17 +41,28 @@ const TitleOnion = styled.img`
   z-index: ${theme.zIndex.titleCharacter};
 `;
 
+const LoginButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const MainPage = () => {
   return (
     <MainBackground>
       <TitleWrapper>
-        <TitleOnion src='/images/onions/onion-common.png' />
+        <TitleOnion src='/images/onions/onion-common.png' alt='onionCommon' />
         <Title>
           나<LittleTitle>만의</LittleTitle>
           <br />작<LittleTitle>은</LittleTitle>
           <br />양<LittleTitle>파</LittleTitle>
         </Title>
       </TitleWrapper>
+      <LoginButtonWrapper>
+        <img
+          src='/images/icons/button-kakao-login.png'
+          alt='buttonKakaoLogin'
+        />
+      </LoginButtonWrapper>
     </MainBackground>
   );
 };
