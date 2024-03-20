@@ -13,7 +13,7 @@ import java.util.Map;
 @Service
 public interface ChatGPTService {
 
-    Map<String, Object> prompt(CompletionRequestDto completionRequestDto);
+  Map<String, Object> prompt(CompletionRequestDto completionRequestDto);
 
 
 }

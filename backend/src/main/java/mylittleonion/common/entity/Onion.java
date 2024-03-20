@@ -13,31 +13,32 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Onion extends BaseEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Onion extends BaseEntity {
 
-    @Column(name = "onion_name")
-    private String onionName;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(name = "visible")
-    private Boolean visible;
+  @Column(name = "onion_name")
+  private String onionName;
 
-    @Column(name = "last_voice")
-    private LocalDate lastVoice;
+  @Column(name = "visible")
+  private Boolean visible;
 
-    @Column(name = "onion_detail")
-    private String onionDetail;
+  @Column(name = "last_voice")
+  private LocalDate lastVoice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+  @Column(name = "onion_detail")
+  private String onionDetail;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "onion_category_id")
-    private OnionCategory onionCategory;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id")
+  private User user;
 
-    @OneToMany(mappedBy = "onion", cascade = CascadeType.ALL)
-    private List<Voice> voices = new ArrayList<>();
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "onion_category_id")
+  private OnionCategory onionCategory;
+
+  @OneToMany(mappedBy = "onion", cascade = CascadeType.ALL)
+  private List<Voice> voices = new ArrayList<>();
 }

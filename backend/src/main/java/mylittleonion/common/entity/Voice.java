@@ -9,19 +9,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Voice extends BaseEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Voice extends BaseEntity {
 
-    @Column(name = "contents")
-    private String contents;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "onion_id")
-    private Onion onion;
+  @Column(name = "contents")
+  private String contents;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "onion_id")
+  private Onion onion;
+
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "group_id")
+  private Group group;
 }

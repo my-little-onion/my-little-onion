@@ -12,20 +12,21 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class OnionCategory extends BaseEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class OnionCategory extends BaseEntity {
 
-    @Column(name = "category_name")
-    private String categoryName;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(name = "level")
-    private Integer level;
+  @Column(name = "category_name")
+  private String categoryName;
 
-    @OneToMany(mappedBy = "onionCategory", cascade = CascadeType.ALL)
-    private List<GroupRelation> groupRelations = new ArrayList<>();
+  @Column(name = "level")
+  private Integer level;
 
-    @OneToMany(mappedBy = "onionCategory", cascade = CascadeType.ALL)
-    private List<Onion> onions = new ArrayList<>();
+  @OneToMany(mappedBy = "onionCategory", cascade = CascadeType.ALL)
+  private List<GroupRelation> groupRelations = new ArrayList<>();
+
+  @OneToMany(mappedBy = "onionCategory", cascade = CascadeType.ALL)
+  private List<Onion> onions = new ArrayList<>();
 }

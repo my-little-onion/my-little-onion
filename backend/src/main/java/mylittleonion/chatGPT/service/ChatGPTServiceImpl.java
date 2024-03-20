@@ -19,70 +19,70 @@ import java.util.Map;
 @Service
 public class ChatGPTServiceImpl implements ChatGPTService {
 
-    private final ChatGPTConfig chatGPTConfig;
+  private final ChatGPTConfig chatGPTConfig;
 
-    public ChatGPTServiceImpl(ChatGPTConfig chatGPTConfig) {
-        this.chatGPTConfig = chatGPTConfig;
-    }
+  public ChatGPTServiceImpl(ChatGPTConfig chatGPTConfig) {
+    this.chatGPTConfig = chatGPTConfig;
+  }
 
 //    @Value("${openai.model}")
 //    private String model;
 
 
-    /**
-     * ChatGTP 프롬프트 검색
-     *
-     * @param completionRequestDto
-     * @return
-     */
-    @Override
-    public Map<String, Object> prompt(CompletionRequestDto completionRequestDto) {
-        Map<String, Object> result = new HashMap<>();
+  /**
+   * ChatGTP 프롬프트 검색
+   *
+   * @param completionRequestDto
+   * @return
+   */
+  @Override
+  public Map<String, Object> prompt(CompletionRequestDto completionRequestDto) {
+    Map<String, Object> result = new HashMap<>();
 
-        // 토큰 정보가 포함된 Header를 가져옴
-        HttpHeaders headers = chatGPTConfig.httpHeaders();
+    // 토큰 정보가 포함된 Header를 가져옴
+    HttpHeaders headers = chatGPTConfig.httpHeaders();
 
-        String requestBody = "";
-        ObjectMapper om = new ObjectMapper();
+    String requestBody = "";
+    ObjectMapper om = new ObjectMapper();
 
-        completionRequestDto = completionRequestDto.builder()
-                .prompt(completionRequestDto.getPrompt())
-                .maxTokens(completionRequestDto.getMaxTokens())
-                .model(completionRequestDto.getModel())
-                .messages(completionRequestDto.getMessages())
-                .build();
+    completionRequestDto = completionRequestDto.builder()
+        .prompt(completionRequestDto.getPrompt())
+        .maxTokens(completionRequestDto.getMaxTokens())
+        .model(completionRequestDto.getModel())
+        .messages(completionRequestDto.getMessages())
+        .build();
 
-        try {
-            // Object -> String 직렬화를 구성
-            requestBody = om.writeValueAsString(completionRequestDto);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+    try {
+      // Object -> String 직렬화를 구성
+      requestBody = om.writeValueAsString(completionRequestDto);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
 
-        // 통신을 위한 RestTemplate을 구성
-        HttpEntity requestEntity = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<String> response = chatGPTConfig.restTemplate()
-                .exchange(
-                        "https://api.openai.com/v1/chat/completions", // URL 변경
-                        HttpMethod.POST,
-                        requestEntity,
-                        String.class
-                );
+    // 통신을 위한 RestTemplate을 구성
+    HttpEntity requestEntity = new HttpEntity<>(requestBody, headers);
+    ResponseEntity<String> response = chatGPTConfig.restTemplate()
+        .exchange(
+            "https://api.openai.com/v1/chat/completions", // URL 변경
+            HttpMethod.POST,
+            requestEntity,
+            String.class
+        );
 
-        try {
-            ChatGPTResponseDto gptResponse = om.readValue(response.getBody(), ChatGPTResponseDto.class);
-            // GPTResponse 객체를 Map<String, Object>로 변환하거나, 필요한 데이터만 추출하여 Map에 저장
-            result.put("id", gptResponse.getId());
-            result.put("object", gptResponse.getObject());
-            result.put("model", gptResponse.getModel());
-            result.put("choices", gptResponse.getChoices());
-            result.put("usage", gptResponse.getUsage());
+    try {
+      ChatGPTResponseDto gptResponse = om.readValue(response.getBody(), ChatGPTResponseDto.class);
+      // GPTResponse 객체를 Map<String, Object>로 변환하거나, 필요한 데이터만 추출하여 Map에 저장
+      result.put("id", gptResponse.getId());
+      result.put("object", gptResponse.getObject());
+      result.put("model", gptResponse.getModel());
+      result.put("choices", gptResponse.getChoices());
+      result.put("usage", gptResponse.getUsage());
 
 //            // String -> HashMap 역직렬화를 구성합니다.
 //            result = om.readValue(response.getBody(), new TypeReference<>() {});
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        return result;
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
     }
+    return result;
+  }
 }

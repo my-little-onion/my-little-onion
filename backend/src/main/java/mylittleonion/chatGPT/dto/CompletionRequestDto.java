@@ -9,24 +9,25 @@ import java.util.List;
 @NoArgsConstructor // 기본 생성자의 접근 수준을 public으로 설정
 public class CompletionRequestDto {
 
-    @JsonProperty("max_tokens")
-    private int maxTokens;
+  @JsonProperty("max_tokens")
+  private int maxTokens;
 
-    private String prompt;
+  private String prompt;
 
-    private String model;
-    private List<Message> messages;
+  private String model;
+  private List<Message> messages;
 
-    public static class Message {
-        private String role;
-        private String content;
-    }
+  public static class Message {
 
-    @Builder
-    public CompletionRequestDto(String prompt, int maxTokens, String model, List<Message> messages) {
-        this.prompt = prompt;
-        this.maxTokens = maxTokens;
-        this.model = model;
-        this.messages = messages;
-    }
+    private String role;
+    private String content;
+  }
+
+  @Builder
+  public CompletionRequestDto(String prompt, int maxTokens, String model, List<Message> messages) {
+    this.prompt = prompt;
+    this.maxTokens = maxTokens;
+    this.model = model;
+    this.messages = messages;
+  }
 }

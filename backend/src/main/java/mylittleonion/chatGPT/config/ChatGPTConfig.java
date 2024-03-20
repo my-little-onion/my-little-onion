@@ -13,20 +13,20 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class ChatGPTConfig {
 
-    @Value("${chatgpt.api-key}")
-    private String secretKey;
+  @Value("${chatgpt.api-key}")
+  private String secretKey;
 
-    @Bean
-    public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate;
-    }
+  @Bean
+  public RestTemplate restTemplate() {
+    RestTemplate restTemplate = new RestTemplate();
+    return restTemplate;
+  }
 
-    @Bean
-    public HttpHeaders httpHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + secretKey);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        return headers;
-    }
+  @Bean
+  public HttpHeaders httpHeaders() {
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("Authorization", "Bearer " + secretKey);
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    return headers;
+  }
 }

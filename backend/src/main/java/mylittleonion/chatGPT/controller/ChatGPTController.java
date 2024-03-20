@@ -15,18 +15,20 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "/api/chatgpt")
+@CrossOrigin(origins = "http://example.com", maxAge = 3600) // CORS 설정
 public class ChatGPTController {
 
-    private final ChatGPTService chatGPTService;
+  private final ChatGPTService chatGPTService;
 
-    public ChatGPTController(ChatGPTService chatGPTService) {
-        this.chatGPTService = chatGPTService;
-    }
+  public ChatGPTController(ChatGPTService chatGPTService) {
+    this.chatGPTService = chatGPTService;
+  }
 
-    @PostMapping("/prompt")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> selectPrompt(@RequestBody CompletionRequestDto completionRequestDto) {
-        Map<String, Object> result = chatGPTService.prompt(completionRequestDto);
-        return ResponseEntity.ok(ApiResponse.success(result));
-    }
+  @PostMapping("/prompt")
+  public ResponseEntity<ApiResponse<Map<String, Object>>> selectPrompt(
+      @RequestBody CompletionRequestDto completionRequestDto) {
+    Map<String, Object> result = chatGPTService.prompt(completionRequestDto);
+    return ResponseEntity.ok(ApiResponse.success(result));
+  }
 
 }

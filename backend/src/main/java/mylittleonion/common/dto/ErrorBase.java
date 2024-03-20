@@ -29,10 +29,13 @@ public enum ErrorBase {
    * 401 UnAuthorized (인증 실패)
    */
   E401_UNAUTHORIZED(UNAUTHORIZED, false, "UA000", "세션이 만료되었습니다. 다시 로그인 해주세요"),
-  E401_UNAUTHORIZED_ACCESS_TOKEN(UNAUTHORIZED, false, "UA001", "access-token을 재발급 하였습니다. 다시 요청해 주세요"),
+  E401_UNAUTHORIZED_ACCESS_TOKEN(UNAUTHORIZED, false, "UA001",
+      "access-token을 재발급 하였습니다. 다시 요청해 주세요"),
   E401_UNAUTHORIZED_ACCESS_TOKEN_NOT_EQUAL(UNAUTHORIZED, false, "UA002", "구독할 수 없는 메시지 큐입니다."),
-  E401_UNAUTHORIZED_ACCESS_TOKEN_EXPIRED(UNAUTHORIZED, false, "UA003", "만료된 액세스 토큰입니다. 재발행 요청해 주세요"),
-  E401_UNAUTHORIZED_REFRESH_TOKEN_EXPIRED(UNAUTHORIZED, false, "UA004", "만료된 리프레쉬 토큰입니다. 재로그인 해주세요"),
+  E401_UNAUTHORIZED_ACCESS_TOKEN_EXPIRED(UNAUTHORIZED, false, "UA003",
+      "만료된 액세스 토큰입니다. 재발행 요청해 주세요"),
+  E401_UNAUTHORIZED_REFRESH_TOKEN_EXPIRED(UNAUTHORIZED, false, "UA004",
+      "만료된 리프레쉬 토큰입니다. 재로그인 해주세요"),
 
   /**
    * 403 Forbidden (권한 등의 이유로 허용하지 않는 요청)
@@ -91,7 +94,8 @@ public enum ErrorBase {
    * 503 Service UnAvailable
    */
   E503_SERVICE_UNAVAILABLE(SERVICE_UNAVAILABLE, false, "SU000", "해당 기능은 현재 사용할 수 없습니다"),
-  E503_SERVICE_UNAVAILABLE_UNDER_INSPECTION(SERVICE_UNAVAILABLE, false, "SU001", "현재 점검중인 기능입니다\n불편을 드려 죄송합니다!"),
+  E503_SERVICE_UNAVAILABLE_UNDER_INSPECTION(SERVICE_UNAVAILABLE, false, "SU001",
+      "현재 점검중인 기능입니다\n불편을 드려 죄송합니다!"),
   ;
 
   private final HttpStatusCode statusCode;
