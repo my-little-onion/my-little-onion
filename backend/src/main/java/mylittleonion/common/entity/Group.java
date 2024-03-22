@@ -13,13 +13,14 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class Group extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-    private List<GroupRelation> groupRelations = new ArrayList<>();
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @OneToOne(mappedBy = "group", cascade = CascadeType.ALL)
-    private Voice voice;
+  @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+  private List<GroupRelation> groupRelations = new ArrayList<>();
+
+  @OneToOne(mappedBy = "group", cascade = CascadeType.ALL)
+  private Voice voice;
 }

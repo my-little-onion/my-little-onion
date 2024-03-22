@@ -12,20 +12,21 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class User extends BaseEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity {
 
-    @Column(name = "user_nickname")
-    private String user_nickname;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(name = "kakao_id")
-    private Integer kakaoId;
+  @Column(name = "user_nickname")
+  private String user_nickname;
 
-    @Column(name = "representative_Onion")
-    private Integer representativeOnion;
+  @Column(name = "kakao_id")
+  private Integer kakaoId;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Onion> onions = new ArrayList<>();
+  @Column(name = "representative_Onion")
+  private Integer representativeOnion;
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<Onion> onions = new ArrayList<>();
 }
