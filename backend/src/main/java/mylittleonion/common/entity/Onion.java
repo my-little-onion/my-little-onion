@@ -8,11 +8,16 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Builder
 public class Onion extends BaseEntity {
 
   @Id
@@ -28,8 +33,6 @@ public class Onion extends BaseEntity {
   @Column(name = "last_voice")
   private LocalDate lastVoice;
 
-  @Column(name = "onion_detail")
-  private String onionDetail;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
@@ -41,4 +44,14 @@ public class Onion extends BaseEntity {
 
   @OneToMany(mappedBy = "onion", cascade = CascadeType.ALL)
   private List<Voice> voices = new ArrayList<>();
+
+  public static Onion makeNewOnion(String onionName, User user, OnionCategory onionCategory) {
+    return Onion.builder()
+        .onionName(onionName)
+        .visible(Boolean.TRUE)
+        .lastVoice(null)
+        .user(user)
+        .onionCategory(onionCategory)
+        .build();
+  }
 }
