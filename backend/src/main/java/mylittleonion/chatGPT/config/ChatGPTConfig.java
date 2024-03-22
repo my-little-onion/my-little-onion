@@ -1,8 +1,8 @@
 package mylittleonion.chatGPT.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
@@ -25,7 +25,7 @@ public class ChatGPTConfig {
   @Bean
   public HttpHeaders httpHeaders() {
     HttpHeaders headers = new HttpHeaders();
-    headers.set("Authorization", "Bearer " + secretKey);
+    headers.setBearerAuth(secretKey);
     headers.setContentType(MediaType.APPLICATION_JSON);
     return headers;
   }
