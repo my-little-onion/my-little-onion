@@ -2,15 +2,18 @@ package mylittleonion.chatGPT.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import mylittleonion.chatGPT.config.ChatGPTConfig;
-import mylittleonion.chatGPT.dto.CompletionRequestDto;
 import mylittleonion.chatGPT.dto.ChatGPTResponseDto;
-import org.springframework.http.*;
+import mylittleonion.chatGPT.dto.CompletionRequestDto;
+import mylittleonion.chatGPT.dto.CompletionRequestDto.Message;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * ChatGPT Service 구현체
@@ -32,54 +35,43 @@ public class ChatGPTServiceImpl implements ChatGPTService {
   /**
    * ChatGTP 프롬프트 검색
    *
-   * @param completionRequestDto
+   * @param speechToString
    * @return
    */
   @Override
-  public Map<String, Object> prompt(CompletionRequestDto completionRequestDto) {
-    Map<String, Object> result = new HashMap<>();
+  public String prompt(String speechToString) {
+    List<Message> messages = new ArrayList<>();
+    messages.add(new CompletionRequestDto.Message(speechToString)); // s를 사용하여 Message 객체 생성
 
-    // 토큰 정보가 포함된 Header를 가져옴
+    CompletionRequestDto completionRequestDto = CompletionRequestDto.builder()
+        .messages(messages)
+        .build(); // CompletionRequestDto 객체 생성
+    String result = "";
+
     HttpHeaders headers = chatGPTConfig.httpHeaders();
-
-    String requestBody = "";
     ObjectMapper om = new ObjectMapper();
-
-    completionRequestDto = completionRequestDto.builder()
-        .prompt(completionRequestDto.getPrompt())
-        .maxTokens(completionRequestDto.getMaxTokens())
-        .model(completionRequestDto.getModel())
-        .messages(completionRequestDto.getMessages())
-        .build();
+    String requestBody = "";
 
     try {
-      // Object -> String 직렬화를 구성
       requestBody = om.writeValueAsString(completionRequestDto);
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }
 
-    // 통신을 위한 RestTemplate을 구성
-    HttpEntity requestEntity = new HttpEntity<>(requestBody, headers);
+    HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
     ResponseEntity<String> response = chatGPTConfig.restTemplate()
-        .exchange(
-            "https://api.openai.com/v1/chat/completions", // URL 변경
-            HttpMethod.POST,
-            requestEntity,
-            String.class
-        );
+        .exchange("https://api.openai.com/v1/chat/completions", HttpMethod.POST, requestEntity,
+            String.class);
 
     try {
       ChatGPTResponseDto gptResponse = om.readValue(response.getBody(), ChatGPTResponseDto.class);
-      // GPTResponse 객체를 Map<String, Object>로 변환하거나, 필요한 데이터만 추출하여 Map에 저장
-      result.put("id", gptResponse.getId());
-      result.put("object", gptResponse.getObject());
-      result.put("model", gptResponse.getModel());
-      result.put("choices", gptResponse.getChoices());
-      result.put("usage", gptResponse.getUsage());
-
-//            // String -> HashMap 역직렬화를 구성합니다.
-//            result = om.readValue(response.getBody(), new TypeReference<>() {});
+      result = gptResponse.getChoices().get(0).getMessage().getContent();
+      log.info(result);
+//      for (ChatGPTResponseDto.Choice choice : gptResponse.getChoices()) {
+//          result = choice.getText();
+//          break; // 첫 번째로 발견한 '행복' 또는 '불행'을 결과에 추가하고 반복 종료
+//        }
+//      }
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }
