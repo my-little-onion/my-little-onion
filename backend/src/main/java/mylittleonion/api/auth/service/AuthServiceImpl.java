@@ -1,7 +1,6 @@
 package mylittleonion.api.auth.service;
 
-import com.nimbusds.oauth2.sdk.TokenResponse;
-import com.nimbusds.openid.connect.sdk.UserInfoResponse;
+import lombok.RequiredArgsConstructor;
 import mylittleonion.api.auth.dto.KakaoUserInfoResponse;
 import mylittleonion.api.onion.dto.KakaoTokenResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +11,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
   //yml 파일에서 받아오기
@@ -54,6 +54,7 @@ public class AuthServiceImpl implements AuthService {
         .block();
     return kakaoUserInfoResponse;
   }
+
 
 
   // 디비랑

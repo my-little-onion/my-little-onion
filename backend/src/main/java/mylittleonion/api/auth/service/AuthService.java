@@ -8,5 +8,4 @@ public interface AuthService {
   String getAccessToken(String code);
 
   KakaoUserInfoResponse getUserInfo(String accessToken);
-
 }

@@ -8,6 +8,8 @@ import mylittleonion.api.auth.dto.KakaoUserInfoResponse;
 import mylittleonion.api.auth.dto.LoginResponse;
 import mylittleonion.api.auth.service.AuthService;
 import mylittleonion.api.onion.dto.KakaoTokenResponse;
+import mylittleonion.api.user.service.UserService;
+import mylittleonion.api.user.service.UserServiceImpl;
 import mylittleonion.common.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
   private final AuthService authService;
+  private final UserService userService;
 
   @GetMapping("/login")
   ResponseEntity<ApiResponse<LoginResponse>> login(
@@ -34,8 +37,8 @@ public class AuthController {
     // 이메일이랑 카카오 회원 정보 받기
     KakaoUserInfoResponse kakaoUserInfoResponse = authService.getUserInfo(accessToken);
 
-    // 로그인 하기
-//    authService.login(kakaoUserInfoResponse);
+    // 회원 정보를 바탕으로 확인
+    userService.login(kakaoUserInfoResponse);
     return ResponseEntity.ok(ApiResponse.success(new LoginResponse(accessToken)));
   }
 }
