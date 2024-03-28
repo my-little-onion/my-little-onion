@@ -15,11 +15,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class AuthServiceImpl implements AuthService {
 
   //yml 파일에서 받아오기
-  @Value("${kakao.redirect_uri}")
+  @Value("${spring.security.oauth2.client.registration.kakao.redirect_uri}")
   String redirectURI;
-  @Value("${kakao.client_secret}")
+  @Value("${spring.security.oauth2.client.registration.kakao.client_secret}")
   String clientSecret;
-  @Value("${kakao.client_id}")
+  @Value("${spring.security.oauth2.client.registration.kakao.client_id}")
   String clientId;
 
   @Override

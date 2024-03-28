@@ -24,7 +24,7 @@ public class User extends BaseEntity {
   private String user_nickname;
 
   @Column(name = "kakao_id")
-  private Integer kakaoId;
+  private Long kakaoId;
 
   @Column(name = "representative_Onion")
   private Integer representativeOnion;

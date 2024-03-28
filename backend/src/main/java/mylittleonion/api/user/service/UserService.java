@@ -8,7 +8,7 @@ public interface UserService {
 
   User getUserById(Long userId);
 
-  void createUser(Integer kakaoId, String nickName);
+  void createUser(Long kakaoId, String nickName);
 
   LoginResponse login(KakaoUserInfoResponse kakaoUserInfoResponse);
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Data
 public class KakaoUserInfoResponse {
-  private Integer id;
+  private Long id;
   private Properties properties;
 
   @Getter

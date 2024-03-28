@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void createUser(Integer kakaoId, String nickName) {
+  public void createUser(Long kakaoId, String nickName) {
     User user = User.builder()
         .user_nickname(nickName)
         .kakaoId(kakaoId)
@@ -38,13 +38,14 @@ public class UserServiceImpl implements UserService {
 
     Optional<User> user = userRepository.findByKakaoId(kakaoUserInfoResponse.getId());
 
-    // 첫 회원가입
-    if (!user.isPresent()) {
-      createUser(kakaoUserInfoResponse.getId(), kakaoUserInfoResponse.getProperties().nickname);
-    }
-
+    return null;
+//    // 첫 회원가입
+//    if (!user.isPresent()) {
+//      createUser(kakaoUserInfoResponse.getId(), kakaoUserInfoResponse.getProperties().nickname);
+//    }
+//    return new LoginResponse("");
     // 토큰을 받아요
-    String accessToken = ;
+//    String accessToken = ;
 
   }
 }
