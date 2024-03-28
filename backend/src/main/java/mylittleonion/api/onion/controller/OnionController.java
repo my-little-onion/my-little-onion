@@ -1,5 +1,6 @@
 package mylittleonion.api.onion.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mylittleonion.api.onion.dto.CreateOnionRequest;
 import mylittleonion.api.onion.dto.CreateOnionResponse;
@@ -21,11 +22,10 @@ public class OnionController {
   private final OnionService onionService;
 
   @GetMapping("/onion")
-  ResponseEntity<ApiResponse<GetOnionResponse>> getOnion(
-      @RequestParam Integer onionNumber
+  ResponseEntity<ApiResponse<List<GetOnionResponse>>> getOnion(
   ) {
     return ResponseEntity.ok(
-        ApiResponse.success(onionService.getOnion(1L, onionNumber))
+        ApiResponse.success(onionService.getOnion(1L))
     );
   }
 

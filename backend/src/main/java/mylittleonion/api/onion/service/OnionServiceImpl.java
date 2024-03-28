@@ -1,6 +1,7 @@
 package mylittleonion.api.onion.service;
 
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mylittleonion.api.onion.dto.CreateOnionRequest;
@@ -33,13 +34,20 @@ public class OnionServiceImpl implements OnionService {
   }
 
   @Override
-  public GetOnionResponse getOnion(Long userId, Integer onionNumber) {
+  public List<GetOnionResponse> getOnion(Long userId) {
     User user = userService.getUserById(userId);
     List<Onion> onionsByUser = onionRepository.getOnionsByUser(user);
-    Onion onion = onionsByUser.get(onionNumber);
-    OnionCategory onionCategory = onion.getOnionCategory();
+    List<OnionCategory> onionCategories = onionsByUser.stream().map(Onion::getOnionCategory)
+        .toList();
 
-    return GetOnionResponse.createGetOnionResponse(onion, onionCategory);
+    ArrayList<GetOnionResponse> result = new ArrayList<>();
+    for (int i = 0; i < onionsByUser.size(); i++) {
+      result.add(GetOnionResponse.createGetOnionResponse(onionsByUser.get(i),
+          onionCategories.get(i)
+      ));
+    }
+
+    return result;
   }
 
   @Override
