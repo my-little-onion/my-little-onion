@@ -19,11 +19,12 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["src/*"],
+      "#/*": ["public/*"],
     }
   },
-  "include": ["src"],
+  "include": ["src", "public", "src/types/svg.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
