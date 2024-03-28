@@ -8,7 +8,6 @@ const ButtonWrapper = styled.div`
 
 const ButtonContent = styled.button`
   border: none;
-  background-color: black;
   cursor: pointer;
   border-radius: 5px;
   margin: auto;
