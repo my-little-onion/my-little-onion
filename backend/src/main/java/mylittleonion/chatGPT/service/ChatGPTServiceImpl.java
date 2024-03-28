@@ -22,8 +22,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChatGPTServiceImpl implements ChatGPTService {
 
-  private String delimiter = "####";
-  private String system_message = String.format(
+  private final String delimiter = "####";
+  private final String system_message = String.format(
       "You will be provided with someone's feeling queries. \n" +
           "The customer service query will be delimited with \n" +
           "%s characters.\n" +
@@ -77,7 +77,7 @@ public class ChatGPTServiceImpl implements ChatGPTService {
           "환자\n\n" +
           "천사 tertiary categories:\n" +
           "가브리엘\n\n",
-      delimiter, delimiter);
+      delimiter);
 
 
   private final ChatGPTConfig chatGPTConfig;
