@@ -9,7 +9,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
+@Slf4j
 public class CorsConfig {
   // 가장 먼저 적용
   @Bean
@@ -19,7 +22,6 @@ public class CorsConfig {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
     CorsConfiguration config = new CorsConfiguration();
-
     // 자격 증명 허용
     config.setAllowCredentials(true);
 

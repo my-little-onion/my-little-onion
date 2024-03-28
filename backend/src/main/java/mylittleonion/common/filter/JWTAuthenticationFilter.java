@@ -26,6 +26,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
       HttpServletResponse res,
       FilterChain filterChain) throws ServletException, IOException {
 
+    log.info("JWT필터~~~");
     String accessToken = getAccessToken(req);
     String refreshToken = null;
     Cookie[] list = req.getCookies();
@@ -39,19 +40,18 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     log.info("accessToken : {}", accessToken);
 
     //
-    if(accessToken != null){
-      if(jwtProvider.isValidateToken(accessToken)){
-//        Authentication authentication = jwtProvider.getAuthentication(accessToken);
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
+    if (accessToken != null) {
+      if (jwtProvider.isValidateToken(accessToken)) {
+        Authentication authentication = jwtProvider.getAuthentication(accessToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         log.info("인증 정보 저장");
-        res.setHeader("Authorization", "Bearer " + accessToken);
       }
-//      else if(authService.validateRefreshTokenInRedis(refreshToken)){
-//        accessToken = reIssueAccessToken(accessToken);
-//        res.setHeader("Authorization", "Bearer " + accessToken);
-//        log.info("accessToken 재발급");
-//      }
-      else{
+      //      else if(authService.validateRefreshTokenInRedis(refreshToken)){
+      //        accessToken = reIssueAccessToken(accessToken);
+      //        res.setHeader("Authorization", "Bearer " + accessToken);
+      //        log.info("accessToken 재발급");
+      //      }
+      else {
         SecurityContextHolder.clearContext();
         res.setHeader("Authorization", null);
 

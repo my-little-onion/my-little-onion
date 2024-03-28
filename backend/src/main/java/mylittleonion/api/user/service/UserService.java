@@ -2,6 +2,7 @@ package mylittleonion.api.user.service;
 
 import mylittleonion.api.auth.dto.KakaoUserInfoResponse;
 import mylittleonion.api.auth.dto.LoginResponse;
+import mylittleonion.api.auth.dto.TokenResponse;
 import mylittleonion.common.entity.User;
 
 public interface UserService {
@@ -10,5 +11,5 @@ public interface UserService {
 
   void createUser(Long kakaoId, String nickName);
 
-  LoginResponse login(KakaoUserInfoResponse kakaoUserInfoResponse);
+  TokenResponse login(KakaoUserInfoResponse kakaoUserInfoResponse);
 }

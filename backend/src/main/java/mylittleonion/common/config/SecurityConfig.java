@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import mylittleonion.api.auth.service.AuthService;
 import mylittleonion.api.auth.service.CustomOAuth2UserService;
 import mylittleonion.common.filter.JWTAuthenticationFilter;
+import mylittleonion.common.handler.OAuth2AuthenticationFailureHandler;
+import mylittleonion.common.handler.OAuth2AuthenticationSuccessHandler;
 import mylittleonion.common.util.JWTProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +25,8 @@ import org.springframework.http.HttpMethod;
 @Slf4j
 public class SecurityConfig {
 
-//  private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
-//  private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+ private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+ private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 //  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 //  private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
   private final JWTProvider jwtProvider;
@@ -40,12 +42,12 @@ public class SecurityConfig {
         .authorizeHttpRequests(authorizeRequests -> authorizeRequests
             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-//            .requestMatchers(HttpMethod.GET).permitAll()
-            .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
-            .requestMatchers(new AntPathRequestMatcher("/oauth2/authorization/**")
-                , new AntPathRequestMatcher("/kakao-oauth/**")
+            .requestMatchers(HttpMethod.GET).permitAll()
+//             .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+//             .requestMatchers(new AntPathRequestMatcher("/oauth2/authorization/**")
+//                 , new AntPathRequestMatcher("/kakao-oauth/**")
 
-            ).permitAll()
+            // ).permitAll()
             .anyRequest().authenticated()
         )
         .httpBasic(httpBasic ->
@@ -68,8 +70,8 @@ public class SecurityConfig {
             .redirectionEndpoint(redirectionEndpoint -> redirectionEndpoint
                 .baseUri("/kakao-oauth/**")
             )
-            .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
-            .userService(customOAuth2UserService))
+            .successHandler(oAuth2AuthenticationSuccessHandler)
+            .failureHandler(oAuth2AuthenticationFailureHandler)
         )
         .sessionManagement(sessionManagement -> sessionManagement
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -1,19 +1,24 @@
 package mylittleonion.api.user.service;
 
-import com.nimbusds.oauth2.sdk.TokenResponse;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mylittleonion.api.auth.dto.KakaoUserInfoResponse;
 import mylittleonion.api.auth.dto.LoginResponse;
+import mylittleonion.api.auth.dto.TokenResponse;
 import mylittleonion.api.user.repository.UserRepository;
 import mylittleonion.common.entity.User;
 import mylittleonion.common.util.JWTProvider;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
@@ -33,19 +38,28 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public LoginResponse login(KakaoUserInfoResponse kakaoUserInfoResponse) {
-    //가입 되있는 회원인지 확인
+  public TokenResponse login(KakaoUserInfoResponse kakaoUserInfoResponse) {
 
-    Optional<User> user = userRepository.findByKakaoId(kakaoUserInfoResponse.getId());
+    // 첫 회원가입
+    if (userRepository.findByKakaoId(kakaoUserInfoResponse.getId()).isEmpty()) {
+      createUser(kakaoUserInfoResponse.getId(), kakaoUserInfoResponse.getProperties().nickname);
+      log.info("최초 로그인 가입");
+    }
+    Long id = userRepository.findByKakaoId(kakaoUserInfoResponse.getId()).get().getId();
 
-    return null;
-//    // 첫 회원가입
-//    if (!user.isPresent()) {
-//      createUser(kakaoUserInfoResponse.getId(), kakaoUserInfoResponse.getProperties().nickname);
-//    }
-//    return new LoginResponse("");
-    // 토큰을 받아요
-//    String accessToken = ;
+    // jwt 발급
+    String accessToken = jwtProvider.createAccessToken(id);
+    String refreshToken = jwtProvider.createRefreshToken(id);
 
+    //// redis에 refresh token 저장
+    //     authService.saveRefreshToken(provider, email, RefreshToken);
+    //     userService.setAttendance(email);
+
+    // 인증 정보 저장
+    Authentication newAuthentication = jwtProvider.getAuthentication(accessToken);
+    SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+
+    return new TokenResponse(accessToken, refreshToken);
   }
 }
+
