@@ -24,10 +24,11 @@ public class CompletionRequestDto {
   @Setter
   public static class Message {
 
-    private final String role = "user";
+    private String role;
     private String content;
 
-    public Message(String speechToString) {
+    public Message(String role, String speechToString) {
+      this.role = role;
       content = speechToString;
     }
   }
