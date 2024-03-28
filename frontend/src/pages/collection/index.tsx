@@ -1,11 +1,6 @@
 import styled from '@emotion/styled';
 
-const MainBackground = styled.main`
-  background-image: url('/images/backgrounds/main-background.png');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  height: 100svh;
-`;
+import Background from '@/components/Background';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -78,7 +73,7 @@ const RateNumber = styled.div`
 
 const MainPage = () => {
   return (
-    <MainBackground>
+    <Background>
       <TitleWrapper>
         <Title>
           <span>양파 도감</span>
@@ -94,7 +89,7 @@ const MainPage = () => {
           </RateWrapper>
         </Collection>
       </CollectionWrapper>
-    </MainBackground>
+    </Background>
   );
 };
 

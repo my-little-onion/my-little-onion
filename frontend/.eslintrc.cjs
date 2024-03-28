@@ -120,18 +120,11 @@ module.exports = {
     'import/no-extraneous-dependencies': 0,
     'import/extensions': [
       'error',
-      'ignorePackages',
-      {
-        'js': 'never',
-        'jsx': 'never',
-        'ts': 'never',
-        'tsx': 'never'
-      }
+      'never'
     ],
     'no-param-reassign': ['error', { 'props': false }],
     'no-unused-expressions': ['warn'],
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }],
     'no-shadow': 'off',
     'no-console':'off',
     '@typescript-eslint/no-shadow': ['error'],
