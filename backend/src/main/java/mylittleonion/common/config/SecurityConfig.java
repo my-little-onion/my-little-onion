@@ -43,7 +43,7 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
             .requestMatchers(HttpMethod.GET).permitAll()
-//             .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+//            .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
 //             .requestMatchers(new AntPathRequestMatcher("/oauth2/authorization/**")
 //                 , new AntPathRequestMatcher("/kakao-oauth/**")
 
@@ -70,8 +70,8 @@ public class SecurityConfig {
             .redirectionEndpoint(redirectionEndpoint -> redirectionEndpoint
                 .baseUri("/kakao-oauth/**")
             )
-            .successHandler(oAuth2AuthenticationSuccessHandler)
-            .failureHandler(oAuth2AuthenticationFailureHandler)
+//            .successHandler(oAuth2AuthenticationSuccessHandler)
+//            .failureHandler(oAuth2AuthenticationFailureHandler)
         )
         .sessionManagement(sessionManagement -> sessionManagement
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

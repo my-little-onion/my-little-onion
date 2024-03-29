@@ -29,7 +29,7 @@ public class AuthController {
   private final AuthService authService;
   private final UserService userService;
 
-  @GetMapping("/login/oauth2/code/kakao")
+  @GetMapping("/login/oauth2/kakao")
   ResponseEntity<ApiResponse<LoginResponse>> login(
       @RequestParam("code") String code,
       HttpServletResponse response) {
