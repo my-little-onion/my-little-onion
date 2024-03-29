@@ -1,6 +1,7 @@
 package mylittleonion.api.onioncategory.service;
 
 import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mylittleonion.api.onioncategory.repository.OnionCategoryRepository;
 import mylittleonion.common.entity.OnionCategory;
@@ -16,5 +17,10 @@ public class OnionCategoryServiceImpl implements OnionCategoryService {
   @Override
   public OnionCategory getOnionCategoryById(Long onionCategoryId) {
     return onionCategoryRepository.findById(onionCategoryId).orElseThrow();
+  }
+
+  @Override
+  public List<OnionCategory> getAllOnionCategory() {
+    return onionCategoryRepository.findAll();
   }
 }

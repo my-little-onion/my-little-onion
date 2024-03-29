@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mylittleonion.api.onion.dto.CreateOnionRequest;
 import mylittleonion.api.onion.dto.CreateOnionResponse;
+import mylittleonion.api.onion.dto.GetOnionBookResponse;
 import mylittleonion.api.onion.dto.GetOnionResponse;
 import mylittleonion.api.onion.repository.OnionRepository;
 import mylittleonion.api.onioncategory.service.OnionCategoryService;
@@ -55,7 +56,37 @@ public class OnionServiceImpl implements OnionService {
     User user = userService.getUserById(userId);
     Onion onion = onionRepository.findById(onionId).orElseThrow();
     if (onion.getUser().getId().equals(userId)) {
-      onionRepository.delete(onion);
+      onion.deleteOnion();
+      onionRepository.save(onion);
     }
+  }
+
+  @Override
+  public List<GetOnionBookResponse> getOnionBook(Long userId) {
+    List<OnionCategory> allOnionCategory = onionCategoryService.getAllOnionCategory();
+    List<Onion> onionsByUser = onionRepository.getOnionsByUser(userService.getUserById(userId));
+
+    List<GetOnionBookResponse> result = new ArrayList<>();
+    for (int i = 0; i < allOnionCategory.size(); i++) {
+      boolean flag = false;
+      for (int j = 0; j < onionsByUser.size(); j++) {
+        if (onionsByUser.get(j).getVisible().equals(false)) {
+          if (onionsByUser.get(j).getOnionCategory().equals(allOnionCategory.get(i))) {
+            flag = true;
+            break;
+          }
+        }
+      }
+
+      if (flag) {
+        result.add(GetOnionBookResponse.createGetOnionBookResponse(allOnionCategory.get(i).getId(),
+            Boolean.TRUE, allOnionCategory.get(i).getCategoryName()));
+      } else {
+        result.add(GetOnionBookResponse.createGetOnionBookResponse(allOnionCategory.get(i).getId(),
+            Boolean.FALSE, allOnionCategory.get(i).getCategoryName()));
+      }
+    }
+
+    return result;
   }
 }

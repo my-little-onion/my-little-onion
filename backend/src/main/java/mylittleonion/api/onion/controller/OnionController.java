@@ -4,10 +4,10 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mylittleonion.api.onion.dto.CreateOnionRequest;
 import mylittleonion.api.onion.dto.CreateOnionResponse;
+import mylittleonion.api.onion.dto.GetOnionBookResponse;
 import mylittleonion.api.onion.dto.GetOnionResponse;
 import mylittleonion.api.onion.service.OnionService;
 import mylittleonion.common.dto.ApiResponse;
-import net.minidev.json.JSONUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +46,14 @@ public class OnionController {
     onionService.deleteOnion(1L, onionId);
     return ResponseEntity.ok(
         ApiResponse.success("삭제되었습니다.")
+    );
+  }
+
+  @GetMapping("/onion/book")
+  ResponseEntity<ApiResponse<List<GetOnionBookResponse>>> getOnionBook(
+  ) {
+    return ResponseEntity.ok(
+        ApiResponse.success(onionService.getOnionBook(1L))
     );
   }
 }
