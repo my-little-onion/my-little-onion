@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * ChatGPT API
  */
 @RestController
-@RequestMapping(value = "/api/chatgpt")
+@RequestMapping(value = "/chatgpt")
 @CrossOrigin(origins = "*", maxAge = 3600) // CORS 설정
 public class ChatGPTController {
 
