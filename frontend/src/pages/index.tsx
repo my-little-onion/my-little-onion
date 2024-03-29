@@ -1,13 +1,9 @@
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 
 import theme from '@/styles/theme';
 
-const MainBackground = styled.main`
-  background-image: url('/images/backgrounds/main-background.png');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  height: 100svh;
-`;
+import Background from '@/components/Background';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -48,7 +44,7 @@ const LoginButtonWrapper = styled.div`
 
 const MainPage = () => {
   return (
-    <MainBackground>
+    <Background>
       <TitleWrapper>
         <TitleOnion src='/images/onions/onion-common.png' alt='onionCommon' />
         <Title>
@@ -58,12 +54,14 @@ const MainPage = () => {
         </Title>
       </TitleWrapper>
       <LoginButtonWrapper>
-        <img
-          src='/images/icons/button-kakao-login.png'
-          alt='buttonKakaoLogin'
-        />
+        <Link to='/choose'>
+          <img
+            src='/images/icons/button-kakao-login.png'
+            alt='buttonKakaoLogin'
+          />
+        </Link>
       </LoginButtonWrapper>
-    </MainBackground>
+    </Background>
   );
 };
 
