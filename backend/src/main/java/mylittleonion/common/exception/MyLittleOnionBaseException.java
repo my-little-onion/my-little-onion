@@ -8,7 +8,7 @@ public abstract class MyLittleOnionBaseException extends RuntimeException {
 
   private final ErrorBase errorBase;
 
-  protected MyLittleOnionBaseException(ErrorBase errorBase) {
+  public MyLittleOnionBaseException(ErrorBase errorBase) {
     super(errorBase.getMessage());
     this.errorBase = errorBase;
   }

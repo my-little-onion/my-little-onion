@@ -4,7 +4,7 @@ import mylittleonion.common.dto.ErrorBase;
 
 public class NotAcceptableException extends MyLittleOnionBaseException {
 
-  protected NotAcceptableException(ErrorBase errorBase) {
+  public NotAcceptableException(ErrorBase errorBase) {
     super(errorBase);
   }
 }
