@@ -1,12 +1,7 @@
 package mylittleonion.api.user.service;
 
 import jakarta.transaction.Transactional;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import mylittleonion.api.auth.dto.KakaoUserInfoResponse;
-import mylittleonion.api.auth.dto.LoginResponse;
-import mylittleonion.api.auth.dto.TokenResponse;
 import mylittleonion.api.user.repository.UserRepository;
 import mylittleonion.common.entity.User;
 import mylittleonion.common.util.JWTProvider;
@@ -18,14 +13,14 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Transactional
-@Slf4j
 public class UserServiceImpl implements UserService {
+
 
   private final UserRepository userRepository;
   private final JWTProvider jwtProvider;
   @Override
   public User getUserById(Long userId) {
-    return null;
+    return userRepository.findById(userId).orElseThrow();
   }
 
   @Override
@@ -62,4 +57,3 @@ public class UserServiceImpl implements UserService {
     return new TokenResponse(accessToken, refreshToken);
   }
 }
-
