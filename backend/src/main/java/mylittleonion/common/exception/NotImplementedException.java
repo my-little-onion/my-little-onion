@@ -4,7 +4,7 @@ import mylittleonion.common.dto.ErrorBase;
 
 public class NotImplementedException extends MyLittleOnionBaseException {
 
-  protected NotImplementedException(ErrorBase errorBase) {
+  public NotImplementedException(ErrorBase errorBase) {
     super(errorBase);
   }
 }
