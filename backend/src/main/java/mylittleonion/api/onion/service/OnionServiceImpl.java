@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mylittleonion.api.onion.dto.CreateOnionRequest;
-import mylittleonion.api.onion.dto.CreateOnionResponse;
 import mylittleonion.api.onion.dto.GetOnionBookResponse;
 import mylittleonion.api.onion.dto.GetOnionResponse;
 import mylittleonion.api.onion.repository.OnionRepository;
@@ -26,12 +25,11 @@ public class OnionServiceImpl implements OnionService {
   private final UserService userService;
 
   @Override
-  public CreateOnionResponse createOnion(Long userId, CreateOnionRequest createOnionRequest) {
+  public void createOnion(Long userId, CreateOnionRequest createOnionRequest) {
     Onion newOnion = Onion.makeNewOnion(createOnionRequest.getOnionName(),
         userService.getUserById(userId),
         onionCategoryService.getOnionCategoryById(1L));
     onionRepository.save(newOnion);
-    return new CreateOnionResponse();
   }
 
   @Override
