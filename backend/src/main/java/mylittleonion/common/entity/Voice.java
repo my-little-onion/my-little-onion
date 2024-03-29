@@ -8,8 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Builder
 public class Voice extends BaseEntity {
 
   @Id
@@ -30,16 +31,12 @@ public class Voice extends BaseEntity {
   @JoinColumn(name = "onion_id")
   private Onion onion;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "group_id")
-  private Group group;
 
-  @Column(name = "firstLevel")
-  private String primary;
+  public static Voice createVoice(String speech, Onion onion) {
 
-  @Column(name = "secondLevel")
-  private String secondary;
-
-  @Column(name = "thirdLevel")
-  private String tertiary;
+    return Voice.builder()
+        .contents(speech)
+        .onion(onion)
+        .build();
+  }
 }
