@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import mylittleonion.api.voice.dto.ChatGPTResponse;
 import mylittleonion.chatGPT.config.ChatGPTConfig;
 import mylittleonion.chatGPT.dto.ChatGPTResponseDto;
+import mylittleonion.chatGPT.dto.ChatGPTResponseParser;
 import mylittleonion.chatGPT.dto.CompletionRequestDto;
 import mylittleonion.chatGPT.dto.CompletionRequestDto.Message;
 import org.springframework.http.HttpEntity;
@@ -22,8 +24,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChatGPTServiceImpl implements ChatGPTService {
 
-  private String delimiter = "####";
-  private String system_message = String.format(
+  private final String delimiter = "####";
+  private final String system_message = String.format(
       "You will be provided with someone's feeling queries. \n" +
           "The customer service query will be delimited with \n" +
           "%s characters.\n" +
@@ -36,11 +38,9 @@ public class ChatGPTServiceImpl implements ChatGPTService {
           +
           "양아치 secondary categories:\n" +
           "깡패\n" +
-          "헬스트레이너\n" +
           "도둑\n" +
           "불만 secondary categories:\n" +
           "조커\n" +
-          "도둑\n" +
           "정치인\n\n" +
           "학생 secondary categories:\n" +
           "개발자\n" +
@@ -57,8 +57,7 @@ public class ChatGPTServiceImpl implements ChatGPTService {
           "화난\n" +
           "우울\n\n" +
           "긍정적 secondary categories:\n" +
-          "광대\n" +
-          "헬스트레이너\n\n" +
+          "광대\n\n" +
           "깡패 tertiary categories:\n" +
           "마피아\n\n" +
           "정치인 tertiary categories:\n" +
@@ -77,7 +76,7 @@ public class ChatGPTServiceImpl implements ChatGPTService {
           "환자\n\n" +
           "천사 tertiary categories:\n" +
           "가브리엘\n\n",
-      delimiter, delimiter);
+      delimiter);
 
 
   private final ChatGPTConfig chatGPTConfig;
@@ -85,9 +84,6 @@ public class ChatGPTServiceImpl implements ChatGPTService {
   public ChatGPTServiceImpl(ChatGPTConfig chatGPTConfig) {
     this.chatGPTConfig = chatGPTConfig;
   }
-
-//    @Value("${openai.model}")
-//    private String model;
 
 
   /**
@@ -97,7 +93,8 @@ public class ChatGPTServiceImpl implements ChatGPTService {
    * @return
    */
   @Override
-  public String prompt(String speechToString) {
+  public ChatGPTResponse prompt(String speechToString) {
+    // String speechToString이 아니라 GetSttRequest로 받아야하나?
     List<Message> messages = new ArrayList<>();
     messages.add(new CompletionRequestDto.Message("system", system_message));
     messages.add(new CompletionRequestDto.Message("user", speechToString));
@@ -122,18 +119,19 @@ public class ChatGPTServiceImpl implements ChatGPTService {
         .exchange("https://api.openai.com/v1/chat/completions", HttpMethod.POST, requestEntity,
             String.class);
 
+    ChatGPTResponse chatGPTResponse;
+
     try {
       ChatGPTResponseDto gptResponse = om.readValue(response.getBody(), ChatGPTResponseDto.class);
       result = gptResponse.getChoices().get(0).getMessage().getContent();
+      // result -> chatGPTResponse
       log.info(result);
-//      for (ChatGPTResponseDto.Choice choice : gptResponse.getChoices()) {
-//          result = choice.getText();
-//          break; // 첫 번째로 발견한 '행복' 또는 '불행'을 결과에 추가하고 반복 종료
-//        }
-//      }
+
+      chatGPTResponse = ChatGPTResponseParser.parse(result);
+
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }
-    return result;
+    return chatGPTResponse;
   }
 }
