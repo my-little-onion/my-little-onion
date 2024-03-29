@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 
 import theme from '@/styles/theme';
 
@@ -53,10 +54,12 @@ const MainPage = () => {
         </Title>
       </TitleWrapper>
       <LoginButtonWrapper>
-        <img
-          src='/images/icons/button-kakao-login.png'
-          alt='buttonKakaoLogin'
-        />
+        <Link to='/choose'>
+          <img
+            src='/images/icons/button-kakao-login.png'
+            alt='buttonKakaoLogin'
+          />
+        </Link>
       </LoginButtonWrapper>
     </Background>
   );

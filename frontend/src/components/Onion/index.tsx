@@ -1,37 +1,43 @@
 import styled from '@emotion/styled';
 
+import { onionRecord } from '@/utils/onionRecord';
+
 const OnionWrapper = styled.div`
+  width: 100%;
+  height: 400px;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 `;
 
-const LargeOnion = styled.img`
-  width: 500px;
-  height: 500px;
-`;
-
-const SmallOnion = styled.img`
-  width: 100px;
+const SmallOnionWrapper = styled(OnionWrapper)`
   height: 100px;
 `;
 
 interface OnionProps {
-  onClick?: () => void;
-  size: 'small' | 'large';
+  categoryId: number;
+  size?: 'small' | 'large';
 }
 
-const Onion = ({ onClick, size }: OnionProps) => {
+const Onion = ({ categoryId, size }: OnionProps) => {
   if (size === 'small') {
     return (
-      <OnionWrapper>
-        <SmallOnion onClick={onClick} />
-      </OnionWrapper>
+      <SmallOnionWrapper>
+        <img
+          src={`/images/onions/onion-${onionRecord[categoryId]}.png`}
+          alt={onionRecord[categoryId]}
+          width={100}
+        />
+      </SmallOnionWrapper>
     );
   }
+
   return (
     <OnionWrapper>
-      <LargeOnion onClick={onClick} />
+      <img
+        src={`/images/onions/onion-${onionRecord[categoryId]}.png`}
+        alt={onionRecord[categoryId]}
+      />
     </OnionWrapper>
   );
 };
