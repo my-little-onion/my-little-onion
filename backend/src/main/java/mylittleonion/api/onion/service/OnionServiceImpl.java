@@ -80,10 +80,12 @@ public class OnionServiceImpl implements OnionService {
 
       if (flag) {
         result.add(GetOnionBookResponse.createGetOnionBookResponse(allOnionCategory.get(i).getId(),
-            Boolean.TRUE, allOnionCategory.get(i).getCategoryName()));
+            Boolean.TRUE, allOnionCategory.get(i).getCategoryName(),
+            allOnionCategory.get(i).getOnionDetail()));
       } else {
         result.add(GetOnionBookResponse.createGetOnionBookResponse(allOnionCategory.get(i).getId(),
-            Boolean.FALSE, allOnionCategory.get(i).getCategoryName()));
+            Boolean.FALSE, allOnionCategory.get(i).getCategoryName(),
+            allOnionCategory.get(i).getOnionDetail()));
       }
     }
 
