@@ -8,7 +8,6 @@ const ButtonWrapper = styled.div`
 
 const ButtonContent = styled.button`
   border: none;
-  background-color: black;
   cursor: pointer;
   border-radius: 5px;
   margin: auto;
@@ -24,15 +23,32 @@ const SmallButton = styled(ButtonContent)`
   height: 40px;
 `;
 
+const SvgButton = styled(ButtonContent)`
+  border-radius: 0;
+  background-color: transparent;
+`;
+
 interface ButtonProps {
-  children: ReactNode;
+  type: 'submit' | 'reset' | 'button';
+  children?: ReactNode;
+  size?: 'small' | 'large';
   disabled?: boolean;
   onClick?: () => void;
-  size: 'small' | 'large';
-  type: 'submit' | 'reset' | 'button';
+  svg?: ReactNode;
 }
 
-const Button = ({ children, disabled, onClick, size, type }: ButtonProps) => {
+const Button = ({
+  children,
+  disabled,
+  onClick,
+  size,
+  type,
+  svg,
+}: ButtonProps) => {
+  if (svg) {
+    return <SvgButton onClick={onClick}>{svg}</SvgButton>;
+  }
+
   if (size === 'small') {
     return (
       <ButtonWrapper>
@@ -43,6 +59,7 @@ const Button = ({ children, disabled, onClick, size, type }: ButtonProps) => {
       </ButtonWrapper>
     );
   }
+
   return (
     <ButtonWrapper>
       {/* eslint-disable-next-line react/button-has-type */}

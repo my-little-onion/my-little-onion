@@ -2,12 +2,7 @@ import styled from '@emotion/styled';
 
 import theme from '@/styles/theme';
 
-const MainBackground = styled.main`
-  background-image: url('/images/backgrounds/main-background.png');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  height: 100svh;
-`;
+import Background from '@/components/Background';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -48,7 +43,7 @@ const LoginButtonWrapper = styled.div`
 
 const MainPage = () => {
   return (
-    <MainBackground>
+    <Background>
       <TitleWrapper>
         <TitleOnion src='/images/onions/onion-common.png' alt='onionCommon' />
         <Title>
@@ -63,7 +58,7 @@ const MainPage = () => {
           alt='buttonKakaoLogin'
         />
       </LoginButtonWrapper>
-    </MainBackground>
+    </Background>
   );
 };
 
