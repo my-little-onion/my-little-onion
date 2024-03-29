@@ -66,4 +66,8 @@ public class Onion extends BaseEntity {
         .onionCategory(onionCategory)
         .build();
   }
+
+  public void deleteOnion() {
+    this.visible = Boolean.FALSE;
+  }
 }

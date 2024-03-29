@@ -3,7 +3,7 @@ package mylittleonion.api.onion.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mylittleonion.api.onion.dto.CreateOnionRequest;
-import mylittleonion.api.onion.dto.CreateOnionResponse;
+import mylittleonion.api.onion.dto.GetOnionBookResponse;
 import mylittleonion.api.onion.dto.GetOnionResponse;
 import mylittleonion.api.onion.service.OnionService;
 import mylittleonion.common.dto.ApiResponse;
@@ -30,11 +30,12 @@ public class OnionController {
   }
 
   @PostMapping("/onion")
-  ResponseEntity<ApiResponse<CreateOnionResponse>> makeOnion(
+  ResponseEntity<ApiResponse<String>> makeOnion(
       @RequestBody CreateOnionRequest createOnionRequest
   ) {
+    onionService.createOnion(1L, createOnionRequest);
     return ResponseEntity.ok(
-        ApiResponse.success(onionService.createOnion(1L, createOnionRequest))
+        ApiResponse.success("생성되었습니다.")
     );
   }
 
@@ -45,6 +46,14 @@ public class OnionController {
     onionService.deleteOnion(1L, onionId);
     return ResponseEntity.ok(
         ApiResponse.success("삭제되었습니다.")
+    );
+  }
+
+  @GetMapping("/onion/book")
+  ResponseEntity<ApiResponse<List<GetOnionBookResponse>>> getOnionBook(
+  ) {
+    return ResponseEntity.ok(
+        ApiResponse.success(onionService.getOnionBook(1L))
     );
   }
 }
