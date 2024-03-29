@@ -4,7 +4,7 @@ import mylittleonion.common.dto.ErrorBase;
 
 public class UnAuthorizedException extends MyLittleOnionBaseException {
 
-  protected UnAuthorizedException(ErrorBase errorBase) {
+  public UnAuthorizedException(ErrorBase errorBase) {
     super(errorBase);
   }
 }
