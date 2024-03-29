@@ -50,6 +50,13 @@ public class Onion extends BaseEntity {
   @OneToMany(mappedBy = "onion", cascade = CascadeType.ALL)
   private List<Voice> voices = new ArrayList<>();
 
+  @OneToMany(mappedBy = "onion", cascade = CascadeType.ALL)
+  private List<CategoryCount> categoryCounts = new ArrayList<>();
+
+  public void changeCategory(OnionCategory onionCategory) {
+    this.onionCategory = onionCategory;
+  }
+
   public static Onion makeNewOnion(String onionName, User user, OnionCategory onionCategory) {
     return Onion.builder()
         .onionName(onionName)

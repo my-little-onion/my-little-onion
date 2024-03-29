@@ -19,6 +19,14 @@ public class OnionCategoryServiceImpl implements OnionCategoryService {
     return onionCategoryRepository.findById(onionCategoryId).orElseThrow();
   }
 
+
+  @Override
+  public OnionCategory getOnionCategoryByCategoryName(String categoryName) {
+    return onionCategoryRepository.findByCategoryName(categoryName);
+  }
+
+
+
   @Override
   public List<OnionCategory> getAllOnionCategory() {
     return onionCategoryRepository.findAll();
