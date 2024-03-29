@@ -43,6 +43,9 @@ public class OnionServiceImpl implements OnionService {
 
     ArrayList<GetOnionResponse> result = new ArrayList<>();
     for (int i = 0; i < onionsByUser.size(); i++) {
+      if (onionsByUser.get(i).getVisible().equals(Boolean.FALSE)) {
+        continue;
+      }
       result.add(GetOnionResponse.createGetOnionResponse(onionsByUser.get(i),
           onionCategories.get(i)
       ));
@@ -55,7 +58,7 @@ public class OnionServiceImpl implements OnionService {
   public void deleteOnion(Long userId, Long onionId) {
     User user = userService.getUserById(userId);
     Onion onion = onionRepository.findById(onionId).orElseThrow();
-    if (onion.getUser().getId().equals(userId)) {
+    if (onion.getUser().getId().equals(user.getId())) {
       onion.deleteOnion();
       onionRepository.save(onion);
     }
