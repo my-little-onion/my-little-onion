@@ -8,4 +8,6 @@ public interface OnionCategoryService {
   OnionCategory getOnionCategoryById(Long onionCategoryId);
 
   List<OnionCategory> getAllOnionCategory();
+
+  OnionCategory getOnionCategoryByCategoryName(String categoryName);
 }
