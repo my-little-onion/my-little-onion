@@ -3,8 +3,11 @@ import { Theme } from '@emotion/react';
 const color = {
   white: '#fff',
   black: '#000',
-  primary: '#a1c4fd',
+  gray: '#767676',
   whitesmoke: '#f1f1f1',
+  primary: '#a1c4fd',
+  blue: '#7a96c3',
+  green: '#83cf74',
 };
 
 const fontSize = {
