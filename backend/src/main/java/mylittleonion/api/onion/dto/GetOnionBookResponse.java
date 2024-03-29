@@ -12,9 +12,10 @@ public class GetOnionBookResponse {
   private Long id;
   private Boolean have;
   private String onionCategoryName;
+  private String onionCategoryDetail;
 
   public static GetOnionBookResponse createGetOnionBookResponse(Long id, Boolean have,
-      String onionCategoryName) {
-    return new GetOnionBookResponse(id, have, onionCategoryName);
+      String onionCategoryName, String onionCategoryDetail) {
+    return new GetOnionBookResponse(id, have, onionCategoryName, onionCategoryDetail);
   }
 }
