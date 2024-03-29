@@ -2,6 +2,9 @@ package mylittleonion.api.user.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import mylittleonion.api.auth.dto.KakaoUserInfoResponse;
+import mylittleonion.api.auth.dto.TokenResponse;
 import mylittleonion.api.user.repository.UserRepository;
 import mylittleonion.common.entity.User;
 import mylittleonion.common.util.JWTProvider;
@@ -11,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 public class UserServiceImpl implements UserService {
