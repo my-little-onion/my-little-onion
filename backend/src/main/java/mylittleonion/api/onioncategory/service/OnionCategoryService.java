@@ -5,4 +5,6 @@ import mylittleonion.common.entity.OnionCategory;
 public interface OnionCategoryService {
 
   OnionCategory getOnionCategoryById(Long onionCategoryId);
+
+  OnionCategory getOnionCategoryByCategoryName(String categoryName);
 }
