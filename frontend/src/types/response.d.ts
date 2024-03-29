@@ -1,5 +1,5 @@
 export interface response {
   code: string;
   message: string;
-  data: object | [];
+  data: object | string | [];
 }
