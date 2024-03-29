@@ -1,5 +1,8 @@
 package mylittleonion.chatGPT.controller;
 
+import mylittleonion.api.onion.service.OnionService;
+import mylittleonion.api.voice.dto.ChatGPTResponse;
+import mylittleonion.chatGPT.dto.PromptResponseDto;
 import mylittleonion.chatGPT.service.ChatGPTService;
 import mylittleonion.common.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatGPTController {
 
   private final ChatGPTService chatGPTService;
+  private final OnionService onionService;
 
-  public ChatGPTController(ChatGPTService chatGPTService) {
+  public ChatGPTController(ChatGPTService chatGPTService, OnionService onionService) {
     this.chatGPTService = chatGPTService;
+    this.onionService = onionService;
   }
 
   @PostMapping("/prompt")
-  public ResponseEntity<ApiResponse<String>> selectPrompt(
+  public ResponseEntity<ApiResponse<PromptResponseDto>> selectPrompt(
+      @RequestParam Long onionId,
       @RequestParam String speechToString) {
-    String result = chatGPTService.prompt(speechToString);
-    return ResponseEntity.ok(ApiResponse.success(result));
+    ChatGPTResponse chatGPTResponse = chatGPTService.prompt(speechToString);
+
+    return ResponseEntity.ok(
+        ApiResponse.success(onionService.evolveOnion(onionId, speechToString, chatGPTResponse)));
   }
 
 }
