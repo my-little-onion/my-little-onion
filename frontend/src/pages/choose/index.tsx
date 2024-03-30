@@ -1,16 +1,29 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { getOnions } from '@/services/onion';
 import { onion } from '@/types/onion';
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
+import { IconArrowLeft, IconArrowRight } from '#/svgs';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
 import Onion from '@/components/Onion';
 
-import { IconArrowLeft, IconArrowRight } from '#/svgs';
+const OnionAnimation = keyframes`
+  0% {
+    transform: translateY(10px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(10px);
+  }
+`;
 
 const ChoosePageWrapper = styled.section`
   width: 100%;
@@ -28,7 +41,7 @@ const CommandButtonWrapper = styled.section`
   justify-content: space-between;
 `;
 
-const OnionTitle = styled.span`
+export const OnionTitle = styled.span`
   width: fit-content;
   height: 40px;
   overflow: hidden;
@@ -38,6 +51,10 @@ const OnionTitle = styled.span`
   display: flex;
   align-items: center;
   border-radius: 20px;
+`;
+
+const AnimatedOnion = styled.div`
+  animation: ${OnionAnimation} 3s infinite;
 `;
 
 const OnionName = styled.h3`
@@ -74,12 +91,16 @@ const ChoosePage = () => {
         </OnionTitle>
         {onions.length > onionIndex ? (
           <>
-            <Onion categoryId={currOnion.onionCategoryId} />
+            <AnimatedOnion>
+              <Onion categoryId={currOnion.onionCategoryId} />
+            </AnimatedOnion>
             <OnionName>{currOnion.onionName}</OnionName>
           </>
         ) : (
           <>
-            <Onion categoryId={0} />
+            <AnimatedOnion>
+              <Onion categoryId={0} />
+            </AnimatedOnion>
             <OnionName>{onionIndex + 1}번째 양파가 없어</OnionName>
           </>
         )}
@@ -90,9 +111,11 @@ const ChoosePage = () => {
             svg={<IconArrowLeft width={40} height={40} />}
           />
           {onions.length > onionIndex ? (
-            <Button type='button' size='small' color={theme.color.blue}>
-              양파한테 말걸러 가기
-            </Button>
+            <Link to='/grow' state={{ categoryId: currOnion.onionCategoryId }}>
+              <Button type='button' size='small' color={theme.color.blue}>
+                양파한테 말걸러 가기
+              </Button>
+            </Link>
           ) : (
             <Button type='button' size='small' color={theme.color.green}>
               새 양파 생성

@@ -1,9 +1,35 @@
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 import { Link } from 'react-router-dom';
 
 import theme from '@/styles/theme';
 
 import Background from '@/components/Background';
+
+// Keyframes 정의
+const TitleAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
+const OnionAnimation = keyframes`
+  0% {
+    transform: translateY(10px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(10px);
+  }
+`;
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -21,6 +47,7 @@ const Title = styled.h1`
     8px 0 white,
     0 -8px white;
   z-index: ${theme.zIndex.title};
+  animation: ${TitleAnimation} 3s infinite;
 `;
 
 const LittleTitle = styled.span`
@@ -31,10 +58,12 @@ const LittleTitle = styled.span`
 
 const TitleOnion = styled.img`
   width: auto;
-  height: 8vh;
+  height: 10vh;
   position: absolute;
-  top: 21svh;
+  right: 22svh;
+  top: 19svh;
   z-index: ${theme.zIndex.titleCharacter};
+  animation: ${OnionAnimation} 3s infinite;
 `;
 
 const LoginButtonWrapper = styled.div`
