@@ -1,5 +1,6 @@
 package mylittleonion.common.config;
 
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,7 @@ public class CorsConfig {
     config.setAllowCredentials(true);
 
     // 개발 중에는 모든 오리진 허용
-    List<String> origin = List.of("http://localhost:5173");
+    List<String> origin = Arrays.asList("http://localhost:5173","https://j10a105.p.ssafy.io");
     config.setAllowedOrigins(origin);
 
 //    config.setAllowedOrigins(origin);
