@@ -1,0 +1,198 @@
+:root {
+  --img-size: 250px;
+}
+
+html {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+img.onion {
+  width: var(--img-size);
+  height: var(--img-size);
+  display: block;
+  margin: auto;
+  user-select: none;
+}
+
+.background {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  animation: background-in 2s forwards;
+}
+
+.evolve {
+  position: relative;
+  height: 100%;
+  min-width: var(--img-size);
+  min-height: var(--img-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .onion {
+    position: absolute;
+    opacity: 1;
+    visibility: visible;
+
+    &:not(.current) {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+}
+
+.circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: calc(-1 * (var(--img-size)/2)) 0 0 calc(-1 * (var(--img-size)/2));
+  width: var(--img-size);
+  height: var(--img-size);
+  border-radius: 45%;
+  opacity: 0;
+
+  &.c1 {
+    box-shadow: 0 0 8px 65px rgba(128, 206, 255, .5);
+  }
+  &.c2 {
+    box-shadow: 0 0 8px 65px rgba(117, 202, 255, .65);
+  }
+  &.c3 {
+    box-shadow: 0 0 8px 65px rgba(87, 190, 255, .8);
+  }
+  &.c4 {
+    box-shadow: 0 0 8px 65px rgba(117, 202, 255, .65);
+  }
+  &.c5 {
+    box-shadow: 0 0 8px 65px rgba(128, 206, 255, .5);
+  }
+}
+
+.bubble-wrap {
+}
+.bubble {
+  position: absolute;
+  left: 47.5%;
+  top: 30%;
+  opacity: 0;
+  border-radius: 50%;
+}
+
+.message {
+  position: absolute;
+  top: 80%;
+  left: 4%;
+  width: 90%;
+  height: 8%;
+  margin: 0 auto;
+  padding-left: 20px;
+  border: thick double black;
+  border-radius: 10px;
+  background-color: white;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: black;
+}
+
+@for $i from 1 through 20 {
+  .bubble:nth-child(#{$i}){
+    $size: random(30)+px;
+    height: $size;
+    width: $size;
+    margin: calc(-1 * ($size/2)) 0 0 calc(-1 * ($size/2));
+    transform: translate(random(300) - 150px, random(100)-200px);
+    animation-delay: $i * 0.05s;
+    background: hsl(0, 0, 100%);
+  }
+}
+
+
+@keyframes evolve-out {
+  0% {
+    visibility: visible;
+    filter: brightness(100%);
+    transform: scale(1);
+  }
+  16.6%, 33.2%, 41.5%, 49.8%, 53.95%, 58.1%, 62.25%, 66.4%, 68.475%, 70.55%, 72.625%, 74.7%, 76.775%, 78.85%, 80.925% {
+    filter: brightness(0%) invert(100%);
+    opacity: 1;
+    transform: scale(1);
+  }
+  24.9%, 37.35%, 45.65%, 51.875%, 56.025%, 60.175%, 64.325%, 67.4375%, 69.5125%, 71.5875%, 73.6625%, 75.7375%, 77.8125%, 79.8875%, 81.9625% {
+    filter: brightness(0%) invert(100%);
+    opacity: 0;
+    transform: scale(0.25);
+  }
+  83.3%, 100% {
+    visibility: hidden;
+    filter: brightness(0%) invert(100%);
+    opacity: 0;
+    transform: scale(0.25);
+  }
+}
+@keyframes evolve-in {
+  0%, 16.6%, 33.2%, 41.5%, 49.8%, 53.95%, 58.1%, 62.25%, 66.4%, 68.475%, 70.55%, 72.625%, 74.7%, 76.775%, 78.85%, 80.925% {
+    visibility: visible;
+    filter: brightness(0%) invert(100%);
+    opacity: 0;
+    transform: scale(0.25);
+  }
+  24.9%, 37.35%, 45.65%, 51.875%, 56.025%, 60.175%, 64.325%, 67.4375%, 69.5125%, 71.5875%, 73.6625%, 75.7375%, 77.8125%, 79.8875%, 81.9625%, 96% {
+    filter: brightness(0%) invert(100%);
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    filter: brightness(100%);
+    transform: scale(1);
+    visibility: visible;
+  }
+}
+
+@keyframes tunnel {
+  0%, 16.517%, 33.283%, 41.583%, 49.883%, 58.183%, 66.483%, 83.083% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  16.6%, 33.366%, 41.666%, 49.966%, 58.266%, 66.566%, 83.166% {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  20.75%, 37.35%, 45.65%, 53.95%, 62.25%, 70.55%, 87.15% {
+    transform: scale(3.5);
+    opacity: 1;
+  }
+  24.9%, 41.5%, 49.8%, 58.1%, 66.4%, 74.7%, 91.3% {
+    transform: scale(7);
+    opacity: 0;
+  }
+}
+
+@keyframes bubble {
+  100% {
+    transform: translate(0, 140px);
+    opacity: 0;
+  }
+  90%, 10% {
+    opacity: 1;
+  }
+  5%, 0% {
+    opacity: 0;
+  }
+}
+
+@keyframes background-in {
+  0% { background-color: white }
+  100% { background-color: black }
+}
+
+@keyframes background-out {
+  0% { background-color: black }
+  90% { background-color: black }
+  100% { background-color: white }
+}
