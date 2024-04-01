@@ -6,18 +6,14 @@ import mylittleonion.api.voice.dto.ChatGPTResponse;
 public class ChatGPTResponseParser {
 
   public static ChatGPTResponse parse(String result) {
-    String json = result
-        .replace("primary :", "\"primary\":")
-        .replace("secondary :", "\"secondary\":")
-        .replace("tertiary :", "\"tertiary\":")
-        .replaceAll("\\s*,\\s*", "\",\"")
-        .replace("\n", "")
+    // JSON 형식에 맞게 문자열 수정
+    String json = result.replaceAll("(\\w+)\\s*:", "\"$1\":")
+        .replaceAll(":\\s*null", ":\"null\"")
+        .replaceAll("\\s*,\\s*", ",")
         .trim();
 
-    json = "{" + json + "}";
-
+    // Gson 객체를 사용하여 JSON 문자열을 ChatGPTResponse 객체로 파싱
     Gson gson = new Gson();
-
     return gson.fromJson(json, ChatGPTResponse.class);
   }
 
