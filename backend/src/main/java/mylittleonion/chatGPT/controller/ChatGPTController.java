@@ -2,14 +2,15 @@ package mylittleonion.chatGPT.controller;
 
 import mylittleonion.api.onion.service.OnionService;
 import mylittleonion.api.voice.dto.ChatGPTResponse;
+import mylittleonion.api.voice.dto.GetSttRequest;
 import mylittleonion.chatGPT.dto.PromptResponseDto;
 import mylittleonion.chatGPT.service.ChatGPTService;
 import mylittleonion.common.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -30,8 +31,9 @@ public class ChatGPTController {
 
   @PostMapping("/prompt")
   public ResponseEntity<ApiResponse<PromptResponseDto>> selectPrompt(
-      @RequestParam Long onionId,
-      @RequestParam String speechToString) {
+      @RequestBody GetSttRequest getSttRequest) {
+    Long onionId = getSttRequest.getOnionId();
+    String speechToString = getSttRequest.getStt();
     ChatGPTResponse chatGPTResponse = chatGPTService.prompt(speechToString);
 
     return ResponseEntity.ok(
