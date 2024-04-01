@@ -19,8 +19,10 @@ public class GetOnionResponse {
 
   private Integer onionLevel;
 
+  private Boolean isFinal;
+
   public static GetOnionResponse createGetOnionResponse(Onion onion, OnionCategory onionCategory) {
     return new GetOnionResponse(onionCategory.getId(), onion.getId(), onion.getOnionName(),
-        onionCategory.getLevel());
+        onionCategory.getLevel(), onionCategory.getIsFinal());
   }
 }
