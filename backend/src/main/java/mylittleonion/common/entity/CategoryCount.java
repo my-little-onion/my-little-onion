@@ -39,10 +39,11 @@ public class CategoryCount {
 
   }
 
-  public static CategoryCount createCategoryCount(Onion onion, long categoryId) {
+  public static CategoryCount createCategoryCount(Onion onion, int groupId, long categoryId) {
+
     return CategoryCount.builder()
         .onion(onion)
-        .groupId(onion.getOnionCategory().getGroup())
+        .groupId(groupId)
         .categoryId(categoryId)
         .build();
   }
