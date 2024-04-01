@@ -94,7 +94,7 @@ public class OnionServiceImpl implements OnionService {
 //    log.info(String.valueOf(nowGroup));
 
     if (nowCategory.getIsFinal()) {
-      return new PromptResponseDto(false);
+      return new PromptResponseDto(false, -1);
     }
 
     if (nowLevel == 0) {
@@ -108,7 +108,7 @@ public class OnionServiceImpl implements OnionService {
       OnionCategory category = onionCategoryService.getOnionCategoryByCategoryName(
           chatGPTResponse.getSecondary());
       if (category.getGroup() != nowGroup) {
-        return new PromptResponseDto(false);
+        return new PromptResponseDto(false, -1);
       }
 
       CategoryCount categoryCount = CategoryCount.createCategoryCount(onion, category.getGroup(),
@@ -116,12 +116,12 @@ public class OnionServiceImpl implements OnionService {
       categoryCountRepository.save(categoryCount);
     } else if (nowLevel == 2) {
       if (chatGPTResponse.getTertiary() == null) {
-        return new PromptResponseDto(false);
+        return new PromptResponseDto(false, -1);
       }
       OnionCategory category = onionCategoryService.getOnionCategoryByCategoryName(
           chatGPTResponse.getTertiary());
       if (category.getGroup() != nowGroup) {
-        return new PromptResponseDto(false);
+        return new PromptResponseDto(false, -1);
       }
 
       CategoryCount categoryCount = CategoryCount.createCategoryCount(onion, category.getGroup(),
@@ -132,6 +132,7 @@ public class OnionServiceImpl implements OnionService {
     //진화 알고리즘
     List<CategoryCount> categoryCounts = categoryCountService.getCategoryCountsByOnionId(onionId);
     boolean flag = false;
+    long nowCategoryId = -1;
 
     if (nowLevel == 0) {
       int[] countGroup = new int[8];
@@ -140,6 +141,7 @@ public class OnionServiceImpl implements OnionService {
           onion.changeCategory(
               onionCategoryRepository.getReferenceById(categoryCount.getCategoryId()));
           onionRepository.save(onion);
+          nowCategoryId = categoryCount.getCategoryId();
           flag = true;
           break;
         }
@@ -160,6 +162,7 @@ public class OnionServiceImpl implements OnionService {
           onion.changeCategory(
               onionCategoryRepository.getReferenceById(cId));
           onionRepository.save(onion);
+          nowCategoryId = categoryCount.getCategoryId();
           flag = true;
           break;
         }
@@ -173,7 +176,7 @@ public class OnionServiceImpl implements OnionService {
       }
 
     }
-    return new PromptResponseDto(flag);
+    return new PromptResponseDto(flag, nowCategoryId);
   }
 
   @Override
