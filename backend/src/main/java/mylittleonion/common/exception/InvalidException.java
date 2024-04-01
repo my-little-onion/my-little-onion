@@ -4,7 +4,7 @@ import mylittleonion.common.dto.ErrorBase;
 
 public class InvalidException extends MyLittleOnionBaseException {
 
-  protected InvalidException(ErrorBase errorBase) {
+  public InvalidException(ErrorBase errorBase) {
     super(errorBase);
   }
 }
