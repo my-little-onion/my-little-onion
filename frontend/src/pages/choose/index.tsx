@@ -127,7 +127,13 @@ const ChoosePage = () => {
             svg={<IconArrowLeft width={40} height={40} />}
           />
           {onions.length > onionIndex ? (
-            <Link to='/grow' state={{ categoryId: currOnion.onionCategoryId }}>
+            <Link
+              to='/grow'
+              state={{
+                onionId: currOnion.onionId,
+                categoryId: currOnion.onionCategoryId,
+              }}
+            >
               <Button type='button' size='medium' color={theme.color.blue}>
                 양파한테 말걸러 가기
               </Button>
