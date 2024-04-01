@@ -11,4 +11,6 @@ public class PromptResponseDto {
 
   public Boolean canEvolve;
 
+  public long categoryId;
+
 }
