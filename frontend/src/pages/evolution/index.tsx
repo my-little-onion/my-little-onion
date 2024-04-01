@@ -1,7 +1,11 @@
+import { useLocation } from 'react-router-dom';
+
 import Evolution from '@/components/Evolution';
 
 const EvolutionPage = () => {
-  return <Evolution before={1} after={2} />;
+  const { before, after } = useLocation().state;
+
+  return <Evolution before={before} after={after} />;
 };
 
 export default EvolutionPage;
