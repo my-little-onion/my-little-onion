@@ -1,16 +1,29 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { createOnion, deleteOnion, getOnions } from '@/services/onion';
 import { onion } from '@/types/onion';
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
+import { IconArrowLeft, IconArrowRight } from '#/svgs';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
 import Onion from '@/components/Onion';
 
-import { IconArrowLeft, IconArrowRight } from '#/svgs';
+const OnionAnimation = keyframes`
+  0% {
+    transform: translateY(10px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(10px);
+  }
+`;
 
 const ChoosePageWrapper = styled.section`
   width: 100%;
@@ -29,19 +42,12 @@ const CommandButtonWrapper = styled.section`
   margin-bottom: 8px;
 `;
 
-const OnionButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
-`;
-
 const BlankDelete = styled.div`
   width: 100%;
   height: 40px;
 `;
 
-const OnionTitle = styled.span`
+export const OnionTitle = styled.span`
   width: fit-content;
   height: 40px;
   overflow: hidden;
@@ -51,6 +57,10 @@ const OnionTitle = styled.span`
   display: flex;
   align-items: center;
   border-radius: 20px;
+`;
+
+const AnimatedOnion = styled.div`
+  animation: ${OnionAnimation} 3s infinite;
 `;
 
 const OnionName = styled.h3`
@@ -99,7 +109,9 @@ const ChoosePage = () => {
         </OnionTitle>
         {onions.length > onionIndex ? (
           <>
-            <Onion categoryId={currOnion.onionCategoryId} />
+            <AnimatedOnion>
+              <Onion categoryId={currOnion.onionCategoryId} />
+            </AnimatedOnion>
             <OnionName>{currOnion.onionName}</OnionName>
           </>
         ) : (
@@ -115,11 +127,17 @@ const ChoosePage = () => {
             svg={<IconArrowLeft width={40} height={40} />}
           />
           {onions.length > onionIndex ? (
-            <OnionButtonWrapper>
+            <Link
+              to='/grow'
+              state={{
+                onionId: currOnion.onionId,
+                categoryId: currOnion.onionCategoryId,
+              }}
+            >
               <Button type='button' size='medium' color={theme.color.blue}>
                 양파한테 말걸러 가기
               </Button>
-            </OnionButtonWrapper>
+            </Link>
           ) : (
             <Button
               type='button'
