@@ -101,7 +101,8 @@ public class OnionServiceImpl implements OnionService {
       // CategoryCount 저장하기
       OnionCategory category = onionCategoryService.getOnionCategoryByCategoryName(
           chatGPTResponse.getPrimary());
-      CategoryCount categoryCount = CategoryCount.createCategoryCount(onion, category.getId());
+      CategoryCount categoryCount = CategoryCount.createCategoryCount(onion, category.getGroup(),
+          category.getId());
       categoryCountRepository.save(categoryCount);
     } else if (nowLevel == 1) {
       OnionCategory category = onionCategoryService.getOnionCategoryByCategoryName(
@@ -110,7 +111,8 @@ public class OnionServiceImpl implements OnionService {
         return new PromptResponseDto(false);
       }
 
-      CategoryCount categoryCount = CategoryCount.createCategoryCount(onion, category.getId());
+      CategoryCount categoryCount = CategoryCount.createCategoryCount(onion, category.getGroup(),
+          category.getId());
       categoryCountRepository.save(categoryCount);
     } else if (nowLevel == 2) {
       if (chatGPTResponse.getTertiary() == null) {
@@ -122,7 +124,8 @@ public class OnionServiceImpl implements OnionService {
         return new PromptResponseDto(false);
       }
 
-      CategoryCount categoryCount = CategoryCount.createCategoryCount(onion, category.getId());
+      CategoryCount categoryCount = CategoryCount.createCategoryCount(onion, category.getGroup(),
+          category.getId());
       categoryCountRepository.save(categoryCount);
     }
 
