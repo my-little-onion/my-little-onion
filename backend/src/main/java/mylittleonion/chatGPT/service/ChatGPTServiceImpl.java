@@ -34,9 +34,9 @@ public class ChatGPTServiceImpl implements ChatGPTService {
           "and a tertiary category.\n" +
           "Provide your output in json format with the \n" +
           "keys: primary and secondary and tertiary.\n\n" +
-          "Primary categories: 양아치, 불만, 학생, 만화, 운동, 부정적, 긍정적 \n\n"
+          "Primary categories: 불량배, 불만, 학생, 만화, 운동, 부정적, 긍정적 \n\n"
           +
-          "양아치 secondary categories:\n" +
+          "불량배 secondary categories:\n" +
           "깡패\n" +
           "도둑\n" +
           "불만 secondary categories:\n" +
