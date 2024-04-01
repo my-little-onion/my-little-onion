@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mylittleonion.api.categorycount.repository.CategoryCountRepository;
 import mylittleonion.api.categorycount.service.CategoryCountService;
 import mylittleonion.api.onion.dto.CreateOnionRequest;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class OnionServiceImpl implements OnionService {
 
   private final OnionRepository onionRepository;
@@ -88,6 +90,8 @@ public class OnionServiceImpl implements OnionService {
     OnionCategory nowCategory = onion.getOnionCategory();
     Integer nowLevel = nowCategory.getLevel();
     Integer nowGroup = nowCategory.getGroup();
+    log.info(String.valueOf(nowLevel));
+    log.info(String.valueOf(nowGroup));
 
     if (nowCategory.getIsFinal()) {
       return new PromptResponseDto(false);
@@ -124,10 +128,10 @@ public class OnionServiceImpl implements OnionService {
 
     //진화 알고리즘
     List<CategoryCount> categoryCounts = categoryCountService.getCategoryCountsByOnionId(onionId);
+    boolean flag = false;
 
     if (nowLevel == 0) {
       int[] countGroup = new int[8];
-      boolean flag = false;
       for (CategoryCount categoryCount : categoryCounts) {
         if (++countGroup[categoryCount.getGroupId()] == 3) {
           onion.changeCategory(
@@ -144,7 +148,7 @@ public class OnionServiceImpl implements OnionService {
         }
       }
     } else { //현재 레벨이 1이상일때
-      boolean flag = false;
+      flag = false;
       HashMap<Long, Integer> hm = new HashMap<>();
       for (CategoryCount categoryCount : categoryCounts) {
         Long cId = categoryCount.getCategoryId();
@@ -166,7 +170,7 @@ public class OnionServiceImpl implements OnionService {
       }
 
     }
-    return new PromptResponseDto(false);
+    return new PromptResponseDto(flag);
   }
 
   @Override

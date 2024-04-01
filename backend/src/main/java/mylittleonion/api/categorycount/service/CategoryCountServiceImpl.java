@@ -3,11 +3,13 @@ package mylittleonion.api.categorycount.service;
 import java.util.List;
 import mylittleonion.api.categorycount.repository.CategoryCountRepository;
 import mylittleonion.common.entity.CategoryCount;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryCountServiceImpl implements CategoryCountService {
 
+  @Autowired
   private CategoryCountRepository categoryCountRepository;
 
   @Override
