@@ -9,7 +9,7 @@ import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
 import { IconArrowLeft } from '#/svgs';
 import { OnionTitle } from '@/pages/choose';
-import { postVoiceMessage } from '@/services/chatGpt';
+import { postSpeechToText } from '@/services/chatGpt';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
@@ -45,7 +45,7 @@ const GrowPage = () => {
   const stopRecord = async () => {
     setIsRecord(false);
     await SpeechRecognition.stopListening();
-    await postVoiceMessage(onionId, message);
+    await postSpeechToText(onionId, message);
     setMessage('');
   };
 

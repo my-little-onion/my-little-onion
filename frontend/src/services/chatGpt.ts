@@ -1,7 +1,7 @@
 import { api } from '@/services/index';
 import { response } from '@/types/response';
 
-export const postVoiceMessage = async (
+export const postSpeechToText = async (
   onionId: number,
   stt: string,
 ): Promise<response> => {
