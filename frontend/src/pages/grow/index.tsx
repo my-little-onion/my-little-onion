@@ -5,7 +5,6 @@ import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 
-// import { postMessage } from '@/services/chat-gpt';
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
 import { IconArrowLeft } from '#/svgs';
@@ -22,12 +21,10 @@ const GrowPageWrapper = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const GrowPage = () => {
-  // const location = useLocation();
-  // const { categoryId } = location.state;
-
   const [message, setMessage] = useState<string>('');
   const { transcript, resetTranscript } = useSpeechRecognition({});
 

@@ -42,13 +42,6 @@ const CommandButtonWrapper = styled.section`
   margin-bottom: 8px;
 `;
 
-// const OnionButtonWrapper = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   gap: 8px;
-// `;
-
 const BlankDelete = styled.div`
   width: 100%;
   height: 40px;
@@ -135,7 +128,7 @@ const ChoosePage = () => {
           />
           {onions.length > onionIndex ? (
             <Link to='/grow' state={{ categoryId: currOnion.onionCategoryId }}>
-              <Button type='button' size='small' color={theme.color.blue}>
+              <Button type='button' size='medium' color={theme.color.blue}>
                 양파한테 말걸러 가기
               </Button>
             </Link>
