@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+
 public interface CategoryCountRepository extends JpaRepository<CategoryCount, Long> {
 
   @Modifying
