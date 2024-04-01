@@ -90,8 +90,8 @@ public class OnionServiceImpl implements OnionService {
     OnionCategory nowCategory = onion.getOnionCategory();
     Integer nowLevel = nowCategory.getLevel();
     Integer nowGroup = nowCategory.getGroup();
-    log.info(String.valueOf(nowLevel));
-    log.info(String.valueOf(nowGroup));
+//    log.info(String.valueOf(nowLevel));
+//    log.info(String.valueOf(nowGroup));
 
     if (nowCategory.getIsFinal()) {
       return new PromptResponseDto(false);
