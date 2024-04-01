@@ -93,14 +93,14 @@ const Evolution = ({ before, after }: EvolutionProps) => {
       {isEvolve ? (
         <Link to='/choose'>
           <div className='message'>
-            축하합니다! {onionNameRecord[before]}는 <br />
-            {onionNameRecord[after]}로 진화했습니다!
+            축하합니다! {onionNameRecord[before]}(은)는 <br />
+            {onionNameRecord[after]}(으)로 진화했습니다!🔻
           </div>
         </Link>
       ) : (
         <div className='message'>
           ...... 오잉!? <br />
-          양파의 상태가......!
+          {onionNameRecord[before]}의 상태가......!
         </div>
       )}
     </section>
