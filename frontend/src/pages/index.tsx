@@ -6,7 +6,6 @@ import theme from '@/styles/theme';
 
 import Background from '@/components/Background';
 
-// Keyframes 정의
 const TitleAnimation = keyframes`
   0% {
     transform: scale(1);
