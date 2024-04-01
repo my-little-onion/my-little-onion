@@ -8,6 +8,7 @@ const color = {
   primary: '#a1c4fd',
   blue: '#007FFF',
   green: '#83cf74',
+  red: '#ff8585',
 };
 
 const fontSize = {

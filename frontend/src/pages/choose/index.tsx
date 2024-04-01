@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { getOnions } from '@/services/onion';
+import { createOnion, deleteOnion, getOnions } from '@/services/onion';
 import { onion } from '@/types/onion';
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
@@ -39,6 +39,19 @@ const CommandButtonWrapper = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 8px;
+`;
+
+// const OnionButtonWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   gap: 8px;
+// `;
+
+const BlankDelete = styled.div`
+  width: 100%;
+  height: 40px;
 `;
 
 export const OnionTitle = styled.span`
@@ -67,6 +80,11 @@ const ChoosePage = () => {
 
   const currOnion = onions[onionIndex];
 
+  const fetchData = async () => {
+    const rawData = await getOnions();
+    setOnions(rawData.data);
+  };
+
   const handlePrevClick = () => {
     setOnionIndex((prev) => (prev === 0 ? 2 : prev - 1));
   };
@@ -75,11 +93,18 @@ const ChoosePage = () => {
     setOnionIndex((prev) => (prev === 2 ? 0 : prev + 1));
   };
 
+  const handleCreateClick = async () => {
+    await createOnion(`${onionIndex + 1}번째 권순준`);
+    setOnionIndex(onions.length);
+    fetchData();
+  };
+
+  const handleDeleteClick = async () => {
+    await deleteOnion(onions[onionIndex].onionId);
+    fetchData();
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const rawData = await getOnions();
-      setOnions(rawData.data);
-    };
     fetchData();
   }, []);
 
@@ -98,9 +123,7 @@ const ChoosePage = () => {
           </>
         ) : (
           <>
-            <AnimatedOnion>
-              <Onion categoryId={0} />
-            </AnimatedOnion>
+            <Onion categoryId={0} />
             <OnionName>{onionIndex + 1}번째 양파가 없어</OnionName>
           </>
         )}
@@ -117,7 +140,12 @@ const ChoosePage = () => {
               </Button>
             </Link>
           ) : (
-            <Button type='button' size='small' color={theme.color.green}>
+            <Button
+              type='button'
+              size='medium'
+              color={theme.color.green}
+              onClick={handleCreateClick}
+            >
               새 양파 생성
             </Button>
           )}
@@ -127,6 +155,18 @@ const ChoosePage = () => {
             svg={<IconArrowRight width={40} height={40} />}
           />
         </CommandButtonWrapper>
+        {onions.length > onionIndex ? (
+          <Button
+            type='button'
+            size='medium'
+            color={theme.color.red}
+            onClick={handleDeleteClick}
+          >
+            양파 까버리기
+          </Button>
+        ) : (
+          <BlankDelete />
+        )}
       </ChoosePageWrapper>
     </Background>
   );

@@ -2,10 +2,10 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition';
 import { useRef, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 
-import { postMessage } from '@/services/chat-gpt';
+// import { postMessage } from '@/services/chat-gpt';
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
 import { IconArrowLeft } from '#/svgs';

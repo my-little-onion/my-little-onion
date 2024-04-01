@@ -8,18 +8,15 @@ const lightFontColors: string[] = [
   theme.color.gray,
   theme.color.blue,
   theme.color.green,
+  theme.color.red,
 ];
 
-const ButtonWrapper = styled.div`
-  border: none;
-  background-color: transparent;
-`;
-
 const ButtonContent = styled.button`
+  height: 40px;
   border: none;
   cursor: pointer;
   border-radius: 24px;
-  margin: auto;
+  margin: 0;
   background-color: ${(prop) => prop.color};
   color: ${(prop) =>
     lightFontColors.includes(prop.color ?? 'none')
@@ -30,12 +27,14 @@ const ButtonContent = styled.button`
 
 const LargeButton = styled(ButtonContent)`
   width: 300px;
-  height: 40px;
+`;
+
+const MediumButton = styled(ButtonContent)`
+  width: 240px;
 `;
 
 const SmallButton = styled(ButtonContent)`
   width: auto;
-  height: 40px;
   padding: 0 20px;
 `;
 
@@ -48,7 +47,7 @@ const SvgButton = styled(ButtonContent)`
 interface ButtonProps {
   type: 'submit' | 'reset' | 'button';
   children?: ReactNode;
-  size?: 'small' | 'large';
+  size?: 'small' | 'medium' | 'large';
   color?: string;
   disabled?: boolean;
   onClick?: () => void;
@@ -70,32 +69,39 @@ const Button = ({
 
   if (size === 'small') {
     return (
-      <ButtonWrapper>
-        {/* eslint-disable-next-line react/button-has-type */}
-        <SmallButton
-          type={type}
-          color={color}
-          disabled={disabled}
-          onClick={onClick}
-        >
-          {children}
-        </SmallButton>
-      </ButtonWrapper>
-    );
-  }
-
-  return (
-    <ButtonWrapper>
-      {/* eslint-disable-next-line react/button-has-type */}
-      <LargeButton
+      <SmallButton
         type={type}
         color={color}
         disabled={disabled}
         onClick={onClick}
       >
         {children}
-      </LargeButton>
-    </ButtonWrapper>
+      </SmallButton>
+    );
+  }
+
+  if (size === 'medium') {
+    return (
+      <MediumButton
+        type={type}
+        color={color}
+        disabled={disabled}
+        onClick={onClick}
+      >
+        {children}
+      </MediumButton>
+    );
+  }
+
+  return (
+    <LargeButton
+      type={type}
+      color={color}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {children}
+    </LargeButton>
   );
 };
 
