@@ -1,14 +1,15 @@
 import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition';
-import { useRef, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
 import { IconArrowLeft } from '#/svgs';
 import { OnionTitle } from '@/pages/choose';
+import { postVoiceMessage } from '@/services/chatGpt';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
@@ -25,13 +26,15 @@ const GrowPageWrapper = styled.section`
 `;
 
 const GrowPage = () => {
+  const location = useLocation();
+  const { onionId, categoryId } = location.state;
+
   const [message, setMessage] = useState<string>('');
+  const [isRecord, setIsRecord] = useState<boolean>(false);
   const { transcript, resetTranscript } = useSpeechRecognition({});
 
-  const isRecording = useRef<boolean>(false);
-
   const startRecord = () => {
-    isRecording.current = true;
+    setIsRecord(true);
     SpeechRecognition.startListening({
       continuous: true,
       language: 'ko-KR',
@@ -39,10 +42,11 @@ const GrowPage = () => {
     resetTranscript();
   };
 
-  const stopRecord = () => {
-    isRecording.current = false;
-    SpeechRecognition.stopListening();
-    // postMessage(categoryId, message);
+  const stopRecord = async () => {
+    setIsRecord(false);
+    await SpeechRecognition.stopListening();
+    await postVoiceMessage(onionId, message);
+    setMessage('');
   };
 
   const voice = transcript.slice(0);
@@ -60,10 +64,9 @@ const GrowPage = () => {
             svg={<IconArrowLeft width={60} height={60} />}
           />
         </Link>
-        <OnionTitle>{onionNameRecord[1]}</OnionTitle>
-        {/* categoryId 받아오기 */}
-        <Onion categoryId={1} />
-        {isRecording.current ? (
+        <OnionTitle>{onionNameRecord[categoryId]}</OnionTitle>
+        <Onion categoryId={categoryId} />
+        {isRecord ? (
           <Button type='button' color={theme.color.blue} onClick={stopRecord}>
             <span>그만 말하기</span>
           </Button>

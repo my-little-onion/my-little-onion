@@ -1,9 +1,9 @@
 import { api } from '@/services/index';
 import { response } from '@/types/response';
 
-export const postMessage = async (
+export const postVoiceMessage = async (
   onionId: number,
-  message: string,
+  stt: string,
 ): Promise<response> => {
-  return api.post(`/chatgpt/prompt`, { onionId, message });
+  return api.post(`/chatgpt/prompt`, { onionId, stt });
 };
