@@ -12,6 +12,7 @@ const OnionInfoContent = styled.button`
   border: none;
   border-radius: 20px;
   cursor: pointer;
+  box-shadow: 4px 5px #c0c0c0;
 `;
 
 const OnionWrapper = styled.div`

@@ -12,12 +12,11 @@ import Stars from '@/pages/choose/Stars';
 import useModal from '@/hooks/useModal';
 import OnionNameInput from '@/pages/choose/OnionNameInput';
 import { onionIndexState } from '@/pages/choose/store';
+import { IconArrowLeft, IconArrowRight } from '#/svgs';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
 import Onion from '@/components/Onion';
-
-import { IconArrowLeft, IconArrowRight } from '#/svgs';
 
 const OnionAnimation = keyframes`
   0% {
@@ -149,6 +148,7 @@ const ChoosePage = () => {
                 onionId: currOnion.onionId,
                 categoryId: currOnion.onionCategoryId,
                 isFinal: currOnion.isFinal,
+                voiceNumber: currOnion.voiceNumber,
               }}
             >
               <Button type='button' size='medium' color={theme.color.blue}>
