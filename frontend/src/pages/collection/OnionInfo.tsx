@@ -14,6 +14,10 @@ const OnionInfoContent = styled.button`
   cursor: pointer;
 `;
 
+const OnionWrapper = styled.div`
+  filter: brightness(0);
+`;
+
 interface OnionInfoProps {
   onClick: () => void;
   categoryId: number;
@@ -26,7 +30,9 @@ const OnionInfo = ({ onClick, categoryId, isCollected }: OnionInfoProps) => {
       {isCollected ? (
         <Onion categoryId={categoryId} size='small' />
       ) : (
-        <Onion categoryId={categoryId} size='small' />
+        <OnionWrapper>
+          <Onion categoryId={categoryId} size='small' />
+        </OnionWrapper>
       )}
     </OnionInfoContent>
   );
