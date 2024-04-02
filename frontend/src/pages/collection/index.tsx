@@ -111,13 +111,19 @@ const CollectionPage = () => {
 
   const fetchData = async () => {
     const rawData = await getCollections();
+    const currCount = rawData.data.reduce(
+      (acc, item) => acc + (item.have ? 1 : 0),
+      0,
+    );
+
+    setCount(currCount);
     setCollections(rawData.data);
   };
 
   useEffect(() => {
     fetchData();
     setPercentage(count / collections.length);
-  }, []);
+  }, [count]);
 
   return (
     <Background>
@@ -143,13 +149,15 @@ const CollectionPage = () => {
             </Rate>
           </RateWrapper>
           <OnionInfoWrapper>
-            {/* {collections && */}
-            {/* collections.map((id) => <OnionInfo categoryId={0} have />)} */}
-            <OnionInfo
-              onClick={handleOnionInfoClick}
-              categoryId={0}
-              isCollected
-            />
+            {collections &&
+              collections.map((item) => (
+                <OnionInfo
+                  key={item.id}
+                  categoryId={item.id}
+                  isCollected={item.have}
+                  onClick={handleOnionInfoClick}
+                />
+              ))}
           </OnionInfoWrapper>
         </Collection>
       </CollectionWrapper>
