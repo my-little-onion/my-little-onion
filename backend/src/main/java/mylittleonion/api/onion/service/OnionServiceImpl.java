@@ -1,6 +1,8 @@
 package mylittleonion.api.onion.service;
 
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +25,7 @@ import mylittleonion.common.entity.Onion;
 import mylittleonion.common.entity.OnionCategory;
 import mylittleonion.common.entity.User;
 import mylittleonion.common.entity.Voice;
+import mylittleonion.common.redis.RedisService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,6 +41,7 @@ public class OnionServiceImpl implements OnionService {
   private final OnionCategoryRepository onionCategoryRepository;
   private final CategoryCountService categoryCountService;
   private final CategoryCountRepository categoryCountRepository;
+  private final RedisService redisService;
 
   @Override
   public void createOnion(Long userId, CreateOnionRequest createOnionRequest) {
@@ -54,13 +58,38 @@ public class OnionServiceImpl implements OnionService {
     List<OnionCategory> onionCategories = onionsByUser.stream().map(Onion::getOnionCategory)
         .toList();
 
+    String makeVoiceListKey = "userId:" + userId + ":voiceCreateTime";
+    Integer voiceNumber = 3;
+    if (redisService.existsKey(makeVoiceListKey)) {
+      List<String> list = redisService.getValuesForList(makeVoiceListKey);
+      LocalDateTime now = LocalDateTime.now();
+      for (String s : list) {
+        // 'T' 문자를 처리하기 위해 패턴 수정
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(s, formatter);
+
+        LocalDateTime dateTimePlus30Minutes = dateTime.plusMinutes(30);
+
+        if (!dateTimePlus30Minutes.isBefore(now) && !dateTimePlus30Minutes.isEqual(now)) {
+          voiceNumber--;
+        }
+      }
+    }
+    log.info(Integer.toString(voiceNumber));
+
+    String voiceNumberKey = "userId:" + userId + ":remainVoiceNumber";
+    redisService.setValue(voiceNumberKey, Integer.toString(voiceNumber));
+
+    log.info(redisService.getValues(voiceNumberKey));
+
     ArrayList<GetOnionResponse> result = new ArrayList<>();
     for (int i = 0; i < onionsByUser.size(); i++) {
       if (onionsByUser.get(i).getVisible().equals(Boolean.FALSE)) {
         continue;
       }
       result.add(GetOnionResponse.createGetOnionResponse(onionsByUser.get(i),
-          onionCategories.get(i)
+          onionCategories.get(i),
+          voiceNumber
       ));
     }
 
@@ -86,6 +115,18 @@ public class OnionServiceImpl implements OnionService {
     Onion onion = onionRepository.findById(onionId).orElseThrow();
     Voice voice = Voice.createVoice(speech, onion);
     voiceRepository.save(voice);
+
+    String makeVoiceListKey = "userId:" + onion.getUser().getId() + ":voiceCreateTime";
+    String original = String.valueOf(voice.getCreatedAt());
+    String sliced = original.substring(0, 19); // 초단위까지만 저장
+    redisService.setValueForList(makeVoiceListKey, sliced);
+    if (redisService.getValuesForList(makeVoiceListKey).size() == 4) {
+      redisService.deleteValueForList(makeVoiceListKey);
+    }
+
+    String makeVoiceNumberKey = "userId:" + onion.getUser().getId() + ":remainVoiceNumber";
+    Integer voiceNumber = Integer.parseInt(redisService.getValues(makeVoiceNumberKey)) - 1;
+    redisService.setValue(makeVoiceNumberKey, Integer.toString(voiceNumber));
 
     OnionCategory nowCategory = onion.getOnionCategory();
     Integer nowLevel = nowCategory.getLevel();

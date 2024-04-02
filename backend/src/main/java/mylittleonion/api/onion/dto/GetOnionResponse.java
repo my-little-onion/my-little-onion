@@ -21,8 +21,11 @@ public class GetOnionResponse {
 
   private Boolean isFinal;
 
-  public static GetOnionResponse createGetOnionResponse(Onion onion, OnionCategory onionCategory) {
+  private Integer voiceNumber;
+
+  public static GetOnionResponse createGetOnionResponse(Onion onion, OnionCategory onionCategory,
+      Integer voiceNumber) {
     return new GetOnionResponse(onionCategory.getId(), onion.getId(), onion.getOnionName(),
-        onionCategory.getLevel(), onionCategory.getIsFinal());
+        onionCategory.getLevel(), onionCategory.getIsFinal(), voiceNumber);
   }
 }
