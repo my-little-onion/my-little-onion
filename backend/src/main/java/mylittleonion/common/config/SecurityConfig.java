@@ -35,18 +35,12 @@ public class SecurityConfig {
 
     httpSecurity
         .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-            .requestMatchers(HttpMethod.GET).permitAll()
-                .requestMatchers(HttpMethod.POST).permitAll()
-                .requestMatchers(HttpMethod.PUT).permitAll()
-                .requestMatchers(HttpMethod.DELETE).permitAll()
-            .requestMatchers(new AntPathRequestMatcher("/login/**")).permitAll()
-             .requestMatchers(new AntPathRequestMatcher("/oauth2/authorize/**")).permitAll()
-//                 , new AntPathRequestMatcher("/kakao-oauth/**")
-
-            // ).permitAll()
-            .anyRequest().authenticated()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/login/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/oauth2/authorize/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/kakao-oauth/**")).permitAll()
+                .anyRequest().authenticated()
         )
         .httpBasic(httpBasic ->
             httpBasic.disable()
