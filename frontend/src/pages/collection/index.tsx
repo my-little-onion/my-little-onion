@@ -101,10 +101,14 @@ const CollectionPage = () => {
   const [collections, setCollections] = useState<collection[]>([]);
   const [count, setCount] = useState<number>(12);
   const [percentage, setPercentage] = useState<number>(0);
+  const [currName, setCurrName] = useState<string>('');
+  const [currDetail, setCurrDetail] = useState<string>('');
 
   const { Modal, openModal } = useModal();
 
   const handleOnionInfoClick = () => {
+    setCurrName('하이');
+    setCurrDetail('테스트');
     openModal();
   };
 
@@ -121,7 +125,7 @@ const CollectionPage = () => {
 
   useEffect(() => {
     fetchData();
-    setPercentage(count / collections.length);
+    setPercentage(Math.ceil(count / collections.length));
   }, [count]);
 
   return (
@@ -161,9 +165,9 @@ const CollectionPage = () => {
         </Collection>
       </CollectionWrapper>
       <Modal>
-        <h3>매니아 양파</h3>
+        <h3>{currName}</h3>
         <Onion size='medium' categoryId={1} />
-        <span>힌트: 기본</span>
+        <span>힌트: {currDetail}</span>
       </Modal>
     </Background>
   );
