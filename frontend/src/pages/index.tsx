@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
-import { Link } from 'react-router-dom';
 
 import theme from '@/styles/theme';
 
@@ -82,12 +81,14 @@ const MainPage = () => {
         </Title>
       </TitleWrapper>
       <LoginButtonWrapper>
-        <Link to='/choose'>
+        <a
+          href={`${import.meta.env.VITE_SERVER_URL}/api/oauth2/authorize/kakao`}
+        >
           <img
             src='/images/icons/button-kakao-login.png'
             alt='buttonKakaoLogin'
           />
-        </Link>
+        </a>
       </LoginButtonWrapper>
     </Background>
   );

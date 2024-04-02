@@ -2,18 +2,19 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition';
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
-import { IconArrowLeft } from '#/svgs';
 import { OnionTitle } from '@/pages/choose';
 import { postSpeechToText } from '@/services/chatGpt';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
 import Onion from '@/components/Onion';
+
+import { IconArrowLeft } from '#/svgs';
 
 const GrowPageWrapper = styled.section`
   width: 100%;
@@ -26,11 +27,10 @@ const GrowPageWrapper = styled.section`
 `;
 
 const GrowPage = () => {
-  const location = useLocation();
-  const { onionId, categoryId } = location.state;
-
   const [message, setMessage] = useState<string>('');
   const [isRecord, setIsRecord] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { onionId, categoryId, isFinal } = useLocation().state;
   const { transcript, resetTranscript } = useSpeechRecognition({});
 
   const startRecord = () => {
@@ -45,8 +45,10 @@ const GrowPage = () => {
   const stopRecord = async () => {
     setIsRecord(false);
     await SpeechRecognition.stopListening();
-    await postSpeechToText(onionId, message);
-    setMessage('');
+    const rawData = await postSpeechToText(onionId, message);
+    const { canEvolve, categoryId: nextId } = rawData.data;
+    if (canEvolve)
+      navigate('/evolution', { state: { before: categoryId, after: nextId } });
   };
 
   const voice = transcript.slice(0);
@@ -71,9 +73,15 @@ const GrowPage = () => {
             <span>그만 말하기</span>
           </Button>
         ) : (
-          <Button type='button' color={theme.color.blue} onClick={startRecord}>
-            <span>양파에게 말하기</span>
-          </Button>
+          !isFinal && (
+            <Button
+              type='button'
+              color={theme.color.blue}
+              onClick={startRecord}
+            >
+              <span>양파에게 말하기</span>
+            </Button>
+          )
         )}
       </GrowPageWrapper>
     </Background>

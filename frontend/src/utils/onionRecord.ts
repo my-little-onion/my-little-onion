@@ -19,7 +19,7 @@ export const onionRecord: Record<number, string> = {
   17: 'grandma',
   18: 'worker',
   19: 'cartoon',
-  20: 'maniac',
+  20: 'mania',
   21: 'magician',
   22: 'fitness',
   23: 'medalist',
