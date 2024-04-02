@@ -63,10 +63,18 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 
   private String getAccessToken(HttpServletRequest req) {
-    String token = req.getHeader("Authorization");
-    log.info("accessToken : {}", token);
-    if (token != null && token.startsWith("Bearer ")) {
-      return token.substring(7);
+    Cookie[] list = req.getCookies();
+    String accessToken="";
+    if (list != null) {
+      for (Cookie cookie : list) {
+        if (cookie.getName().equals("access-token")) {
+          accessToken = cookie.getValue();
+        }
+      }
+    }
+    log.info("accessToken : {}", accessToken);
+    if (accessToken != null && accessToken.startsWith("Bearer ")) {
+      return accessToken.substring(7);
     }
     return null;
   }
