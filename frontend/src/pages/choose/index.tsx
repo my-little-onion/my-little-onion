@@ -187,7 +187,11 @@ const ChoosePage = () => {
       </ChoosePageWrapper>
       <Modal>
         <ModalQuestion>양파의 이름은?</ModalQuestion>
-        <OnionNameInput indexToSet={onions.length} fetchData={fetchData} />
+        <OnionNameInput
+          indexToSet={onions.length}
+          fetchData={fetchData}
+          closeModal={closeModal}
+        />
       </Modal>
     </Background>
   );
