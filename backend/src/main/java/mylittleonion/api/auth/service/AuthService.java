@@ -9,7 +9,7 @@ public interface AuthService {
 
   KakaoUserInfoResponse getUserInfo(String accessToken);
 
-  void saveRefreshToken(Long id, String refreshToken);
+  void saveRefreshToken(String accessToken, String refreshToken);
 
   boolean validateRefreshTokenInRedis(String refreshToken);
 }
