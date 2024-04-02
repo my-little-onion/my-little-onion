@@ -43,7 +43,7 @@ public class AuthController {
     KakaoUserInfoResponse kakaoUserInfoResponse = authService.getUserInfo(accessToken);
     TokenResponse tokenResponse = userService.login(kakaoUserInfoResponse);
 
-    Cookie cookie = new Cookie("refresh-token", tokenResponse.getRefreshToken());
+    Cookie cookie = new Cookie("access-token", tokenResponse.getAccessToken());
     cookie.setHttpOnly(true);
     cookie.setMaxAge(60 * 60 * 24 * 30);
     cookie.setPath("/");
