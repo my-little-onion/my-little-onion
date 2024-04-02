@@ -67,11 +67,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         }
       }
     }
-    log.info("accessToken : {}", accessToken);
-    if (accessToken != null && accessToken.startsWith("Bearer ")) {
-      return accessToken.substring(7);
-    }
-    return null;
+    return accessToken;
   }
 
   private String reIssueAccessToken(String refreshToken) {
