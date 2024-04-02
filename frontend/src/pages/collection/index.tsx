@@ -109,10 +109,6 @@ const CollectionPage = () => {
     openModal();
   };
 
-  const handleIncreaseCount = () => {
-    setCount((prevCount) => prevCount + 1);
-  };
-
   const fetchData = async () => {
     const rawData = await getCollections();
     setCollections(rawData.data);
