@@ -83,6 +83,19 @@ public class JWTProvider {
     }
   }
 
+  public long getTokenExpirationTime(String token) {
+    try {
+      return Jwts.parser()
+          .setSigningKey(secretKey)
+          .parseClaimsJws(token)
+          .getBody()
+          .getExpiration()
+          .getTime();
+    } catch (ExpiredJwtException e) {
+      throw new InvalidException(ErrorBase.E400_INVALID_TOKEN);
+    }
+  }
+
 
  public Authentication getAuthentication(String token) {
    Long id = getId(token);

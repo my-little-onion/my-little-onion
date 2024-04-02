@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mylittleonion.api.auth.dto.KakaoUserInfoResponse;
 import mylittleonion.api.auth.dto.TokenResponse;
+import mylittleonion.api.auth.service.AuthService;
 import mylittleonion.api.user.repository.UserRepository;
 import mylittleonion.common.entity.User;
 import mylittleonion.common.util.JWTProvider;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
   private final JWTProvider jwtProvider;
+  private final AuthService authService;
   @Override
   public User getUserById(Long userId) {
     return userRepository.findById(userId).orElseThrow();
@@ -50,9 +52,9 @@ public class UserServiceImpl implements UserService {
     String accessToken = jwtProvider.createAccessToken(id);
     String refreshToken = jwtProvider.createRefreshToken(id);
 
-    //// redis에 refresh token 저장
-    //     authService.saveRefreshToken(provider, email, RefreshToken);
-    //     userService.setAttendance(email);
+
+    // redis에 refresh token 저장
+    authService.saveRefreshToken(id, refreshToken);
 
 
     return new TokenResponse(accessToken, refreshToken);
