@@ -24,6 +24,11 @@ export const globalStyles = css`
     box-shadow: 0 0 25px ${theme.color.whitesmoke};
   }
 
+  &::-webkit-scrollbar {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+  }
+
   @font-face {
     font-family: 'Galmuri';
     src:

@@ -1,3 +1,3 @@
-import EvolutionAudio from './evolution-audio.mp3';
+import EvolutionAudio from './evolution-audio.mp3?react';
 
 export { EvolutionAudio };
