@@ -49,7 +49,8 @@ public class AuthController {
     cookie.setPath("/");
     response.addCookie(cookie);
 
-    response.sendRedirect("http://localhost:5173/choose");
+    response.sendRedirect("https://j10a105.p.ssafy.io/choose");
+//    response.sendRedirect("http://localhost:5173/choose");
 
     return ResponseEntity.ok(ApiResponse.success());
   }
