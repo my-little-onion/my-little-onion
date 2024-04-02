@@ -1,8 +1,8 @@
 import { response } from '@/types/response';
 
 export interface collection {
-  id: 0;
-  have: true;
+  id: number;
+  have: boolean;
   onionCategoryName: string;
   onionCategoryDetail: string;
 }

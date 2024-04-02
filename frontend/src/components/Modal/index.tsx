@@ -23,25 +23,28 @@ const ModalOverlay = styled.div`
   z-index: ${theme.zIndex['1']};
 `;
 
-const ModalWrapper = styled.div`
+const ModalWrapper = styled.section`
   top: 0;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  max-width: 330px;
+  width: 70%;
+  max-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
   position: fixed;
   z-index: ${theme.zIndex['2']};
 `;
 
-const ModalContent = styled(ModalWrapper)`
-  width: 20%;
+const ModalContent = styled.div`
+  width: 100%;
   height: 50svh;
+  padding: 20px;
   display: flex;
+  align-items: center;
   justify-content: center;
-
+  flex-direction: column;
   background-color: white;
   border-radius: 20px;
   position: relative;

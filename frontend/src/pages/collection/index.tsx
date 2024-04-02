@@ -98,17 +98,11 @@ const OnionInfoWrapper = styled.div`
 `;
 
 const CollectionPage = () => {
-  const { Modal, openModal } = useModal();
-
   const [collections, setCollections] = useState<collection[]>([]);
-
   const [count, setCount] = useState<number>(12);
   const [percentage, setPercentage] = useState<number>(0);
 
-  const fetchData = async () => {
-    const rawData = await getCollections();
-    setCollections(rawData.data);
-  };
+  const { Modal, openModal } = useModal();
 
   const handleOnionInfoClick = () => {
     openModal();
@@ -116,6 +110,11 @@ const CollectionPage = () => {
 
   const handleIncreaseCount = () => {
     setCount((prevCount) => prevCount + 1);
+  };
+
+  const fetchData = async () => {
+    const rawData = await getCollections();
+    setCollections(rawData.data);
   };
 
   useEffect(() => {
