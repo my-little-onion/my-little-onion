@@ -27,7 +27,8 @@ public class CorsConfig {
     config.setAllowCredentials(true);
 
     // 개발 중에는 모든 오리진 허용
-    List<String> origin = Arrays.asList("http://localhost:5173", "https://j10a105.p.ssafy.io");
+    List<String> origin = Arrays.asList("http://localhost:5173", "https://j10a105.p.ssafy.io",
+        "https://accounts.kakao.com");
     config.setAllowedOrigins(origin);
 
 //    config.setAllowedOrigins(origin);
