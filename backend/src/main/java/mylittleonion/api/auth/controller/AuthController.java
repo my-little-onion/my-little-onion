@@ -5,6 +5,7 @@ package mylittleonion.api.auth.controller;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mylittleonion.api.auth.dto.KakaoUserInfoResponse;
@@ -30,9 +31,9 @@ public class AuthController {
   private final UserService userService;
 
   @GetMapping("/login/oauth2/kakao")
-  ResponseEntity<ApiResponse<LoginResponse>> login(
+  ResponseEntity<ApiResponse<Void>> login(
       @RequestParam("code") String code,
-      HttpServletResponse response) {
+      HttpServletResponse response) throws IOException {
 
     log.info(code);
     // 카카오 액세스 토큰 받아오기
@@ -48,7 +49,8 @@ public class AuthController {
     cookie.setPath("/");
     response.addCookie(cookie);
 
-    return ResponseEntity.ok(ApiResponse.success(new LoginResponse(tokenResponse.getAccessToken())));
-  }
+    response.sendRedirect("http://localhost:5173/choose");
 
+    return ResponseEntity.ok(ApiResponse.success());
+  }
 }
