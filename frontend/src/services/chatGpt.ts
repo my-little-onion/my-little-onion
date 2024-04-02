@@ -1,9 +1,9 @@
 import { api } from '@/services/index';
-import { response } from '@/types/response';
+import { speechToTextResponse } from '@/types/speech';
 
 export const postSpeechToText = async (
   onionId: number,
   stt: string,
-): Promise<response> => {
+): Promise<speechToTextResponse> => {
   return api.post(`/chatgpt/prompt`, { onionId, stt });
 };

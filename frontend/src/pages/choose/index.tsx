@@ -7,11 +7,12 @@ import { createOnion, deleteOnion, getOnions } from '@/services/onion';
 import { onion } from '@/types/onion';
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
-import { IconArrowLeft, IconArrowRight } from '#/svgs';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
 import Onion from '@/components/Onion';
+
+import { IconArrowLeft, IconArrowRight } from '#/svgs';
 
 const OnionAnimation = keyframes`
   0% {
@@ -132,6 +133,7 @@ const ChoosePage = () => {
               state={{
                 onionId: currOnion.onionId,
                 categoryId: currOnion.onionCategoryId,
+                isFinal: currOnion.isFinal,
               }}
             >
               <Button type='button' size='medium' color={theme.color.blue}>

@@ -5,6 +5,7 @@ export interface onion {
   onionId: number;
   onionName: string;
   onionLevel: number;
+  isFinal: boolean;
 }
 
 export interface onionResponse extends response {
