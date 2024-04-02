@@ -42,7 +42,6 @@ const OnionNameInput = ({ indexToSet, fetchData }: OnionNameInput) => {
   };
 
   const handleNameInput = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
     if (event.target.value.length > 15) {
       event.target.value = event.target.value.slice(0, 15);
     }
