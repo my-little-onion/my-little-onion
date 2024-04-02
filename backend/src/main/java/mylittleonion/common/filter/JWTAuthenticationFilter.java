@@ -9,6 +9,7 @@ import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mylittleonion.api.auth.service.AuthService;
+import mylittleonion.common.redis.RedisService;
 import mylittleonion.common.util.JWTProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
   private final AuthService authService;
   private final JWTProvider jwtProvider;
+  private final RedisService redisService;
 
   @Override
   protected void doFilterInternal(HttpServletRequest req,
@@ -36,7 +38,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
       if (jwtProvider.isValidateToken(accessToken)) {
         Authentication authentication = jwtProvider.getAuthentication(accessToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        log.info("인증 정보 저장");
       } else if(authService.validateRefreshTokenInRedis(accessToken)){
         accessToken = reIssueAccessToken(accessToken);
 
@@ -45,8 +46,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         cookie.setMaxAge(60 * 60 * 24 * 30);
         cookie.setPath("/");
         res.addCookie(cookie);
-
-        log.info("accessToken 재발급");
       }
       else {
         SecurityContextHolder.clearContext();
@@ -75,17 +74,14 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     return null;
   }
 
-  private String reIssueAccessToken(String refreshToken) {
+  private String reIssueAccessToken(String accessToken) {
     // 토큰 재발급
+    String refreshToken = redisService.getValues("AT" + ":" + accessToken);
     Long id = jwtProvider.getId(refreshToken);
     String newAccessToken = jwtProvider.createAccessToken(id);
-
     // securityContext에 저장
     Authentication authentication = jwtProvider.getAuthentication(newAccessToken);
     SecurityContextHolder.getContext().setAuthentication(authentication);
-
     return newAccessToken;
-
-
   }
 }
