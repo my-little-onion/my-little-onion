@@ -54,9 +54,6 @@ public class UserServiceImpl implements UserService {
     //     authService.saveRefreshToken(provider, email, RefreshToken);
     //     userService.setAttendance(email);
 
-    // 인증 정보 저장
-    Authentication newAuthentication = jwtProvider.getAuthentication(accessToken);
-    SecurityContextHolder.getContext().setAuthentication(newAuthentication);
 
     return new TokenResponse(accessToken, refreshToken);
   }

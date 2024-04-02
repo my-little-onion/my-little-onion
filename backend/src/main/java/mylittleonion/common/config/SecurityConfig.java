@@ -5,11 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import mylittleonion.api.auth.service.AuthService;
 import mylittleonion.api.auth.service.CustomOAuth2UserService;
 import mylittleonion.common.filter.JWTAuthenticationFilter;
-import mylittleonion.common.handler.OAuth2AuthenticationFailureHandler;
-import mylittleonion.common.handler.OAuth2AuthenticationSuccessHandler;
 import mylittleonion.common.util.JWTProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,7 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsUtils;
-import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
@@ -25,10 +23,7 @@ import org.springframework.http.HttpMethod;
 @Slf4j
 public class SecurityConfig {
 
- private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
- private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
-//  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-//  private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
   private final JWTProvider jwtProvider;
   private final CorsConfig corsConfig;
   private final AuthService authservice;
@@ -73,16 +68,12 @@ public class SecurityConfig {
             .redirectionEndpoint(redirectionEndpoint -> redirectionEndpoint
                 .baseUri("/kakao-oauth/**")
             )
-//            .successHandler(oAuth2AuthenticationSuccessHandler)
-//            .failureHandler(oAuth2AuthenticationFailureHandler)
+
         )
         .sessionManagement(sessionManagement -> sessionManagement
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
-//        .exceptionHandling(exceptionHandling -> exceptionHandling
-//            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-//            .accessDeniedHandler(jwtAccessDeniedHandler)
-//        )
+
         .addFilter(corsConfig.corsFilter())
         .addFilterBefore(new JWTAuthenticationFilter(authservice, jwtProvider),
             // 이 부분 확인

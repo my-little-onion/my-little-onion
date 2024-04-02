@@ -28,15 +28,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     log.info("JWT필터~~~");
     String accessToken = getAccessToken(req);
-    String refreshToken = null;
-    Cookie[] list = req.getCookies();
-    if (list != null) {
-      for (Cookie cookie : list) {
-        if (cookie.getName().equals("refresh-token")) {
-          refreshToken = cookie.getValue();
-        }
-      }
-    }
+
     log.info("accessToken : {}", accessToken);
 
     //
@@ -67,6 +59,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     String accessToken="";
     if (list != null) {
       for (Cookie cookie : list) {
+        log.info(cookie.toString());
+        log.info(cookie.getName());
+        log.info(cookie.getValue());
         if (cookie.getName().equals("access-token")) {
           accessToken = cookie.getValue();
         }
