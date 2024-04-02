@@ -12,11 +12,12 @@ import Stars from '@/pages/choose/Stars';
 import useModal from '@/hooks/useModal';
 import OnionNameInput from '@/pages/choose/OnionNameInput';
 import { onionIndexState } from '@/pages/choose/store';
-import { IconArrowLeft, IconArrowRight } from '#/svgs';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
 import Onion from '@/components/Onion';
+
+import { IconArrowLeft, IconArrowRight } from '#/svgs';
 
 const OnionAnimation = keyframes`
   0% {
@@ -87,7 +88,7 @@ const ChoosePage = () => {
   const [onions, setOnions] = useState<onion[]>([]);
   const [onionIndex, setOnionIndex] = useRecoilState(onionIndexState);
 
-  const { Modal, openModal } = useModal();
+  const { Modal, openModal, closeModal } = useModal();
 
   const currOnion = onions[onionIndex];
 

@@ -29,14 +29,20 @@ const CreateButton = styled.button`
 interface OnionNameInput {
   indexToSet: number;
   fetchData: () => void;
+  closeModal: () => void;
 }
 
-const OnionNameInput = ({ indexToSet, fetchData }: OnionNameInput) => {
+const OnionNameInput = ({
+  indexToSet,
+  fetchData,
+  closeModal,
+}: OnionNameInput) => {
   const [onionName, setOnionName] = useState<string>('');
   const setOnionIndex = useSetRecoilState(onionIndexState);
 
   const handleCreateClick = async () => {
     await createOnion(onionName);
+    closeModal();
     setOnionIndex(indexToSet);
     fetchData();
   };
