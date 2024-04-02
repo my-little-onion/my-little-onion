@@ -37,12 +37,17 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         Authentication authentication = jwtProvider.getAuthentication(accessToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         log.info("인증 정보 저장");
+      } else if(authService.validateRefreshTokenInRedis(accessToken)){
+        accessToken = reIssueAccessToken(accessToken);
+
+        Cookie cookie = new Cookie("access-token", accessToken);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60 * 60 * 24 * 30);
+        cookie.setPath("/");
+        res.addCookie(cookie);
+
+        log.info("accessToken 재발급");
       }
-      //      else if(authService.validateRefreshTokenInRedis(refreshToken)){
-      //        accessToken = reIssueAccessToken(accessToken);
-      //        res.setHeader("Authorization", "Bearer " + accessToken);
-      //        log.info("accessToken 재발급");
-      //      }
       else {
         SecurityContextHolder.clearContext();
         res.setHeader("Authorization", null);
@@ -76,8 +81,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     String newAccessToken = jwtProvider.createAccessToken(id);
 
     // securityContext에 저장
-//    Authentication authentication = jwtProvider.getAuthentication(newAccessToken);
-//    SecurityContextHolder.getContext().setAuthentication(authentication);
+    Authentication authentication = jwtProvider.getAuthentication(newAccessToken);
+    SecurityContextHolder.getContext().setAuthentication(authentication);
 
     return newAccessToken;
 
