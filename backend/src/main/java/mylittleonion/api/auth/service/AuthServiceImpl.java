@@ -1,8 +1,11 @@
 package mylittleonion.api.auth.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import mylittleonion.api.auth.dto.KakaoUserInfoResponse;
 import mylittleonion.api.onion.dto.KakaoTokenResponse;
+import mylittleonion.common.redis.RedisService;
+import mylittleonion.common.util.JWTProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -12,8 +15,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthServiceImpl implements AuthService {
-
+  private final RedisService redisService;
+  private final JWTProvider jwtProvider;
   //yml 파일에서 받아오기
   @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
   String redirectURI;
@@ -55,8 +60,22 @@ public class AuthServiceImpl implements AuthService {
     return kakaoUserInfoResponse;
   }
 
+  @Override
+  public void saveRefreshToken(Long id, String refreshToken) {
+    redisService.setValuesWithTimeout("RT" + ":" + id,
+        refreshToken,
+        jwtProvider.getTokenExpirationTime(refreshToken));
+  }
 
+  @Override
+  public boolean validateRefreshTokenInRedis(String accessToken) {
 
-  // 디비랑
-  // 레디스
+    Long id = jwtProvider.getId(accessToken);
+    String refreshTokenInRedis = redisService.getValues("RT:" + ":" + id);
+    if (refreshTokenInRedis == null) {
+      return false;
+    }
+    return jwtProvider.isValidateToken(refreshTokenInRedis);
+  }
+
 }
