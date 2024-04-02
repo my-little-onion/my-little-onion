@@ -30,7 +30,7 @@ public class AuthController {
   private final AuthService authService;
   private final UserService userService;
 
-  @GetMapping("/login/oauth2/kakao")
+  @GetMapping("/login/oauth2/code/kakao")
   ResponseEntity<ApiResponse<Void>> login(
       @RequestParam("code") String code,
       HttpServletResponse response) throws IOException {
