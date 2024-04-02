@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
 
     // redis에 refresh token 저장
-    authService.saveRefreshToken(id, refreshToken);
+    authService.saveRefreshToken(accessToken, refreshToken);
 
 
     return new TokenResponse(accessToken, refreshToken);
