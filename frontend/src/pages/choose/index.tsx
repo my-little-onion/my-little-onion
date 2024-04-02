@@ -7,12 +7,12 @@ import { createOnion, deleteOnion, getOnions } from '@/services/onion';
 import { onion } from '@/types/onion';
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
+import { IconArrowLeft, IconArrowRight } from '#/svgs';
+import Stars from '@/pages/choose/Stars';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
 import Onion from '@/components/Onion';
-
-import { IconArrowLeft, IconArrowRight } from '#/svgs';
 
 const OnionAnimation = keyframes`
   0% {
@@ -33,6 +33,13 @@ const ChoosePageWrapper = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+const LevelWrapper = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
 `;
 
 const CommandButtonWrapper = styled.section`
@@ -65,7 +72,7 @@ const AnimatedOnion = styled.div`
 `;
 
 const OnionName = styled.h3`
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 `;
 
 const ChoosePage = () => {
@@ -114,6 +121,9 @@ const ChoosePage = () => {
               <Onion categoryId={currOnion.onionCategoryId} />
             </AnimatedOnion>
             <OnionName>{currOnion.onionName}</OnionName>
+            <LevelWrapper>
+              <Stars level={currOnion?.onionLevel ?? 2} />
+            </LevelWrapper>
           </>
         ) : (
           <>
