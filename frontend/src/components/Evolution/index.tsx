@@ -7,9 +7,10 @@ import { onionNameRecord, onionRecord } from '@/utils/onionRecord';
 interface EvolutionProps {
   before: number;
   after: number;
+  isTutorial?: boolean;
 }
 
-const Evolution = ({ before, after }: EvolutionProps) => {
+const Evolution = ({ before, after, isTutorial }: EvolutionProps) => {
   const [isEvolve, setIsEvolve] = useState<boolean>(false);
 
   const evolve = () => {
@@ -91,7 +92,7 @@ const Evolution = ({ before, after }: EvolutionProps) => {
         />
       </div>
       {isEvolve ? (
-        <Link to='/choose'>
+        <Link to={isTutorial ? '/tutorial' : '/choose'}>
           <div className='message'>
             축하합니다! {onionNameRecord[before]}(은)는 <br />
             {onionNameRecord[after]}(으)로 진화했습니다!🔻

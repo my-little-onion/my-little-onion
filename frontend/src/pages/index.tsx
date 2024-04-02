@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
+import { Link } from 'react-router-dom';
 
 import theme from '@/styles/theme';
 
@@ -64,9 +65,24 @@ const TitleOnion = styled.img`
   animation: ${OnionAnimation} 3s infinite;
 `;
 
-const LoginButtonWrapper = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
+`;
+
+const TutorialLink = styled(Link)`
+  width: 300px;
+  height: 45px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background-color: ${theme.color.blue};
+  color: white;
+  font-size: 13px;
+  text-decoration: none;
 `;
 
 const MainPage = () => {
@@ -80,7 +96,7 @@ const MainPage = () => {
           <br />양<LittleTitle>파</LittleTitle>
         </Title>
       </TitleWrapper>
-      <LoginButtonWrapper>
+      <ButtonWrapper>
         <a
           href={`${import.meta.env.VITE_SERVER_URL}/api/oauth2/authorize/kakao`}
         >
@@ -89,7 +105,10 @@ const MainPage = () => {
             alt='buttonKakaoLogin'
           />
         </a>
-      </LoginButtonWrapper>
+      </ButtonWrapper>
+      <ButtonWrapper>
+        <TutorialLink to='/tutorial'>튜토리얼 하러가기</TutorialLink>
+      </ButtonWrapper>
     </Background>
   );
 };
