@@ -14,9 +14,13 @@ const SmallOnionWrapper = styled(OnionWrapper)`
   height: 100px;
 `;
 
+const MediumOnionWrapper = styled(OnionWrapper)`
+  height: 250px;
+`;
+
 interface OnionProps {
   categoryId: number;
-  size?: 'small' | 'large';
+  size?: 'small' | 'medium' | 'large';
 }
 
 const Onion = ({ categoryId, size }: OnionProps) => {
@@ -29,6 +33,18 @@ const Onion = ({ categoryId, size }: OnionProps) => {
           width={100}
         />
       </SmallOnionWrapper>
+    );
+  }
+
+  if (size === 'medium') {
+    return (
+      <MediumOnionWrapper>
+        <img
+          src={`/images/onions/onion-${onionRecord[categoryId]}.png`}
+          alt={onionRecord[categoryId]}
+          width={250}
+        />
+      </MediumOnionWrapper>
     );
   }
 
