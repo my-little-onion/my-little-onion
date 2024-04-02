@@ -4,7 +4,7 @@ import mylittleonion.common.dto.ErrorBase;
 
 public class NotFoundException extends MyLittleOnionBaseException {
 
-  protected NotFoundException(ErrorBase errorBase) {
+  public NotFoundException(ErrorBase errorBase) {
     super(errorBase);
   }
 }

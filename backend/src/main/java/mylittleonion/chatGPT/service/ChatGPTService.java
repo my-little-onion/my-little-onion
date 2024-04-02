@@ -1,5 +1,6 @@
 package mylittleonion.chatGPT.service;
 
+import mylittleonion.api.voice.dto.ChatGPTResponse;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ChatGPTService {
 
-  String prompt(String speechToString);
+  ChatGPTResponse prompt(String speechToString);
 
 
 }
