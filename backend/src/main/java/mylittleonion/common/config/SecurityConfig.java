@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mylittleonion.api.auth.service.AuthService;
 import mylittleonion.api.auth.service.CustomOAuth2UserService;
 import mylittleonion.common.filter.JWTAuthenticationFilter;
+import mylittleonion.common.redis.RedisService;
 import mylittleonion.common.util.JWTProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,7 @@ public class SecurityConfig {
   private final JWTProvider jwtProvider;
   private final CorsConfig corsConfig;
   private final AuthService authservice;
-  private final CustomOAuth2UserService customOAuth2UserService;
+  private final RedisService redisService;
 
 
   @Bean
@@ -69,7 +70,7 @@ public class SecurityConfig {
         )
 
         .addFilter(corsConfig.corsFilter())
-        .addFilterBefore(new JWTAuthenticationFilter(authservice, jwtProvider),
+        .addFilterBefore(new JWTAuthenticationFilter(authservice, jwtProvider,redisService),
             // 이 부분 확인
             UsernamePasswordAuthenticationFilter.class);
 
