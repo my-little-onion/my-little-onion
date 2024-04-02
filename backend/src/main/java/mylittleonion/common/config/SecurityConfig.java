@@ -37,10 +37,6 @@ public class SecurityConfig {
         .authorizeHttpRequests(authorizeRequests -> authorizeRequests
             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-            .requestMatchers(HttpMethod.GET).permitAll()
-                .requestMatchers(HttpMethod.POST).permitAll()
-                .requestMatchers(HttpMethod.PUT).permitAll()
-                .requestMatchers(HttpMethod.DELETE).permitAll()
             .requestMatchers(new AntPathRequestMatcher("/login/**")).permitAll()
 //             .requestMatchers(new AntPathRequestMatcher("/oauth2/authorize/**")
 //                 , new AntPathRequestMatcher("/kakao-oauth/**")
