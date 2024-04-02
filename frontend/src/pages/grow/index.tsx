@@ -9,17 +9,18 @@ import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
 import { OnionTitle } from '@/pages/choose';
 import { postSpeechToText } from '@/services/chatGpt';
+import Water from '@/pages/grow/Water';
+
+import Background from '@/components/Background';
+import Button from '@/components/Button';
+import Onion from '@/components/Onion';
+
 import {
   IconArrowLeft,
   IconHeart,
   IconRecordStart,
   IconRecordStop,
 } from '#/svgs';
-import Water from '@/pages/grow/Water';
-
-import Background from '@/components/Background';
-import Button from '@/components/Button';
-import Onion from '@/components/Onion';
 
 const GrowPageWrapper = styled.section`
   width: 100%;
