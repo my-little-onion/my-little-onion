@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { keyframes } from '@emotion/react';
+import { useRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 
-import { createOnion, deleteOnion, getOnions } from '@/services/onion';
+import { deleteOnion, getOnions } from '@/services/onion';
 import { onion } from '@/types/onion';
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
+import Stars from '@/pages/choose/Stars';
+import useModal from '@/hooks/useModal';
+import OnionNameInput from '@/pages/choose/OnionNameInput';
+import { onionIndexState } from '@/pages/choose/store';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
@@ -33,6 +38,13 @@ const ChoosePageWrapper = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+const LevelWrapper = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
 `;
 
 const CommandButtonWrapper = styled.section`
@@ -65,12 +77,18 @@ const AnimatedOnion = styled.div`
 `;
 
 const OnionName = styled.h3`
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+`;
+
+const ModalQuestion = styled.div`
+  width: 100%;
 `;
 
 const ChoosePage = () => {
-  const [onionIndex, setOnionIndex] = useState<number>(0);
   const [onions, setOnions] = useState<onion[]>([]);
+  const [onionIndex, setOnionIndex] = useRecoilState(onionIndexState);
+
+  const { Modal, openModal } = useModal();
 
   const currOnion = onions[onionIndex];
 
@@ -85,12 +103,6 @@ const ChoosePage = () => {
 
   const handleNextClick = () => {
     setOnionIndex((prev) => (prev === 2 ? 0 : prev + 1));
-  };
-
-  const handleCreateClick = async () => {
-    await createOnion(`${onionIndex + 1}번째 권순준`);
-    setOnionIndex(onions.length);
-    fetchData();
   };
 
   const handleDeleteClick = async () => {
@@ -114,6 +126,9 @@ const ChoosePage = () => {
               <Onion categoryId={currOnion.onionCategoryId} />
             </AnimatedOnion>
             <OnionName>{currOnion.onionName}</OnionName>
+            <LevelWrapper>
+              <Stars level={currOnion?.onionLevel ?? 2} />
+            </LevelWrapper>
           </>
         ) : (
           <>
@@ -145,7 +160,7 @@ const ChoosePage = () => {
               type='button'
               size='medium'
               color={theme.color.green}
-              onClick={handleCreateClick}
+              onClick={openModal}
             >
               새 양파 생성
             </Button>
@@ -169,6 +184,10 @@ const ChoosePage = () => {
           <BlankDelete />
         )}
       </ChoosePageWrapper>
+      <Modal>
+        <ModalQuestion>양파의 이름은?</ModalQuestion>
+        <OnionNameInput indexToSet={onions.length} fetchData={fetchData} />
+      </Modal>
     </Background>
   );
 };

@@ -9,12 +9,11 @@ import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
 import { OnionTitle } from '@/pages/choose';
 import { postSpeechToText } from '@/services/chatGpt';
+import { IconArrowLeft } from '#/svgs';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
 import Onion from '@/components/Onion';
-
-import { IconArrowLeft } from '#/svgs';
 
 const GrowPageWrapper = styled.section`
   width: 100%;
@@ -24,6 +23,12 @@ const GrowPageWrapper = styled.section`
   justify-content: center;
   align-items: center;
   position: relative;
+`;
+
+const ButtonWrapper = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
 `;
 
 const GrowPage = () => {
@@ -61,10 +66,12 @@ const GrowPage = () => {
     <Background>
       <GrowPageWrapper>
         <Link to='/choose'>
-          <Button
-            type='button'
-            svg={<IconArrowLeft width={60} height={60} />}
-          />
+          <ButtonWrapper>
+            <Button
+              type='button'
+              svg={<IconArrowLeft width={60} height={60} />}
+            />
+          </ButtonWrapper>
         </Link>
         <OnionTitle>{onionNameRecord[categoryId]}</OnionTitle>
         <Onion categoryId={categoryId} />
