@@ -61,18 +61,18 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
   private String getAccessToken(HttpServletRequest req) {
     Cookie[] list = req.getCookies();
-    String accessToken="";
     if (list != null) {
       for (Cookie cookie : list) {
         log.info(cookie.toString());
         log.info(cookie.getName());
         log.info(cookie.getValue());
         if (cookie.getName().equals("access-token")) {
-          accessToken = cookie.getValue();
+          String accessToken = cookie.getValue();
+          return accessToken;
         }
       }
     }
-    return accessToken;
+    return null;
   }
 
   private String reIssueAccessToken(String refreshToken) {
