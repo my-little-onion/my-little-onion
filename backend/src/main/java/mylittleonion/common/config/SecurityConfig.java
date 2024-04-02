@@ -46,8 +46,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST).permitAll()
                 .requestMatchers(HttpMethod.PUT).permitAll()
                 .requestMatchers(HttpMethod.DELETE).permitAll()
-//            .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
-//             .requestMatchers(new AntPathRequestMatcher("/oauth2/authorization/**")
+            .requestMatchers(new AntPathRequestMatcher("/login/**")).permitAll()
+//             .requestMatchers(new AntPathRequestMatcher("/oauth2/authorize/**")
 //                 , new AntPathRequestMatcher("/kakao-oauth/**")
 
             // ).permitAll()
