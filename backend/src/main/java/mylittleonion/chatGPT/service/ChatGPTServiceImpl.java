@@ -51,7 +51,7 @@ public class ChatGPTServiceImpl implements ChatGPTService {
           "만화 secondary categories:\n" +
           "오타쿠\n\n" +
           "운동 secondary categories:\n" +
-          "운동선수\n" +
+          "메달리스트\n" +
           "헬스트레이너\n\n" +
           "부정적 secondary categories:\n" +
           "화난\n" +
