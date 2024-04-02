@@ -1,5 +1,6 @@
 package mylittleonion.common.redis;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +32,11 @@ public class RedisServiceImpl implements RedisService {
     redisTemplate.opsForSet().add(key, value);
   }
 
+  @Override
+  public void setValueForList(String key, String value) {
+    redisTemplate.opsForList().rightPush(key, value);
+  }
+
   // 만료시간 설정 -> 자동 삭제
   @Override
   public void setValuesWithTimeout(String key, String value, long timeout) {
@@ -50,13 +56,31 @@ public class RedisServiceImpl implements RedisService {
   }
 
   @Override
+  public List<String> getValuesForList(String key) {
+    long size = redisTemplate.opsForList().size(key);
+    long start = Math.max(0, size - 3);
+    return redisTemplate.opsForList().range(key, start, -1);
+  }
+
+  @Override
   public Set<String> getValuesForSet(String key) {
     return redisTemplate.opsForSet().members(key);
   }
+
+  public boolean existsKey(String key) {
+    return redisTemplate.hasKey(key);
+  }
+
 
   @Override
   @Transactional
   public void deleteValues(String key) {
     redisTemplate.delete(key);
+  }
+
+  @Override
+  @Transactional
+  public void deleteValueForList(String key) {
+    redisTemplate.opsForList().leftPop(key);
   }
 }
