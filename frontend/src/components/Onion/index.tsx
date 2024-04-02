@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ReactNode } from 'react';
 
 import { onionRecord } from '@/utils/onionRecord';
 
@@ -8,6 +9,7 @@ const OnionWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const SmallOnionWrapper = styled(OnionWrapper)`
@@ -21,9 +23,10 @@ const MediumOnionWrapper = styled(OnionWrapper)`
 interface OnionProps {
   categoryId: number;
   size?: 'small' | 'medium' | 'large';
+  children?: ReactNode;
 }
 
-const Onion = ({ categoryId, size }: OnionProps) => {
+const Onion = ({ categoryId, size, children }: OnionProps) => {
   if (size === 'small') {
     return (
       <SmallOnionWrapper>
@@ -32,6 +35,7 @@ const Onion = ({ categoryId, size }: OnionProps) => {
           alt={onionRecord[categoryId]}
           width={100}
         />
+        {children}
       </SmallOnionWrapper>
     );
   }
@@ -44,6 +48,7 @@ const Onion = ({ categoryId, size }: OnionProps) => {
           alt={onionRecord[categoryId]}
           width={250}
         />
+        {children}
       </MediumOnionWrapper>
     );
   }
@@ -54,6 +59,7 @@ const Onion = ({ categoryId, size }: OnionProps) => {
         src={`/images/onions/onion-${onionRecord[categoryId]}.png`}
         alt={onionRecord[categoryId]}
       />
+      {children}
     </OnionWrapper>
   );
 };

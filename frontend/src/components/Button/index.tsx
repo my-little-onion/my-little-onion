@@ -17,6 +17,7 @@ const ButtonContent = styled.button`
   cursor: pointer;
   border-radius: 24px;
   margin: 0;
+  position: relative;
   background-color: ${(prop) => prop.color};
   color: ${(prop) =>
     lightFontColors.includes(prop.color ?? 'none')
