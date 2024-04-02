@@ -9,7 +9,13 @@ import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
 import { OnionTitle } from '@/pages/choose';
 import { postSpeechToText } from '@/services/chatGpt';
-import { IconArrowLeft } from '#/svgs';
+import {
+  IconArrowLeft,
+  IconHeart,
+  IconRecordStart,
+  IconRecordStop,
+} from '#/svgs';
+import Water from '@/pages/grow/Water';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
@@ -31,11 +37,31 @@ const ButtonWrapper = styled.div`
   left: 10px;
 `;
 
+const SvgWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translate(40%, -50%);
+`;
+
+const HeartWrapper = styled.div`
+  width: 100px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+const OnionText = styled.h2`
+  top: 15%;
+  position: absolute;
+`;
+
 const GrowPage = () => {
   const [message, setMessage] = useState<string>('');
   const [isRecord, setIsRecord] = useState<boolean>(false);
+  const [isBegin, setIsBegin] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { onionId, categoryId, isFinal } = useLocation().state;
+  const { onionId, categoryId, isFinal, voiceNumber } = useLocation().state;
   const { transcript, resetTranscript } = useSpeechRecognition({});
 
   const startRecord = () => {
@@ -49,6 +75,10 @@ const GrowPage = () => {
 
   const stopRecord = async () => {
     setIsRecord(false);
+    setIsBegin(true);
+    setTimeout(() => {
+      setIsBegin(false);
+    }, 4000);
     await SpeechRecognition.stopListening();
     const rawData = await postSpeechToText(onionId, message);
     const { canEvolve, categoryId: nextId } = rawData.data;
@@ -73,10 +103,25 @@ const GrowPage = () => {
             />
           </ButtonWrapper>
         </Link>
+        <OnionText hidden={!isBegin}>양파의 기분이 좋아졌어요!</OnionText>
         <OnionTitle>{onionNameRecord[categoryId]}</OnionTitle>
-        <Onion categoryId={categoryId} />
+        <Onion categoryId={categoryId}>
+          <Water isBegin={isBegin} />
+        </Onion>
+        <HeartWrapper>
+          <IconHeart width={50} />
+          <h2> x {voiceNumber}</h2>
+        </HeartWrapper>
         {isRecord ? (
-          <Button type='button' color={theme.color.blue} onClick={stopRecord}>
+          <Button
+            type='button'
+            color={theme.color.blue}
+            size='medium'
+            onClick={stopRecord}
+          >
+            <SvgWrapper>
+              <IconRecordStop width={25} height={25} />
+            </SvgWrapper>
             <span>그만 말하기</span>
           </Button>
         ) : (
@@ -84,8 +129,12 @@ const GrowPage = () => {
             <Button
               type='button'
               color={theme.color.blue}
+              size='medium'
               onClick={startRecord}
             >
+              <SvgWrapper>
+                <IconRecordStart width={25} height={25} />
+              </SvgWrapper>
               <span>양파에게 말하기</span>
             </Button>
           )
