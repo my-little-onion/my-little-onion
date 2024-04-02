@@ -5,6 +5,7 @@ import {
   ActionFunction,
 } from 'react-router-dom';
 import { Global, ThemeProvider } from '@emotion/react';
+import { RecoilRoot } from 'recoil';
 
 import Theme from '@/styles/theme';
 import { globalStyles } from '@/styles/global';
@@ -59,10 +60,12 @@ const router = createBrowserRouter(
 
 const App = () => {
   return (
-    <ThemeProvider theme={Theme}>
-      <Global styles={globalStyles} />
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <RecoilRoot>
+      <ThemeProvider theme={Theme}>
+        <Global styles={globalStyles} />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </RecoilRoot>
   );
 };
 

@@ -1,6 +1,23 @@
 import styled from '@emotion/styled';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
+import useModal from '@/hooks/useModal';
+import OnionInfo from '@/pages/collection/OnionInfo';
+import { collection } from '@/types/collection';
+import { getCollections } from '@/services/collection';
+
+import Onion from '@/components/Onion';
 import Background from '@/components/Background';
+import Button from '@/components/Button';
+
+import { IconArrowLeft } from '#/svgs';
+
+const ButtonWrapper = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+`;
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -32,7 +49,7 @@ const Collection = styled.div`
   position: relative;
   background-color: rgb(255, 255, 255, 0.6);
   width: 90%;
-  height: 95%;
+  height: 100%;
   border-radius: 20px;
 `;
 
@@ -71,9 +88,51 @@ const RateNumber = styled.div`
   width: 50%;
 `;
 
-const MainPage = () => {
+const OnionInfoWrapper = styled.div`
+  height: 90%;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+  gap: 20px;
+  overflow-y: scroll;
+`;
+
+const CollectionPage = () => {
+  const [collections, setCollections] = useState<collection[]>([]);
+  const [count, setCount] = useState<number>(12);
+  const [percentage, setPercentage] = useState<number>(0);
+
+  const { Modal, openModal } = useModal();
+
+  const handleOnionInfoClick = () => {
+    openModal();
+  };
+
+  const handleIncreaseCount = () => {
+    setCount((prevCount) => prevCount + 1);
+  };
+
+  const fetchData = async () => {
+    const rawData = await getCollections();
+    setCollections(rawData.data);
+  };
+
+  useEffect(() => {
+    fetchData();
+    setPercentage(count / collections.length);
+  }, []);
+
   return (
     <Background>
+      <Link to='/choose'>
+        <ButtonWrapper>
+          <Button
+            type='button'
+            svg={<IconArrowLeft width={50} height={50} />}
+          />
+        </ButtonWrapper>
+      </Link>
       <TitleWrapper>
         <Title>
           <span>양파 도감</span>
@@ -84,13 +143,27 @@ const MainPage = () => {
           <RateWrapper>
             <Rate>
               <RateString>달성률</RateString>
-              <RateNumber>66%</RateNumber>
+              <RateNumber>{percentage}%</RateNumber>
             </Rate>
           </RateWrapper>
+          <OnionInfoWrapper>
+            {/* {collections && */}
+            {/* collections.map((id) => <OnionInfo categoryId={0} have />)} */}
+            <OnionInfo
+              onClick={handleOnionInfoClick}
+              categoryId={0}
+              isCollected
+            />
+          </OnionInfoWrapper>
         </Collection>
       </CollectionWrapper>
+      <Modal>
+        <h3>매니아 양파</h3>
+        <Onion size='medium' categoryId={1} />
+        <span>힌트: 기본</span>
+      </Modal>
     </Background>
   );
 };
 
-export default MainPage;
+export default CollectionPage;
