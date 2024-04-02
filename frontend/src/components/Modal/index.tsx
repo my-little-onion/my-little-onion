@@ -3,9 +3,10 @@ import styled from '@emotion/styled';
 
 import theme from '@/styles/theme';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
-import { IconClose } from '#/svgs';
 
 import Button from '@/components/Button';
+
+import { IconClose } from '#/svgs';
 
 const ButtonWrapper = styled.div`
   position: absolute;
@@ -39,8 +40,7 @@ const ModalWrapper = styled.section`
 
 const ModalContent = styled.div`
   width: 100%;
-  height: 50svh;
-  padding: 20px;
+  padding: 40px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,7 +68,7 @@ const Modal = ({ onClose, isOpen, children }: ModalProps) => {
     <>
       <ModalOverlay />
       <ModalWrapper>
-        <ModalContent>
+        <ModalContent ref={ref}>
           <ButtonWrapper>
             <Button
               type='button'
