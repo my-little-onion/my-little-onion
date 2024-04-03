@@ -184,10 +184,7 @@ const ChoosePage = () => {
           />
         </CommandButtonWrapper>
         {onions.length > onionIndex ? (
-          <DeleteOnionButton
-            onionId={onions[onionIndex].onionId}
-            fetchData={fetchData}
-          />
+          <DeleteOnionButton onionId={onions[onionIndex].onionId} />
         ) : (
           <BlankDelete />
         )}
