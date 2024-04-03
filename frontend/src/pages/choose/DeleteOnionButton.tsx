@@ -14,7 +14,7 @@ interface DeleteOnionButtonProps {
 
 const DeleteOnionButton = ({ onionId }: DeleteOnionButtonProps) => {
   const [voices, setVoices] = useState<voiceType[]>([]);
-  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [isMount, setIsMount] = useState<boolean>(false);
   const navigate = useNavigate();
   const { Modal, openModal } = useModal();
 
@@ -25,11 +25,13 @@ const DeleteOnionButton = ({ onionId }: DeleteOnionButtonProps) => {
   };
 
   useEffect(() => {
-    if (!isMounted) {
-      setIsMounted(true);
-      return;
+    if (!isMount) {
+      setIsMount(true);
+      return undefined;
     }
-    navigate('/choose');
+    return () => {
+      navigate('/choose');
+    };
   }, [Modal]);
 
   return (
