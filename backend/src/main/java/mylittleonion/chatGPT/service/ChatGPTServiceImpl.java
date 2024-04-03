@@ -95,6 +95,9 @@ public class ChatGPTServiceImpl implements ChatGPTService {
    */
   @Override
   public ChatGPTResponse prompt(String speechToString) {
+    if (speechToString == null || speechToString.isEmpty()) {
+      return new ChatGPTResponse(null, null, null);
+    }
     // String speechToString이 아니라 GetSttRequest로 받아야하나?
     List<Message> messages = new ArrayList<>();
     messages.add(new CompletionRequestDto.Message("system", system_message));
