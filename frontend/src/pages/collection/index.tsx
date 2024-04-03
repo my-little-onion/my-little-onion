@@ -111,10 +111,7 @@ const CollectionPage = () => {
   const { Modal, openModal } = useModal();
 
   const handleOnionInfoClick = (id: number) => {
-    console.log('id: ', id);
     setModalOnionIndex(id - 1);
-    console.log('index: :', modalOnionIndex);
-    console.log('modal data: ', collections[modalOnionIndex]);
     openModal();
   };
 
@@ -125,14 +122,14 @@ const CollectionPage = () => {
       0,
     );
 
-    console.log(currCount);
     setCount(currCount);
     setCollections(rawData.data);
   };
 
   useEffect(() => {
     fetchData();
-    setPercentage(Math.ceil(count / collections.length));
+    if (collections.length === 0) setPercentage(0);
+    else setPercentage(Math.ceil((count / collections.length) * 100));
   }, [count]);
 
   return (
