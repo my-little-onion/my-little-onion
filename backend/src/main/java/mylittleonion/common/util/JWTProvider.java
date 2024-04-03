@@ -1,6 +1,7 @@
 package mylittleonion.common.util;
 
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -82,6 +83,17 @@ public class JWTProvider {
       return false;
     }
   }
+  public Claims getClaims(String token) {
+    try {
+      return Jwts.parser()
+          .setSigningKey(secretKey)
+          .parseClaimsJws(token)
+          .getBody();
+    } catch (ExpiredJwtException e) {
+      return e.getClaims();
+    }
+  }
+
 
   public long getTokenExpirationTime(String token) {
     try {
