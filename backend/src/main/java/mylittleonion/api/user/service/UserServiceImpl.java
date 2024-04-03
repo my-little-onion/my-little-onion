@@ -10,8 +10,6 @@ import mylittleonion.api.user.repository.UserRepository;
 import mylittleonion.common.entity.User;
 import mylittleonion.common.redis.RedisService;
 import mylittleonion.common.util.JWTProvider;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +24,7 @@ public class UserServiceImpl implements UserService {
   private final RedisService redisService;
 
   private final AuthService authService;
+
   @Override
   public User getUserById(Long userId) {
     return userRepository.findById(userId).orElseThrow();
@@ -39,7 +38,7 @@ public class UserServiceImpl implements UserService {
         .build();
     userRepository.save(user);
     String collectionsKey = "userId:" + user.getId() + ":collections";
-    redisService.setValueForList(collectionsKey, "0");
+    redisService.setValueForSet(collectionsKey, "1");
   }
 
   @Override
@@ -56,10 +55,8 @@ public class UserServiceImpl implements UserService {
     String accessToken = jwtProvider.createAccessToken(id);
     String refreshToken = jwtProvider.createRefreshToken(id);
 
-
     // redis에 refresh token 저장
     authService.saveRefreshToken(accessToken, refreshToken);
-
 
     return new TokenResponse(accessToken, refreshToken);
   }
