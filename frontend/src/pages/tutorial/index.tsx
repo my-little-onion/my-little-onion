@@ -9,7 +9,7 @@ import Background from '@/components/Background';
 import Button from '@/components/Button';
 import Onion from '@/components/Onion';
 
-import { IconArrowLeft, IconRecordStart } from '#/svgs';
+import { IconArrowLeft } from '#/svgs';
 
 const TutorialWrapper = styled.section`
   width: 100%;
@@ -25,12 +25,6 @@ const ButtonWrapper = styled.div`
   position: absolute;
   top: 10px;
   left: 10px;
-`;
-
-const SvgWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  transform: translate(40%, -50%);
 `;
 
 const TutorialMessage = styled.div`
@@ -62,13 +56,10 @@ const TutorialPage = () => {
         <Button
           type='button'
           color={theme.color.blue}
-          size='medium'
+          size='large'
           onClick={handleRecordClick}
         >
-          <SvgWrapper>
-            <IconRecordStart width={25} height={25} />
-          </SvgWrapper>
-          <span>양파에게 말걸어보기</span>
+          <span>양파에게 개발하고 싶다고 말하기</span>
         </Button>
         <TutorialMessage>
           튜토리얼에선 음성 인식을 지원하지 않아요!

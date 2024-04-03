@@ -1,5 +1,5 @@
 import './index.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { onionNameRecord, onionRecord } from '@/utils/onionRecord';
@@ -67,8 +67,12 @@ const Evolution = ({ before, after, isTutorial }: EvolutionProps) => {
     background.style.animation = `background-out ${animationTime}s`;
   };
 
+  useEffect(() => {
+    evolve();
+  }, []);
+
   return (
-    <section className='background' onClick={evolve} role='presentation'>
+    <section className='background'>
       <div className='circle c1' />
       <div className='circle c2' />
       <div className='circle c3' />
