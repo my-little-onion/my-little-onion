@@ -2,6 +2,7 @@ package mylittleonion.api.auth.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mylittleonion.api.auth.dto.KakaoUserInfoResponse;
 import mylittleonion.api.onion.dto.KakaoTokenResponse;
 import mylittleonion.common.redis.RedisService;
@@ -16,6 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class AuthServiceImpl implements AuthService {
   private final RedisService redisService;
   private final JWTProvider jwtProvider;
@@ -71,6 +73,7 @@ public class AuthServiceImpl implements AuthService {
   public boolean validateRefreshTokenInRedis(String accessToken) {
 
     String refreshTokenInRedis = redisService.getValues("AT" + ":" + accessToken);
+    log.info(refreshTokenInRedis);
     if (refreshTokenInRedis == null) {
       return false;
     }
