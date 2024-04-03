@@ -57,6 +57,7 @@ public class ChatGPTServiceImpl implements ChatGPTService {
           "화난\n" +
           "우울\n\n" +
           "긍정적 secondary categories:\n" +
+          "천사\n" +
           "광대\n\n" +
           "깡패 tertiary categories:\n" +
           "마피아\n\n" +

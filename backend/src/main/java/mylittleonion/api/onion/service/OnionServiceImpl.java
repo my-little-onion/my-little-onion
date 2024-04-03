@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -90,7 +91,7 @@ public class OnionServiceImpl implements OnionService {
       }
       result.add(GetOnionResponse.createGetOnionResponse(onionsByUser.get(i),
           onionCategories.get(i),
-          voiceNumber
+          Integer.parseInt(redisService.getValues(voiceNumberKey))
       ));
     }
 
@@ -113,10 +114,12 @@ public class OnionServiceImpl implements OnionService {
   public PromptResponseDto evolveOnion(Long onionId, String speech,
       ChatGPTResponse chatGPTResponse) {
 
+    // 보이스에 저장
     Onion onion = onionRepository.findById(onionId).orElseThrow();
     Voice voice = Voice.createVoice(speech, onion);
     voiceRepository.save(voice);
 
+    // 말할 수 있는 기회 기능
     String makeVoiceListKey = "userId:" + onion.getUser().getId() + ":voiceCreateTime";
     String original = String.valueOf(voice.getCreatedAt());
     String sliced = original.substring(0, 19); // 초단위까지만 저장
@@ -137,6 +140,16 @@ public class OnionServiceImpl implements OnionService {
 
     if (nowCategory.getIsFinal()) {
       return new PromptResponseDto(false, -1);
+    }
+
+    if (chatGPTResponse.getPrimary() == null || chatGPTResponse.getPrimary().isEmpty()) {
+      Random random = new Random();
+      int randomCId = 34 + random.nextInt(2);
+
+      onion.changeCategory(
+          onionCategoryRepository.getReferenceById((long) randomCId));
+      onionRepository.save(onion);
+      return new PromptResponseDto(true, randomCId);
     }
 
     if (nowLevel == 0) {
