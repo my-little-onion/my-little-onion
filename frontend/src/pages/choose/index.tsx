@@ -39,6 +39,12 @@ const ChoosePageWrapper = styled.section`
   align-items: center;
 `;
 
+const CollectionWrapper = styled.div`
+  position: absolute;
+  top: 3%;
+  right: 5%;
+`;
+
 const LevelWrapper = styled.section`
   display: flex;
   align-items: center;
@@ -116,6 +122,15 @@ const ChoosePage = () => {
   return (
     <Background>
       <ChoosePageWrapper>
+        <Link to='/collection'>
+          <CollectionWrapper>
+            <img
+              src='/images/icons/collection-book.png'
+              alt='circle'
+              height={60}
+            />
+          </CollectionWrapper>
+        </Link>
         <OnionTitle>
           {onionNameRecord[currOnion?.onionCategoryId ?? 0]}
         </OnionTitle>
