@@ -15,6 +15,8 @@ const InputWrapper = styled.div`
 const NameInput = styled.input`
   height: 28px;
   outline: none;
+  width: 40vw;
+  max-width: 200px;
 `;
 
 const CreateButton = styled.button`
