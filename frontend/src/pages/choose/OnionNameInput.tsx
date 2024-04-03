@@ -7,7 +7,6 @@ import { createOnion } from '@/services/onion';
 
 const InputWrapper = styled.div`
   width: 100%;
-  margin-top: 16px;
   display: flex;
   gap: 16px;
 `;
