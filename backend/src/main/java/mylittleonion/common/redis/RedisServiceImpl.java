@@ -63,6 +63,11 @@ public class RedisServiceImpl implements RedisService {
   }
 
   @Override
+  public List<String> getValuesForListV2(String key) {
+    return redisTemplate.opsForList().range(key, 0, -1);
+  }
+
+  @Override
   public Set<String> getValuesForSet(String key) {
     return redisTemplate.opsForSet().members(key);
   }
