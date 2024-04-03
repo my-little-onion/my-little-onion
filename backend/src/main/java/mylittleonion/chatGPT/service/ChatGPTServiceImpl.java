@@ -49,7 +49,7 @@ public class ChatGPTServiceImpl implements ChatGPTService {
           "아빠\n" +
           "회사원\n\n" +
           "만화 secondary categories:\n" +
-          "오타쿠\n\n" +
+          "매니아\n\n" +
           "운동 secondary categories:\n" +
           "메달리스트\n" +
           "헬스트레이너\n\n" +
