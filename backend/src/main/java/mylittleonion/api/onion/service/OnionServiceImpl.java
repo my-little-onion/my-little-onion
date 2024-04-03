@@ -226,30 +226,18 @@ public class OnionServiceImpl implements OnionService {
 
   @Override
   public List<GetOnionBookResponse> getOnionBook(Long userId) {
+    List<String> haveOnionCategory = redisService.getValuesForListV2(
+        "userId:" + userId + ":collections");
     List<OnionCategory> allOnionCategory = onionCategoryService.getAllOnionCategory();
-    List<Onion> onionsByUser = onionRepository.getOnionsByUser(userService.getUserById(userId));
-
     List<GetOnionBookResponse> result = new ArrayList<>();
-    for (int i = 0; i < allOnionCategory.size(); i++) {
-      boolean flag = false;
-      for (int j = 0; j < onionsByUser.size(); j++) {
-        if (onionsByUser.get(j).getVisible().equals(false)) {
-          if (onionsByUser.get(j).getOnionCategory().equals(allOnionCategory.get(i))) {
-            flag = true;
-            break;
-          }
-        }
-      }
 
-      if (flag) {
-        result.add(GetOnionBookResponse.createGetOnionBookResponse(allOnionCategory.get(i).getId(),
-            Boolean.TRUE, allOnionCategory.get(i).getCategoryName(),
-            allOnionCategory.get(i).getOnionDetail()));
-      } else {
-        result.add(GetOnionBookResponse.createGetOnionBookResponse(allOnionCategory.get(i).getId(),
-            Boolean.FALSE, allOnionCategory.get(i).getCategoryName(),
-            allOnionCategory.get(i).getOnionDetail()));
-      }
+    for (OnionCategory onionCategory : allOnionCategory) {
+      result.add(GetOnionBookResponse.createGetOnionBookResponse(
+          onionCategory.getId(),
+          haveOnionCategory.contains(String.valueOf(onionCategory.getId())),
+          onionCategory.getCategoryName(),
+          onionCategory.getOnionDetail()
+      ));
     }
 
     return result;
