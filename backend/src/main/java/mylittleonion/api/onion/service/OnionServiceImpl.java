@@ -60,7 +60,7 @@ public class OnionServiceImpl implements OnionService {
         .toList();
 
     String makeVoiceListKey = "userId:" + userId + ":voiceCreateTime";
-    Integer voiceNumber = 3;
+    Integer voiceNumber = 5;
     if (redisService.existsKey(makeVoiceListKey)) {
       List<String> list = redisService.getValuesForList(makeVoiceListKey);
       LocalDateTime now = LocalDateTime.now();
@@ -69,9 +69,9 @@ public class OnionServiceImpl implements OnionService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.parse(s, formatter);
 
-        LocalDateTime dateTimePlus30Minutes = dateTime.plusMinutes(30);
+        LocalDateTime dateTimePlus10Minutes = dateTime.plusMinutes(10);
 
-        if (!dateTimePlus30Minutes.isBefore(now) && !dateTimePlus30Minutes.isEqual(now)) {
+        if (!dateTimePlus10Minutes.isBefore(now) && !dateTimePlus10Minutes.isEqual(now)) {
           voiceNumber--;
         }
       }
@@ -121,7 +121,7 @@ public class OnionServiceImpl implements OnionService {
     String original = String.valueOf(voice.getCreatedAt());
     String sliced = original.substring(0, 19); // 초단위까지만 저장
     redisService.setValueForList(makeVoiceListKey, sliced);
-    if (redisService.getValuesForList(makeVoiceListKey).size() == 4) {
+    if (redisService.getValuesForList(makeVoiceListKey).size() == 6) {
       redisService.deleteValueForList(makeVoiceListKey);
     }
 

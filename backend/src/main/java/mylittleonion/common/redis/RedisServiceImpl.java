@@ -58,7 +58,7 @@ public class RedisServiceImpl implements RedisService {
   @Override
   public List<String> getValuesForList(String key) {
     long size = redisTemplate.opsForList().size(key);
-    long start = Math.max(0, size - 3);
+    long start = Math.max(0, size - 5);
     return redisTemplate.opsForList().range(key, start, -1);
   }
 
