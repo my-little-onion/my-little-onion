@@ -106,7 +106,7 @@ const CollectionPage = () => {
   const [collections, setCollections] = useState<collection[]>([]);
   const [count, setCount] = useState<number>(0);
   const [percentage, setPercentage] = useState<number>(0);
-  const [modalOnionIndex, setModalOnionIndex] = useState<number>(0);
+  const [modalOnionIndex, setModalOnionIndex] = useState<number>(-1);
 
   const { Modal, openModal } = useModal();
 
@@ -169,7 +169,7 @@ const CollectionPage = () => {
         </Collection>
       </CollectionWrapper>
       <Modal>
-        {modalOnionIndex && (
+        {modalOnionIndex !== -1 && (
           <>
             <h3>{collections[modalOnionIndex].onionCategoryName}</h3>
             {collections[modalOnionIndex].have ? (
