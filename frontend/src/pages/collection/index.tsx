@@ -6,12 +6,11 @@ import useModal from '@/hooks/useModal';
 import OnionInfo from '@/pages/collection/OnionInfo';
 import { collection } from '@/types/collection';
 import { getCollections } from '@/services/collection';
+import { IconArrowLeft } from '#/svgs';
 
 import Onion from '@/components/Onion';
 import Background from '@/components/Background';
 import Button from '@/components/Button';
-
-import { IconArrowLeft } from '#/svgs';
 
 const ButtonWrapper = styled.div`
   position: absolute;
@@ -102,6 +101,10 @@ const OnionNotHaveWrapper = styled.div`
   filter: brightness(0);
 `;
 
+const DetailContent = styled.div`
+  margin-top: 16px;
+`;
+
 const CollectionPage = () => {
   const [collections, setCollections] = useState<collection[]>([]);
   const [count, setCount] = useState<number>(0);
@@ -179,9 +182,9 @@ const CollectionPage = () => {
                 <Onion size='medium' categoryId={modalOnionIndex + 1} />
               </OnionNotHaveWrapper>
             )}
-            <span>
+            <DetailContent>
               힌트: {collections[modalOnionIndex].onionCategoryDetail}
-            </span>
+            </DetailContent>
           </>
         )}
       </Modal>
