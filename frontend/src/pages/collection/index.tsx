@@ -169,7 +169,7 @@ const CollectionPage = () => {
         </Collection>
       </CollectionWrapper>
       <Modal>
-        {modalOnionIndex !== 0 && (
+        {modalOnionIndex && (
           <>
             <h3>{collections[modalOnionIndex].onionCategoryName}</h3>
             {collections[modalOnionIndex].have ? (
