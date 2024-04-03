@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import ModalContent from '@/components/Modal';
 
 const useModal = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   const openModal = () => {
     setIsOpen(true);
@@ -13,8 +11,7 @@ const useModal = () => {
 
   const closeModal = (isDelete?: boolean) => {
     setIsOpen(false);
-    console.log(isDelete);
-    if (isDelete) navigate('/choose');
+    if (isDelete) window.location.replace('/choose');
   };
 
   interface ModalProps {
