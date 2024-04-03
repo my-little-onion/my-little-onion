@@ -209,7 +209,7 @@ const ChoosePage = () => {
           <BlankDelete />
         )}
       </ChoosePageWrapper>
-      <Modal>
+      <Modal isDelete={modalType === 'delete'}>
         {modalType === 'create' ? (
           <>
             <ModalQuestion>양파의 이름은?</ModalQuestion>
