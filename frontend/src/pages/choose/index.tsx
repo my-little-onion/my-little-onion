@@ -4,15 +4,14 @@ import { keyframes } from '@emotion/react';
 import { useRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 
-import { getOnions } from '@/services/onion';
-import { onion } from '@/types/onion';
+import { deleteOnion, getOnions } from '@/services/onion';
+import { onion, voiceType } from '@/types/onion';
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
 import Stars from '@/pages/choose/Stars';
 import useModal from '@/hooks/useModal';
 import OnionNameInput from '@/pages/choose/OnionNameInput';
 import { onionIndexState } from '@/pages/choose/store';
-import DeleteOnionButton from '@/pages/choose/DeleteOnionButton';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
@@ -94,6 +93,8 @@ const ModalQuestion = styled.div`
 const ChoosePage = () => {
   const [onions, setOnions] = useState<onion[]>([]);
   const [onionIndex, setOnionIndex] = useRecoilState(onionIndexState);
+  const [voices, setVoices] = useState<voiceType[]>([]);
+  const [modalType, setModalType] = useState<'create' | 'delete'>('create');
 
   const { Modal, openModal, closeModal } = useModal();
 
@@ -110,6 +111,18 @@ const ChoosePage = () => {
 
   const handleNextClick = () => {
     setOnionIndex((prev) => (prev === 2 ? 0 : prev + 1));
+  };
+
+  const handleCreateClick = () => {
+    setModalType('create');
+    openModal();
+  };
+
+  const handleDeleteClick = async () => {
+    setModalType('delete');
+    const voiceData = await deleteOnion(currOnion.onionId);
+    setVoices(voiceData.data);
+    openModal();
   };
 
   useEffect(() => {
@@ -172,7 +185,7 @@ const ChoosePage = () => {
               type='button'
               size='medium'
               color={theme.color.green}
-              onClick={openModal}
+              onClick={handleCreateClick}
             >
               새 양파 생성
             </Button>
@@ -184,18 +197,36 @@ const ChoosePage = () => {
           />
         </CommandButtonWrapper>
         {onions.length > onionIndex ? (
-          <DeleteOnionButton onionId={onions[onionIndex].onionId} />
+          <Button
+            type='button'
+            size='medium'
+            color={theme.color.red}
+            onClick={handleDeleteClick}
+          >
+            양파 까기
+          </Button>
         ) : (
           <BlankDelete />
         )}
       </ChoosePageWrapper>
       <Modal>
-        <ModalQuestion>양파의 이름은?</ModalQuestion>
-        <OnionNameInput
-          indexToSet={onions.length}
-          fetchData={fetchData}
-          closeModal={closeModal}
-        />
+        {modalType === 'create' ? (
+          <>
+            <ModalQuestion>양파의 이름은?</ModalQuestion>
+            <OnionNameInput
+              indexToSet={onions.length}
+              fetchData={fetchData}
+              closeModal={closeModal}
+            />
+          </>
+        ) : (
+          <>
+            <ModalQuestion>내가 양파에게 했던 말</ModalQuestion>
+            {voices.map((voice) => (
+              <div key={voice.voice}>{voice.voice}</div>
+            ))}
+          </>
+        )}
       </Modal>
     </Background>
   );
