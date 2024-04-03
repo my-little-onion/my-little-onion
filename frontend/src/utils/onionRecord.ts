@@ -33,6 +33,8 @@ export const onionRecord: Record<number, string> = {
   31: 'clown',
   32: 'angel',
   33: 'gabriel',
+  34: 'greenonion',
+  35: 'garlic',
 };
 
 export const onionNameRecord: Record<number, string> = {
@@ -70,4 +72,6 @@ export const onionNameRecord: Record<number, string> = {
   31: '광대 양파',
   32: '천사 양파',
   33: '대천사 양파',
+  34: '대파',
+  35: '마늘',
 };
