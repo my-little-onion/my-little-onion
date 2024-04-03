@@ -82,6 +82,7 @@ const GrowPage = () => {
     await SpeechRecognition.stopListening();
     const rawData = await postSpeechToText(onionId, message);
     const { canEvolve, categoryId: nextId } = rawData.data;
+    setVoiceCount((prev) => prev - 1);
 
     if (canEvolve) {
       navigate('/evolution', { state: { before: categoryId, after: nextId } });
@@ -91,8 +92,6 @@ const GrowPage = () => {
         setIsWatering(false);
       }, 4000);
     }
-
-    setVoiceCount((prev) => prev - 1);
   };
 
   const voice = transcript.slice(0);
@@ -102,7 +101,7 @@ const GrowPage = () => {
   }, [voice]);
 
   useEffect(() => {
-    setVoiceCount(voiceNumber);
+    setVoiceCount(voiceCount !== -1 ? voiceCount : voiceNumber);
   }, []);
 
   return (
