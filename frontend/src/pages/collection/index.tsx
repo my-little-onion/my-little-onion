@@ -104,14 +104,17 @@ const OnionNotHaveWrapper = styled.div`
 
 const CollectionPage = () => {
   const [collections, setCollections] = useState<collection[]>([]);
-  const [count, setCount] = useState<number>(12);
+  const [count, setCount] = useState<number>(0);
   const [percentage, setPercentage] = useState<number>(0);
   const [modalOnionIndex, setModalOnionIndex] = useState<number>(0);
 
   const { Modal, openModal } = useModal();
 
   const handleOnionInfoClick = (id: number) => {
+    console.log('id: ', id);
     setModalOnionIndex(id - 1);
+    console.log('index: :', modalOnionIndex);
+    console.log('modal data: ', collections[modalOnionIndex]);
     openModal();
   };
 
@@ -122,6 +125,7 @@ const CollectionPage = () => {
       0,
     );
 
+    console.log(currCount);
     setCount(currCount);
     setCollections(rawData.data);
   };
@@ -168,15 +172,21 @@ const CollectionPage = () => {
         </Collection>
       </CollectionWrapper>
       <Modal>
-        <h3>{collections[modalOnionIndex].onionCategoryName}</h3>
-        {collections[modalOnionIndex].have ? (
-          <Onion size='medium' categoryId={modalOnionIndex + 1} />
-        ) : (
-          <OnionNotHaveWrapper>
-            <Onion size='medium' categoryId={modalOnionIndex + 1} />
-          </OnionNotHaveWrapper>
+        {modalOnionIndex !== 0 && (
+          <>
+            <h3>{collections[modalOnionIndex].onionCategoryName}</h3>
+            {collections[modalOnionIndex].have ? (
+              <Onion size='medium' categoryId={modalOnionIndex + 1} />
+            ) : (
+              <OnionNotHaveWrapper>
+                <Onion size='medium' categoryId={modalOnionIndex + 1} />
+              </OnionNotHaveWrapper>
+            )}
+            <span>
+              힌트: {collections[modalOnionIndex].onionCategoryDetail}
+            </span>
+          </>
         )}
-        <span>힌트: {collections[modalOnionIndex].onionCategoryDetail}</span>
       </Modal>
     </Background>
   );
