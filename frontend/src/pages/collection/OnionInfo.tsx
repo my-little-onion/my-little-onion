@@ -15,7 +15,7 @@ const OnionInfoContent = styled.button`
   box-shadow: 4px 5px #c0c0c0;
 `;
 
-const OnionWrapper = styled.div`
+const OnionNotHaveWrapper = styled.div`
   filter: brightness(0);
 `;
 
@@ -31,9 +31,9 @@ const OnionInfo = ({ onClick, categoryId, isCollected }: OnionInfoProps) => {
       {isCollected ? (
         <Onion categoryId={categoryId} size='small' />
       ) : (
-        <OnionWrapper>
+        <OnionNotHaveWrapper>
           <Onion categoryId={categoryId} size='small' />
-        </OnionWrapper>
+        </OnionNotHaveWrapper>
       )}
     </OnionInfoContent>
   );

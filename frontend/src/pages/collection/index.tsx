@@ -6,11 +6,12 @@ import useModal from '@/hooks/useModal';
 import OnionInfo from '@/pages/collection/OnionInfo';
 import { collection } from '@/types/collection';
 import { getCollections } from '@/services/collection';
-import { IconArrowLeft } from '#/svgs';
 
 import Onion from '@/components/Onion';
 import Background from '@/components/Background';
 import Button from '@/components/Button';
+
+import { IconArrowLeft } from '#/svgs';
 
 const ButtonWrapper = styled.div`
   position: absolute;
@@ -97,18 +98,20 @@ const OnionInfoWrapper = styled.div`
   overflow-y: scroll;
 `;
 
+const OnionNotHaveWrapper = styled.div`
+  filter: brightness(0);
+`;
+
 const CollectionPage = () => {
   const [collections, setCollections] = useState<collection[]>([]);
   const [count, setCount] = useState<number>(12);
   const [percentage, setPercentage] = useState<number>(0);
-  const [currName, setCurrName] = useState<string>('');
-  const [currDetail, setCurrDetail] = useState<string>('');
+  const [modalOnionIndex, setModalOnionIndex] = useState<number>(0);
 
   const { Modal, openModal } = useModal();
 
-  const handleOnionInfoClick = () => {
-    setCurrName('하이');
-    setCurrDetail('테스트');
+  const handleOnionInfoClick = (id: number) => {
+    setModalOnionIndex(id - 1);
     openModal();
   };
 
@@ -158,16 +161,22 @@ const CollectionPage = () => {
                   key={item.id}
                   categoryId={item.id}
                   isCollected={item.have}
-                  onClick={handleOnionInfoClick}
+                  onClick={() => handleOnionInfoClick(item.id)}
                 />
               ))}
           </OnionInfoWrapper>
         </Collection>
       </CollectionWrapper>
       <Modal>
-        <h3>{currName}</h3>
-        <Onion size='medium' categoryId={1} />
-        <span>힌트: {currDetail}</span>
+        <h3>{collections[modalOnionIndex].onionCategoryName}</h3>
+        {collections[modalOnionIndex].have ? (
+          <Onion size='medium' categoryId={modalOnionIndex + 1} />
+        ) : (
+          <OnionNotHaveWrapper>
+            <Onion size='medium' categoryId={modalOnionIndex + 1} />
+          </OnionNotHaveWrapper>
+        )}
+        <span>힌트: {collections[modalOnionIndex].onionCategoryDetail}</span>
       </Modal>
     </Background>
   );
