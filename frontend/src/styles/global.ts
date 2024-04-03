@@ -24,8 +24,17 @@ export const globalStyles = css`
     box-shadow: 0 0 25px ${theme.color.whitesmoke};
   }
 
+  img {
+    -webkit-user-drag: none;
+  }
+
   &::-webkit-scrollbar {
     background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: gray;
     border-radius: 15px;
   }
 
