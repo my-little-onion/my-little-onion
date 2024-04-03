@@ -4,12 +4,14 @@ import SpeechRecognition, {
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { useRecoilState } from 'recoil';
 
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
 import { OnionTitle } from '@/pages/choose';
 import { postSpeechToText } from '@/services/chatGpt';
 import Water from '@/pages/grow/Water';
+import { voiceCountState } from '@/states/voiceCount';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
@@ -60,7 +62,8 @@ const OnionText = styled.h2`
 const GrowPage = () => {
   const [message, setMessage] = useState<string>('');
   const [isRecord, setIsRecord] = useState<boolean>(false);
-  const [isBegin, setIsBegin] = useState<boolean>(false);
+  const [isWatering, setIsWatering] = useState<boolean>(false);
+  const [voiceCount, setVoiceCount] = useRecoilState(voiceCountState);
   const navigate = useNavigate();
   const { onionId, categoryId, isFinal, voiceNumber } = useLocation().state;
   const { transcript, resetTranscript } = useSpeechRecognition({});
@@ -76,15 +79,20 @@ const GrowPage = () => {
 
   const stopRecord = async () => {
     setIsRecord(false);
-    setIsBegin(true);
-    setTimeout(() => {
-      setIsBegin(false);
-    }, 4000);
     await SpeechRecognition.stopListening();
     const rawData = await postSpeechToText(onionId, message);
     const { canEvolve, categoryId: nextId } = rawData.data;
-    if (canEvolve)
+
+    if (canEvolve) {
       navigate('/evolution', { state: { before: categoryId, after: nextId } });
+    } else {
+      setIsWatering(true);
+      setTimeout(() => {
+        setIsWatering(false);
+      }, 4000);
+    }
+
+    setVoiceCount((prev) => prev - 1);
   };
 
   const voice = transcript.slice(0);
@@ -92,6 +100,10 @@ const GrowPage = () => {
   useEffect(() => {
     setMessage(voice);
   }, [voice]);
+
+  useEffect(() => {
+    setVoiceCount(voiceNumber);
+  }, []);
 
   return (
     <Background>
@@ -104,14 +116,14 @@ const GrowPage = () => {
             />
           </ButtonWrapper>
         </Link>
-        <OnionText hidden={!isBegin}>아직 아무런 반응이 없어요!</OnionText>
+        <OnionText hidden={!isWatering}>아직 아무런 반응이 없어요!</OnionText>
         <OnionTitle>{onionNameRecord[categoryId]}</OnionTitle>
         <Onion categoryId={categoryId}>
-          <Water isBegin={isBegin} />
+          <Water isBegin={isWatering} />
         </Onion>
         <HeartWrapper>
           <IconHeart width={50} />
-          <h2> x {voiceNumber}</h2>
+          <h2> x {voiceCount}</h2>
         </HeartWrapper>
         {isRecord ? (
           <Button
@@ -132,11 +144,14 @@ const GrowPage = () => {
               color={theme.color.blue}
               size='medium'
               onClick={startRecord}
+              disabled={voiceCount === 0}
             >
               <SvgWrapper>
                 <IconRecordStart width={25} height={25} />
               </SvgWrapper>
-              <span>양파에게 말하기</span>
+              <span>
+                {voiceCount !== 0 ? '양파에게 말하기' : '잠시 기다려주세요'}
+              </span>
             </Button>
           )
         )}
