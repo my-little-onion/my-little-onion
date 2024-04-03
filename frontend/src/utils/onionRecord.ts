@@ -36,7 +36,7 @@ export const onionRecord: Record<number, string> = {
 };
 
 export const onionNameRecord: Record<number, string> = {
-  0: '양파가 없어요.',
+  0: '양파가 없어요',
   1: '기본 양파',
   2: '불량배 양파',
   3: '깡패 양파',

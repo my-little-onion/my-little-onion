@@ -148,7 +148,7 @@ const ChoosePage = () => {
         ) : (
           <>
             <Onion categoryId={0} />
-            <OnionName>{onionIndex + 1}번째 양파가 없어</OnionName>
+            <OnionName>{onionIndex + 1}번째 양파를 만들어주세요</OnionName>
           </>
         )}
         <CommandButtonWrapper>
@@ -194,7 +194,7 @@ const ChoosePage = () => {
             color={theme.color.red}
             onClick={handleDeleteClick}
           >
-            양파 까버리기
+            양파 까기
           </Button>
         ) : (
           <BlankDelete />

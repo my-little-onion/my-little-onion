@@ -24,6 +24,7 @@ const CreateButton = styled.button`
   border: none;
   border-radius: 2px;
   padding: 0 8px;
+  cursor: pointer;
 `;
 
 interface OnionNameInput {
