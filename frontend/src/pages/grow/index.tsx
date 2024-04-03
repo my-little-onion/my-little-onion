@@ -53,7 +53,7 @@ const HeartWrapper = styled.div`
 `;
 
 const OnionText = styled.h2`
-  top: 15%;
+  top: 10%;
   position: absolute;
 `;
 
@@ -104,7 +104,7 @@ const GrowPage = () => {
             />
           </ButtonWrapper>
         </Link>
-        <OnionText hidden={!isBegin}>양파의 기분이 좋아졌어요!</OnionText>
+        <OnionText hidden={!isBegin}>아직 아무런 반응이 없어요!</OnionText>
         <OnionTitle>{onionNameRecord[categoryId]}</OnionTitle>
         <Onion categoryId={categoryId}>
           <Water isBegin={isBegin} />
