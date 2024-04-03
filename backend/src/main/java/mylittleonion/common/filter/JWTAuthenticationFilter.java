@@ -40,7 +40,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
       } else if(authService.validateRefreshTokenInRedis(accessToken)){
         accessToken = reIssueAccessToken(accessToken);
-
+        log.info("재발급되니");
         Cookie cookie = new Cookie("access-token", accessToken);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(60 * 60 * 24 * 30);
