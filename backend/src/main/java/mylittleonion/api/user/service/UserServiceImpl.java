@@ -8,8 +8,8 @@ import mylittleonion.api.auth.dto.TokenResponse;
 import mylittleonion.api.auth.service.AuthService;
 import mylittleonion.api.user.repository.UserRepository;
 import mylittleonion.common.entity.User;
+import mylittleonion.common.redis.RedisService;
 import mylittleonion.common.util.JWTProvider;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -23,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
   private final JWTProvider jwtProvider;
+  private final RedisService redisService;
+
   private final AuthService authService;
   @Override
   public User getUserById(Long userId) {
@@ -36,6 +38,8 @@ public class UserServiceImpl implements UserService {
         .kakaoId(kakaoId)
         .build();
     userRepository.save(user);
+    String collectionsKey = "userId:" + user.getId() + ":collections";
+    redisService.setValueForList(collectionsKey, "0");
   }
 
   @Override

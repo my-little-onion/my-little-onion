@@ -184,6 +184,8 @@ public class OnionServiceImpl implements OnionService {
           onionRepository.save(onion);
           nowCategoryId = categoryCount.getCategoryId();
           flag = true;
+          String collectionsKey = "userId:" + onionId + ":collections";
+          redisService.setValueForList(collectionsKey, Long.toString(nowCategoryId));
           break;
         }
       }
@@ -205,6 +207,8 @@ public class OnionServiceImpl implements OnionService {
           onionRepository.save(onion);
           nowCategoryId = categoryCount.getCategoryId();
           flag = true;
+          String collectionsKey = "userId:" + onion.getUser().getId() + ":collections";
+          redisService.setValueForList(collectionsKey, Long.toString(nowCategoryId));
           break;
         }
       }
