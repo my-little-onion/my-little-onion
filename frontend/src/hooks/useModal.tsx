@@ -13,6 +13,7 @@ const useModal = () => {
 
   const closeModal = (isDelete?: boolean) => {
     setIsOpen(false);
+    console.log(isDelete);
     if (isDelete) navigate('/choose');
   };
 
