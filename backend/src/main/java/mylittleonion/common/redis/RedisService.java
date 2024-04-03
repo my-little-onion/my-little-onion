@@ -23,6 +23,8 @@ public interface RedisService {
 
   List<String> getValuesForList(String key);
 
+  List<String> getValuesForListV2(String key);
+
   Set<String> getValuesForSet(String key);
 
   boolean existsKey(String key);
