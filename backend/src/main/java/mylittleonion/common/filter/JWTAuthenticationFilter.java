@@ -76,7 +76,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
   private String reIssueAccessToken(String accessToken) {
     // 토큰 재발급
-    String refreshToken = redisService.getValues("AT" + ":" + accessToken);
+    Long principal = jwtProvider.getClaims(accessToken).get("id",Long.class);
+    String refreshToken = redisService.getValues("RT" + ":" + principal);
     Long id = jwtProvider.getId(refreshToken);
     String newAccessToken = jwtProvider.createAccessToken(id);
     // securityContext에 저장
