@@ -5,13 +5,14 @@ import { useRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 
 import { deleteOnion, getOnions } from '@/services/onion';
-import { onion } from '@/types/onion';
+import { deleteOnionResponse, onion } from '@/types/onion';
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
 import Stars from '@/pages/choose/Stars';
 import useModal from '@/hooks/useModal';
 import OnionNameInput from '@/pages/choose/OnionNameInput';
 import { onionIndexState } from '@/pages/choose/store';
+import DeleteOnionButton from '@/pages/choose/DeleteOnionButton';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
@@ -111,11 +112,6 @@ const ChoosePage = () => {
     setOnionIndex((prev) => (prev === 2 ? 0 : prev + 1));
   };
 
-  const handleDeleteClick = async () => {
-    await deleteOnion(onions[onionIndex].onionId);
-    fetchData();
-  };
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -188,14 +184,10 @@ const ChoosePage = () => {
           />
         </CommandButtonWrapper>
         {onions.length > onionIndex ? (
-          <Button
-            type='button'
-            size='medium'
-            color={theme.color.red}
-            onClick={handleDeleteClick}
-          >
-            양파 까기
-          </Button>
+          <DeleteOnionButton
+            onionId={onions[onionIndex].onionId}
+            fetchData={fetchData}
+          />
         ) : (
           <BlankDelete />
         )}

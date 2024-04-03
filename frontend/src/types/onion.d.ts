@@ -12,3 +12,11 @@ export interface onion {
 export interface onionResponse extends response {
   data: onion[];
 }
+
+export type voiceType = {
+  voice: string;
+};
+
+export interface deleteOnionResponse extends response {
+  data: voiceType[];
+}
