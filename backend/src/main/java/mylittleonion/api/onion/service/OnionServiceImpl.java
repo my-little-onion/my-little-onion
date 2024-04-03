@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mylittleonion.api.categorycount.repository.CategoryCountRepository;
@@ -185,7 +186,7 @@ public class OnionServiceImpl implements OnionService {
           nowCategoryId = categoryCount.getCategoryId();
           flag = true;
           String collectionsKey = "userId:" + onion.getUser().getId() + ":collections";
-          redisService.setValueForList(collectionsKey, Long.toString(nowCategoryId));
+          redisService.setValueForSet(collectionsKey, Long.toString(nowCategoryId));
           break;
         }
       }
@@ -208,7 +209,7 @@ public class OnionServiceImpl implements OnionService {
           nowCategoryId = categoryCount.getCategoryId();
           flag = true;
           String collectionsKey = "userId:" + onion.getUser().getId() + ":collections";
-          redisService.setValueForList(collectionsKey, Long.toString(nowCategoryId));
+          redisService.setValueForSet(collectionsKey, Long.toString(nowCategoryId));
           break;
         }
       }
@@ -226,7 +227,7 @@ public class OnionServiceImpl implements OnionService {
 
   @Override
   public List<GetOnionBookResponse> getOnionBook(Long userId) {
-    List<String> haveOnionCategory = redisService.getValuesForListV2(
+    Set<String> haveOnionCategory = redisService.getValuesForSet(
         "userId:" + userId + ":collections");
     List<OnionCategory> allOnionCategory = onionCategoryService.getAllOnionCategory();
     List<GetOnionBookResponse> result = new ArrayList<>();
