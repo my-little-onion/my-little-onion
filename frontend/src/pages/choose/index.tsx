@@ -4,8 +4,8 @@ import { keyframes } from '@emotion/react';
 import { useRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 
-import { deleteOnion, getOnions } from '@/services/onion';
-import { deleteOnionResponse, onion } from '@/types/onion';
+import { getOnions } from '@/services/onion';
+import { onion } from '@/types/onion';
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
 import Stars from '@/pages/choose/Stars';
