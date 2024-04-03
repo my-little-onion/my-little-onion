@@ -179,7 +179,7 @@ public class OnionServiceImpl implements OnionService {
     if (nowLevel == 0) {
       int[] countGroup = new int[8];
       for (CategoryCount categoryCount : categoryCounts) {
-        if (++countGroup[categoryCount.getGroupId()] == 3) {
+        if (++countGroup[categoryCount.getGroupId()] == 2) {
           onion.changeCategory(
               onionCategoryRepository.getReferenceById(categoryCount.getCategoryId()));
           onionRepository.save(onion);
