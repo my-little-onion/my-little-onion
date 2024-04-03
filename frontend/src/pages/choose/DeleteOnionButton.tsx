@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import theme from '@/styles/theme';
 import { voiceType } from '@/types/onion';
@@ -9,19 +10,27 @@ import Button from '@/components/Button';
 
 interface DeleteOnionButtonProps {
   onionId: number;
-  fetchData: () => void;
 }
 
-const DeleteOnionButton = ({ onionId, fetchData }: DeleteOnionButtonProps) => {
+const DeleteOnionButton = ({ onionId }: DeleteOnionButtonProps) => {
   const [voices, setVoices] = useState<voiceType[]>([]);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const navigate = useNavigate();
   const { Modal, openModal } = useModal();
 
   const handleDeleteClick = async () => {
     const voiceData = await deleteOnion(onionId);
     setVoices(voiceData.data);
     openModal();
-    fetchData();
   };
+
+  useEffect(() => {
+    if (!isMounted) {
+      setIsMounted(true);
+      return;
+    }
+    navigate('/choose');
+  }, [Modal]);
 
   return (
     <>
