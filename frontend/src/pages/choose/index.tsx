@@ -88,6 +88,13 @@ const OnionName = styled.h3`
 
 const ModalQuestion = styled.div`
   width: 100%;
+  margin-bottom: 16px;
+`;
+
+const ModalMessageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 `;
 
 const ChoosePage = () => {
@@ -222,9 +229,15 @@ const ChoosePage = () => {
         ) : (
           <>
             <ModalQuestion>내가 양파에게 했던 말</ModalQuestion>
-            {voices.map((voice) => (
-              <div key={voice.voice}>{voice.voice}</div>
-            ))}
+            <ModalMessageWrapper>
+              {voices.length > 0 ? (
+                voices.map((voice) => (
+                  <span key={voice.voice}>&quot;{voice.voice}&quot;</span>
+                ))
+              ) : (
+                <span>양파에게 했던 말이 없어요</span>
+              )}
+            </ModalMessageWrapper>
           </>
         )}
       </Modal>
