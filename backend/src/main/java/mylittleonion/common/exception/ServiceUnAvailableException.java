@@ -4,7 +4,7 @@ import mylittleonion.common.dto.ErrorBase;
 
 public class ServiceUnAvailableException extends MyLittleOnionBaseException {
 
-  protected ServiceUnAvailableException(ErrorBase errorBase) {
+  public ServiceUnAvailableException(ErrorBase errorBase) {
     super(errorBase);
   }
 }

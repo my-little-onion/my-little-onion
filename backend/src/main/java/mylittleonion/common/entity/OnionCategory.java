@@ -32,9 +32,13 @@ public class OnionCategory extends BaseEntity {
   @Column(name = "onion_detail")
   private String onionDetail;
 
-  @OneToMany(mappedBy = "onionCategory", cascade = CascadeType.ALL)
-  private List<GroupRelation> groupRelations = new ArrayList<>();
+  @Column(name = "group")
+  private Integer group;
+
+  @Column(name = "is_final")
+  private Boolean isFinal;
 
   @OneToMany(mappedBy = "onionCategory", cascade = CascadeType.ALL)
   private List<Onion> onions = new ArrayList<>();
+
 }

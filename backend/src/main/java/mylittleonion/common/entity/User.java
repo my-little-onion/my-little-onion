@@ -2,6 +2,7 @@ package mylittleonion.common.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Builder
 public class User extends BaseEntity {
 
   @Id
@@ -22,11 +24,12 @@ public class User extends BaseEntity {
   private String user_nickname;
 
   @Column(name = "kakao_id")
-  private Integer kakaoId;
+  private Long kakaoId;
 
   @Column(name = "representative_Onion")
   private Integer representativeOnion;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Onion> onions = new ArrayList<>();
+
 }
