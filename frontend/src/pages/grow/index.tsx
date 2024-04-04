@@ -4,14 +4,13 @@ import SpeechRecognition, {
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { useRecoilState } from 'recoil';
 
 import theme from '@/styles/theme';
 import { onionNameRecord } from '@/utils/onionRecord';
 import { OnionTitle } from '@/pages/choose';
 import { postSpeechToText } from '@/services/chatGpt';
 import Water from '@/pages/grow/Water';
-import { voiceCountState } from '@/states/voiceCount';
+import { getOnions } from '@/services/onion';
 
 import Background from '@/components/Background';
 import Button from '@/components/Button';
@@ -63,10 +62,12 @@ const GrowPage = () => {
   const [message, setMessage] = useState<string>('');
   const [isRecord, setIsRecord] = useState<boolean>(false);
   const [isWatering, setIsWatering] = useState<boolean>(false);
-  const [voiceCount, setVoiceCount] = useRecoilState(voiceCountState);
+  const [voiceCount, setVoiceCount] = useState<number>(0);
   const navigate = useNavigate();
-  const { onionId, categoryId, isFinal, voiceNumber } = useLocation().state;
+  const { onionId, categoryId, isFinal } = useLocation().state;
   const { transcript, resetTranscript } = useSpeechRecognition({});
+
+  const voice = transcript.slice(0);
 
   const startRecord = () => {
     setIsRecord(true);
@@ -94,14 +95,18 @@ const GrowPage = () => {
     }
   };
 
-  const voice = transcript.slice(0);
+  const fetchVoiceCount = async () => {
+    const rawData = await getOnions();
+    const { voiceNumber } = rawData.data[0];
+    setVoiceCount(voiceNumber);
+  };
 
   useEffect(() => {
     setMessage(voice);
   }, [voice]);
 
   useEffect(() => {
-    setVoiceCount(voiceCount !== -1 ? voiceCount : voiceNumber);
+    fetchVoiceCount();
   }, []);
 
   return (
