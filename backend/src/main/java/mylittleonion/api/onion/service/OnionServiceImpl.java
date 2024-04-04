@@ -102,6 +102,11 @@ public class OnionServiceImpl implements OnionService {
   public void deleteOnion(Long userId, Long onionId) {
     User user = userService.getUserById(userId);
     Onion onion = onionRepository.findById(onionId).orElseThrow();
+
+    // 임시로 이미 만들어진 유저도 기본 양파 도감에 넣어두는 임시 코드
+    String collectionsKey = "userId:" + userId + ":collections";
+    redisService.setValueForSet(collectionsKey, "1");
+
     if (onion.getUser().getId().equals(user.getId())) {
       onion.deleteOnion();
       onionRepository.save(onion);
