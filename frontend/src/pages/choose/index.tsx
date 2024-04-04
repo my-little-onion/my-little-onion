@@ -181,7 +181,6 @@ const ChoosePage = () => {
                 onionId: currOnion.onionId,
                 categoryId: currOnion.onionCategoryId,
                 isFinal: currOnion.isFinal,
-                voiceNumber: currOnion.voiceNumber,
               }}
             >
               <Button type='button' size='medium' color={theme.color.blue}>
